@@ -12,6 +12,7 @@ namespace JsonForm.Helps
         public string FormRocDate => "Rocdate";
         public string FormLabel => "Label";
         public string FormTime24 => "Time24";
+        public string FormGrid => "Grid";
 
         public Color FormViewBackgroundColor { get; set; }
             = Color.FromArgb("FFededed");

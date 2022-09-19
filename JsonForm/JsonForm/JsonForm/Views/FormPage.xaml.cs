@@ -162,6 +162,24 @@ public partial class FormPage : ContentPage
                 hostContainer.Children.Add(grid);
             }
             #endregion
+
+            #region Grid 網格
+            if (rowItem.Type == magicHelper.FormGrid)
+            {
+                #region 文字輸入盒 的 前置說明文字
+                //hostContainer.Children.Add(new Label()
+                //{
+                //    ClassId = rowItem.Title,
+                //}
+                //.Text(rowItem.Text)
+                //.Margin(new Thickness(0, 0, 0, 20))
+                //.FontSize(12)
+                //.Bold()
+                //.TextColor(Color.FromArgb("bb888888")));
+                #endregion
+            }
+            #endregion
+
         }
     }
 }
