@@ -23,7 +23,7 @@ namespace JsonForm.Models
         public string Title { get; set; }
         public string Required { get; set; }
         public string Width { get; set; }
-        public string name { get; set; }
+        public string Name { get; set; }
         public string Text { get; set; }
     }
 }

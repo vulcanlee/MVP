@@ -51,22 +51,19 @@
         "name": "textbox007"
       },
       {
-        "Text": "起",
+        "Text": "請輸入起、訖時間",
         "Type": "Label",
         "Width": "2"
       },
       {
+        "Title": "起",
         "Type": "Time24",
         "Required": "true",
         "Width": "8",
         "name": "textbox008"
       },
       {
-        "Text": "迄",
-        "Type": "Label",
-        "Width": "2"
-      },
-      {
+        "Title": "迄",
         "Type": "Time24",
         "Required": "true",
         "Width": "8",

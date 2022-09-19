@@ -8,7 +8,7 @@
         <VerticalStackLayout
             x:Name="hostContainer"
             Spacing="0"
-            Padding="30,0"
+            Padding="30,30"
             VerticalOptions="Start">
 
         </VerticalStackLayout>

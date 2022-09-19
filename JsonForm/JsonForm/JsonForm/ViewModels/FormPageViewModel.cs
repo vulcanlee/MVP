@@ -20,6 +20,7 @@ namespace JsonForm.ViewModels
         public MobileForm MobileForm { get; set; } = null;
         public string Json { get; set; }
         public Action BuildFormObject { get; set; }
+        public bool ReadSuccessful { get; set; } = false;
 
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
@@ -27,9 +28,10 @@ namespace JsonForm.ViewModels
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
+            ReadSuccessful = false;
             MobileForm = parameters.GetValue<MobileForm>("MobileForm");
             Json = parameters.GetValue<string>("JSON");
-
+            ReadSuccessful = true;
         }
     }
 }
