@@ -57,7 +57,7 @@
     <PackageReference Include="CommunityToolkit.Maui.Markup" Version="1.1.1" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.191-beta" />
+    <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.254-beta" />
   </ItemGroup>
 
   <ItemGroup>
