@@ -79,30 +79,34 @@
         ] 
       }, 
       { 
-        "row": [ 
-          { 
+        "row": { 
             "Text": "起", 
             "Type": "Label", 
             "Width": "2" 
-          }, 
-          { 
+          }
+      } ,
+      { 
+        "row":  { 
             "Type": "Time24", 
             "Required": "true", 
             "Width": "8", 
             "name": "textbox008" 
-          }, 
-          { 
+          }
+      } 
+      { 
+        "row":   { 
             "Text": "迄", 
             "Type": "Label", 
             "Width": "2" 
-          }, 
-          { 
+          } 
+      } ,
+      { 
+        "row":   { 
             "Type": "Time24", 
             "Required": "true", 
             "Width": "8", 
             "name": "textbox009" 
           } 
-        ] 
       } 
     ] 
   } 

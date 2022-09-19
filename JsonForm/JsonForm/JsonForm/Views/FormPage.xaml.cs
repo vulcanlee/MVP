@@ -1,15 +1,21 @@
+using JsonForm.Helps;
+using JsonForm.Models;
 using JsonForm.ViewModels;
+using Newtonsoft.Json;
 
 namespace JsonForm.Views;
 
 public partial class FormPage : ContentPage
 {
+    private readonly MagicHelper magicHelper;
+
     public FormPageViewModel FormPageViewModel { get; set; }
-    public FormPage()
+    public FormPage(MagicHelper magicHelper)
     {
         InitializeComponent();
 
         WatchBindingContextHasObjectAsync();
+        this.magicHelper = magicHelper;
     }
 
     async Task WatchBindingContextHasObjectAsync()
@@ -29,16 +35,20 @@ public partial class FormPage : ContentPage
             await Task.Delay(WatchTime);
         }
     }
-    //protected override void OnAppearing()
-    //{
-    //	if(FormPageViewModel != null)
-    //	{
-    //		FormPageViewModel.BuildFormObject = this.OnBuildForms;
-    //       }
-    //	base.OnAppearing();
-    //}
+
     public void OnBuildForms()
     {
+        var form = FormPageViewModel.MobileForm;
+        var rows = form.Page.Rows;
 
+        foreach (JsonForm.Models.Row rowItem in rows)
+        {
+            #region Textbox ¤å¦r¿é¤J²°
+            if(rowItem.Type == magicHelper.FormTexBox)
+            {
+
+            }
+            #endregion
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using JsonForm.ViewModels;
+﻿using JsonForm.Helps;
+using JsonForm.ViewModels;
 using JsonForm.Views;
 
 namespace JsonForm;
@@ -17,5 +18,6 @@ internal static class PrismStartup
                      .RegisterInstance(SemanticScreenReader.Default);
 
         containerRegistry.RegisterForNavigation<FormPage, FormPageViewModel>();
+        containerRegistry.RegisterSingleton<MagicHelper>();
     }
 }

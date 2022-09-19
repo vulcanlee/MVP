@@ -9,17 +9,12 @@ namespace JsonForm.Models
 
     public class MobileForm
     {
-        public Page Page { get; set; }
+        public Page Page { get; set; }=new Page();
     }
 
     public class Page
     {
-        public Rows[] rows { get; set; }
-    }
-
-    public class Rows
-    {
-        public Row[] row { get; set; }
+        public List<Row> Rows { get; set; } = new List<Row>();
     }
 
     public class Row
