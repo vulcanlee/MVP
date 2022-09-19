@@ -1,0 +1,111 @@
+{ 
+  "Page": { 
+    "rows": [ 
+      { 
+        "row": [ 
+          { 
+            "Type": "Textbox", 
+            "Title": "姓名", 
+            "Required": "true", 
+            "Width": "24", 
+            "name": "textbox001" 
+          } 
+        ] 
+      }, 
+      { 
+        "row": [ 
+          { 
+            "Type": "Textbox", 
+            "Title": "身分證號", 
+            "Required": "true", 
+            "Width": "24", 
+            "name": "textbox002" 
+          } 
+        ] 
+      }, 
+      { 
+        "row": [ 
+          { 
+            "Type": "Textbox", 
+            "Title": "性別", 
+            "Required": "true", 
+            "Width": "24", 
+            "name": "textbox003" 
+          } 
+        ] 
+      }, 
+      { 
+        "row": [ 
+          { 
+            "Type": "Textbox", 
+            "Title": "聯絡電話", 
+            "Required": "true", 
+            "Width": "24", 
+            "name": "textbox004" 
+          } 
+        ] 
+      }, 
+      { 
+        "row": [ 
+          { 
+            "Type": "Textbox", 
+            "Title": "病歷號", 
+            "Required": "true", 
+            "Width": "24", 
+            "name": "textbox005" 
+          } 
+        ] 
+      }, 
+      { 
+        "row": [ 
+          { 
+            "Title": "出生日期", 
+            "Type": "Rocdate", 
+            "Required": "true", 
+            "Width": "24", 
+            "name": "textbox006" 
+          } 
+        ] 
+      }, 
+      { 
+        "row": [ 
+          { 
+            "Title": "諮商日期", 
+            "Type": "Rocdate", 
+            "Required": "true", 
+            "Width": "24", 
+            "name": "textbox007" 
+          } 
+        ] 
+      }, 
+      { 
+        "row": [ 
+          { 
+            "Text": "起", 
+            "Type": "Label", 
+            "Width": "2" 
+          }, 
+          { 
+            "Type": "Time24", 
+            "Required": "true", 
+            "Width": "8", 
+            "name": "textbox008" 
+          }, 
+          { 
+            "Text": "迄", 
+            "Type": "Label", 
+            "Width": "2" 
+          }, 
+          { 
+            "Type": "Time24", 
+            "Required": "true", 
+            "Width": "8", 
+            "name": "textbox009" 
+          } 
+        ] 
+      } 
+    ] 
+  } 
+} 
+ 
+ 
