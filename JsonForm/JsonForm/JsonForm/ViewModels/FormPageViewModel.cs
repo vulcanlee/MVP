@@ -19,6 +19,7 @@ namespace JsonForm.ViewModels
 
         public MobileForm MobileForm { get; set; } = null;
         public string Json { get; set; }
+        public Action BuildFormObject { get; set; }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
