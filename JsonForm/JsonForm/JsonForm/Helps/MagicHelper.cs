@@ -12,6 +12,10 @@ namespace JsonForm.Helps
         public string FormRocDate => "Rocdate";
         public string FormLabel => "Label";
         public string FormTime24 => "Time24";
+        public string Checkbox => "Checkbox";
+        public string Selector => "Selector";
+        public string Dropdown => "Dropdown";
+        public string Textarea => "Textarea";
         public string FormGrid => "Grid";
 
         public Color FormViewBackgroundColor { get; set; }

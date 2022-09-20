@@ -9,6 +9,13 @@
             Spacing="25"
             Padding="30,0"
             VerticalOptions="Center">
+
+            <VerticalStackLayout 
+                >
+                <Label Text="Text wrapping and truncation can be controlled by setting the LineBreakMode property to a value of the LineBreakMode enumeration:"
+                       LineBreakMode="WordWrap"/>
+            </VerticalStackLayout>
+
             <Grid BackgroundColor="Red">
             <TimePicker
             BackgroundColor="Red"/>

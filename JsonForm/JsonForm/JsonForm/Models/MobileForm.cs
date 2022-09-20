@@ -27,6 +27,8 @@ namespace JsonForm.Models
         public string Text { get; set; }
         public string ColumnsWidth { get; set; }
         public List<Column> Columns { get; set; }
+        public Dictionary<string, string> Options { get; set; }
+            = new Dictionary<string, string>();
     }
     public class Column
     {
