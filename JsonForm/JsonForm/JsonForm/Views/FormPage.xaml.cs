@@ -8,15 +8,17 @@ namespace JsonForm.Views;
 
 public partial class FormPage : ContentPage
 {
-    private readonly MagicHelper magicHelper;
-
     public FormPageViewModel FormPageViewModel { get; set; }
-    public FormPage(MagicHelper magicHelper)
+    private readonly MagicHelper magicHelper;
+    public FormBuilderHelper FormBuilderHelper { get; }
+
+    public FormPage(MagicHelper magicHelper, FormBuilderHelper formBuilderHelper)
     {
         InitializeComponent();
 
         WatchBindingContextHasObjectAsync();
         this.magicHelper = magicHelper;
+        FormBuilderHelper = formBuilderHelper;
     }
 
     async Task WatchBindingContextHasObjectAsync()
@@ -167,6 +169,7 @@ public partial class FormPage : ContentPage
             if (rowItem.Type == magicHelper.FormGrid)
             {
                 #region 文字輸入盒 的 前置說明文字
+
                 //hostContainer.Children.Add(new Label()
                 //{
                 //    ClassId = rowItem.Title,

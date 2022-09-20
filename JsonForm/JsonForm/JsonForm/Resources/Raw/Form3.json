@@ -1,0 +1,158 @@
+{
+  "Page": {
+    "rows": [
+      {
+        "Type": "Label",
+        "Text": "壹、意願人心智缺陷和自願參與評估"
+      },
+      {
+        "Type": "Grid",
+        "ColumnsWidth": "2,22",
+        "Columns": [
+          [],
+          [
+            {
+              "Name": "Checkbox001",
+              "Text": "意願人經預立醫療照護諮商人員評估，確認具意思表示能力。",
+              "Type": "Checkbox"
+            },
+            {
+              "Name": "Checkbox002",
+              "Text": "確認意願人為出於自願參與預立醫療照護諮商。",
+              "Type": "Checkbox"
+            }
+          ]
+        ]
+      },
+      {
+        "Type": "Label",
+        "Text": "貳、意願人有無配偶或二等親評估"
+      },
+      {
+        "Type": "Grid",
+        "ColumnsWidth": "2,22",
+        "Columns": [
+          [],
+          [
+            {
+              "Text": "1.意願人有無配偶或二親等至少一人參與諮商",
+              "Type": "Label"
+            },
+            {
+              "Type": "Dropdown",
+              "Options": {
+                "a": "a",
+                "b": "b",
+                "c": "c"
+              },
+              "Width": "4"
+            }
+          ]
+        ]
+      },
+      {
+        "Type": "Grid",
+        "ColumnsWidth": "2,22",
+        "Columns": [
+          [],
+          [
+            {
+              "Text": "2.二等親身分",
+              "Type": "Label"
+            },
+            {
+              "Type": "Dropdown",
+              "Options": {
+                "a": "a",
+                "b": "b",
+                "c": "c"
+              },
+              "Width": "8"
+            },
+            {
+              "Text": "、",
+              "Type": "Label"
+            },
+            {
+              "Type": "Dropdown",
+              "Options": {
+                "a": "a",
+                "b": "b",
+                "c": "c"
+              },
+              "Width": "8"
+            },
+            {
+              "Type": "Dropdown",
+              "Options": {
+                "a": "a",
+                "b": "b",
+                "c": "c"
+              },
+              "Width": "8"
+            },
+            {
+              "Text": "、",
+              "Type": "Label"
+            },
+            {
+              "Type": "Dropdown",
+              "Options": {
+                "a": "a",
+                "b": "b",
+                "c": "c"
+              },
+              "Width": "8"
+            }
+          ]
+        ]
+      },
+      {
+        "Type": "Grid",
+        "ColumnsWidth": "2,22",
+        "Columns": [
+          [],
+          [
+            {
+              "Text": "3.無二親等餐與諮商原因為:",
+              "Type": "Label"
+            },
+            {
+              "Name": "Selector001",
+              "Type": "Selector",
+              "Options": {
+                "1": "單親無親屬",
+                "2": "聯繫困難",
+                "3": "特殊事由"
+              },
+              "Width": "8"
+            },
+            {
+              "Name": "Sign001",
+              "Type": "Sign",
+              "Title": "簽名"
+            }
+          ]
+        ]
+      },
+      {
+        "Type": "Grid",
+        "ColumnsWidth": "2,22",
+        "Columns": [
+          [],
+          [
+            {
+              "Name": "textarea001",
+              "Title": "特殊事由說明:",
+              "Type": "Textarea"
+            }
+          ]
+        ]
+      },
+      {
+        "Type": "Label",
+        "Text": "參、意願人有無醫療委任代理人評估"
+      }
+    ]
+  }
+}

@@ -18,6 +18,8 @@ internal static class PrismStartup
                      .RegisterInstance(SemanticScreenReader.Default);
 
         containerRegistry.RegisterForNavigation<FormPage, FormPageViewModel>();
+      
         containerRegistry.RegisterSingleton<MagicHelper>();
+        containerRegistry.RegisterSingleton<FormBuilderHelper>();
     }
 }
