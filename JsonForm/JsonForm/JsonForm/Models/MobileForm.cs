@@ -9,7 +9,7 @@ namespace JsonForm.Models
 
     public class MobileForm
     {
-        public Page Page { get; set; }=new Page();
+        public Page Page { get; set; } = new Page();
     }
 
     public class Page
@@ -30,10 +30,16 @@ namespace JsonForm.Models
     }
     public class Column
     {
+        public Viewitem[] ViewItems { get; set; }
+    }
+
+    public class Viewitem
+    {
         public string Name { get; set; }
         public string Text { get; set; }
         public string Type { get; set; }
-        public Options Options { get; set; }
+        public Dictionary<string, string> Options { get; set; }
+            = new Dictionary<string, string>();
         public string Width { get; set; }
         public string Title { get; set; }
     }

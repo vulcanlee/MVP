@@ -37,7 +37,7 @@
         <Button Text="JSON 2"
                 Grid.Column="1"
                 Command="{Binding ShowJsonFormCommand}"
-                CommandParameter="Form2.json"
+                CommandParameter="Form3.json"
                 HorizontalOptions="Fill"
                 Margin="10,5" CornerRadius="10"
                 BackgroundColor="LightPink" TextColor="DarkSlateBlue">
