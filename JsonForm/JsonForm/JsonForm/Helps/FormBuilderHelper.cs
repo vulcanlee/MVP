@@ -132,6 +132,13 @@ namespace JsonForm.Helps
                 }
                 .Margin(new Thickness(0, 0, 0, 20));
 
+                var allOptions = new List<string>();
+                foreach (var item in rowItem.Options)
+                {
+                    allOptions.Add(item.Value);
+                }
+                picker.ItemsSource = allOptions;
+
                 verticalStackLayout.Children.Add(picker);
                 generateView = verticalStackLayout;
             }
@@ -155,7 +162,7 @@ namespace JsonForm.Helps
                     VerticalOptions = LayoutOptions.Start,
                 }
                 .Margin(new Thickness(0, 0, 0, 0));
-                grid.Add(checkBox,0,0);
+                grid.Add(checkBox, 0, 0);
 
                 if (string.IsNullOrEmpty(rowItem.Text) == false)
                 {
