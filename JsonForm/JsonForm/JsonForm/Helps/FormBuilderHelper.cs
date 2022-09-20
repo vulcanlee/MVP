@@ -34,7 +34,7 @@ namespace JsonForm.Helps
                 }
                 .Text(rowItem.Text)
                 .Margin(new Thickness(0, 0, 0, 20))
-                .FontSize(12)
+                .FontSize(magicHelper.DefaultFontSize)
                 .Bold()
                 .TextColor(Color.FromArgb("bb888888"));
                 #endregion
@@ -54,7 +54,7 @@ namespace JsonForm.Helps
                     }
                     .Text(rowItem.Title)
                     .Margin(new Thickness(0, 0, 0, 0))
-                    .FontSize(12)
+                    .FontSize(magicHelper.DefaultFontSize)
                     .Bold()
                     .TextColor(Color.FromArgb("bb888888")));
                     #endregion
@@ -85,7 +85,7 @@ namespace JsonForm.Helps
                     }
                     .Text(rowItem.Title)
                     .Margin(new Thickness(0, 0, 0, 0))
-                    .FontSize(12)
+                    .FontSize(magicHelper.DefaultFontSize)
                     .Bold()
                     .TextColor(Color.FromArgb("bb888888")));
                     #endregion
@@ -118,7 +118,7 @@ namespace JsonForm.Helps
                     }
                     .Text(rowItem.Title)
                     .Margin(new Thickness(0, 0, 0, 0))
-                    .FontSize(12)
+                    .FontSize(magicHelper.DefaultFontSize)
                     .Bold()
                     .TextColor(Color.FromArgb("bb888888")));
                     #endregion
@@ -140,45 +140,44 @@ namespace JsonForm.Helps
             #region Checkbox 檢查輸入盒
             if (rowItem.Type == magicHelper.Checkbox)
             {
-                StackLayout stackLayout = new StackLayout()
-                {
-                    Orientation = StackOrientation.Horizontal,
-                    BackgroundColor = Colors.Yellow
-                };
+                Grid grid = new Grid();
+                grid.RowDefinitions = Rows.Define(Auto);
+                grid.ColumnDefinitions = Columns.Define(50, Stars(1));
                 if (insideColumnOfGrid)
-                    stackLayout.Margin(new Thickness(0, 0, 0, 0));
+                    grid.Margin(new Thickness(0, 0, 0, 0));
                 else
-                    stackLayout.Margin(new Thickness(0, 0, 0, 20));
+                    grid.Margin(new Thickness(0, 0, 0, 20));
 
                 CheckBox checkBox = new CheckBox()
                 {
                     ClassId = rowItem.Name,
                     BackgroundColor = magicHelper.FormViewBackgroundColor,
-                    VerticalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Start,
                 }
                 .Margin(new Thickness(0, 0, 0, 0));
-                stackLayout.Children.Add(checkBox);
+                grid.Add(checkBox,0,0);
 
                 if (string.IsNullOrEmpty(rowItem.Text) == false)
                 {
                     #region 文字輸入盒 的 前置說明文字
-                    stackLayout.Children.Add(new Label()
+                    Label label = new Label()
                     {
                         ClassId = rowItem.Text,
-                        VerticalOptions = LayoutOptions.Center,
+                        VerticalOptions = LayoutOptions.Start,
                         VerticalTextAlignment = TextAlignment.Center,
                         HorizontalTextAlignment = TextAlignment.Start,
                         LineBreakMode = LineBreakMode.WordWrap,
                     }
                     .Text(rowItem.Text)
                     .Margin(new Thickness(0, 0, 0, 0))
-                    .FontSize(12)
+                    .FontSize(magicHelper.DefaultFontSize)
                     .Bold()
-                    .TextColor(Color.FromArgb("dd888888")));
+                    .TextColor(Color.FromArgb("dd888888"));
+                    grid.Add(label, 1, 0);
                     #endregion
                 }
 
-                generateView = stackLayout;
+                generateView = grid;
             }
             #endregion
 
@@ -216,7 +215,7 @@ namespace JsonForm.Helps
                     }
                     .Text(rowItem.Text)
                     .Margin(new Thickness(0, 0, 0, 0))
-                    .FontSize(12)
+                    .FontSize(magicHelper.DefaultFontSize)
                     .Bold()
                     .TextColor(Color.FromArgb("dd888888")));
                     #endregion
@@ -239,7 +238,7 @@ namespace JsonForm.Helps
                     }
                     .Text(rowItem.Title)
                     .Margin(new Thickness(0, 0, 0, 0))
-                    .FontSize(12)
+                    .FontSize(magicHelper.DefaultFontSize)
                     .Bold()
                     .TextColor(Color.FromArgb("bb888888")));
                     #endregion
@@ -270,7 +269,7 @@ namespace JsonForm.Helps
                     }
                     .Text(rowItem.Title)
                     .Margin(new Thickness(0, 0, 0, 0))
-                    .FontSize(12)
+                    .FontSize(magicHelper.DefaultFontSize)
                     .Bold()
                     .TextColor(Color.FromArgb("bb888888")));
                     #endregion

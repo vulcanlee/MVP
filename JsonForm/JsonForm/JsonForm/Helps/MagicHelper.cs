@@ -18,6 +18,8 @@ namespace JsonForm.Helps
         public string Textarea => "Textarea";
         public string FormGrid => "Grid";
 
+        public double DefaultFontSize { get; set; } = 18;
+
         public Color FormViewBackgroundColor { get; set; }
             = Color.FromArgb("FFededed");
     }
