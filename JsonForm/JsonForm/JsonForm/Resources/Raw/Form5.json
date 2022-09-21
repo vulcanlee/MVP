@@ -15,7 +15,7 @@
         "Required": "true",
         "Width": "24",
         "Name": "textbox002",
-        "Value": ""
+        "Value": "E123456789"
       },
       {
         "Type": "Textbox",

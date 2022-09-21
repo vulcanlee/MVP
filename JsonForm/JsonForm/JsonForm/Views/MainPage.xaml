@@ -28,10 +28,10 @@
 
       <Grid
         ColumnDefinitions="*,*">
-        <Button Text="JSON 1"
+        <Button Text="JSON 5"
                 Grid.Column="0"
                 Command="{Binding ShowJsonFormCommand}"
-                CommandParameter="Form1.json"
+                CommandParameter="Form5.json"
                 HorizontalOptions="Fill"
                 Margin="10,5" CornerRadius="10"
                 BackgroundColor="LightGreen" TextColor="DarkSlateBlue">

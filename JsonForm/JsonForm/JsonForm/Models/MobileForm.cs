@@ -45,6 +45,7 @@ namespace JsonForm.Models
             = new Dictionary<string, string>();
         public string Width { get; set; }
         public string Title { get; set; }
+        public string Value { get; set; }
     }
 
     public class Options

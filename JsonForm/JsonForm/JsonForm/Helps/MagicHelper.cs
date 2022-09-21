@@ -22,5 +22,7 @@ namespace JsonForm.Helps
 
         public Color FormViewBackgroundColor { get; set; }
             = Color.FromArgb("FFededed");
+        public Color FormEntryBackgroundColor { get; set; }
+            = Color.FromArgb("bb888888");
     }
 }

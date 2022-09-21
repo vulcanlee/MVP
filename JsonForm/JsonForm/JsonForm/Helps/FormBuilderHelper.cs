@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static CommunityToolkit.Maui.Markup.GridRowsColumns;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace JsonForm.Helps
 {
@@ -36,7 +37,7 @@ namespace JsonForm.Helps
                 .Margin(new Thickness(0, 0, 0, 20))
                 .FontSize(magicHelper.DefaultFontSize)
                 .Bold()
-                .TextColor(Color.FromArgb("bb888888"));
+                .TextColor(magicHelper.FormEntryBackgroundColor);
                 #endregion
             }
             #endregion
@@ -56,17 +57,24 @@ namespace JsonForm.Helps
                     .Margin(new Thickness(0, 0, 0, 0))
                     .FontSize(magicHelper.DefaultFontSize)
                     .Bold()
-                    .TextColor(Color.FromArgb("bb888888")));
+                    .TextColor(magicHelper.FormEntryBackgroundColor));
                     #endregion
                 }
 
                 Entry entry = new Entry()
                 {
                     ClassId = rowItem.Name,
-                    BackgroundColor = magicHelper.FormViewBackgroundColor
+                    BackgroundColor = magicHelper.FormViewBackgroundColor,
                 }
                 .Text(rowItem.Value)
                 .Margin(new Thickness(0, 0, 0, 20));
+
+                #region 綁定變更事件
+                entry.TextChanged += (s, e) =>
+                {
+                    rowItem.Value = e.NewTextValue;
+                };
+                    #endregion
 
                 verticalStackLayout.Children.Add(entry);
                 generateView = verticalStackLayout;
@@ -88,7 +96,7 @@ namespace JsonForm.Helps
                     .Margin(new Thickness(0, 0, 0, 0))
                     .FontSize(magicHelper.DefaultFontSize)
                     .Bold()
-                    .TextColor(Color.FromArgb("bb888888")));
+                    .TextColor(magicHelper.FormEntryBackgroundColor));
                     #endregion
                 }
 
@@ -121,7 +129,7 @@ namespace JsonForm.Helps
                     .Margin(new Thickness(0, 0, 0, 0))
                     .FontSize(magicHelper.DefaultFontSize)
                     .Bold()
-                    .TextColor(Color.FromArgb("bb888888")));
+                    .TextColor(magicHelper.FormEntryBackgroundColor));
                     #endregion
                 }
 
@@ -247,7 +255,7 @@ namespace JsonForm.Helps
                     .Margin(new Thickness(0, 0, 0, 0))
                     .FontSize(magicHelper.DefaultFontSize)
                     .Bold()
-                    .TextColor(Color.FromArgb("bb888888")));
+                    .TextColor(magicHelper.FormEntryBackgroundColor));
                     #endregion
                 }
 
@@ -278,7 +286,7 @@ namespace JsonForm.Helps
                     .Margin(new Thickness(0, 0, 0, 0))
                     .FontSize(magicHelper.DefaultFontSize)
                     .Bold()
-                    .TextColor(Color.FromArgb("bb888888")));
+                    .TextColor(magicHelper.FormEntryBackgroundColor));
                     #endregion
                 }
 
