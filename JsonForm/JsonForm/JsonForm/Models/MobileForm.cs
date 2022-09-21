@@ -17,7 +17,7 @@ namespace JsonForm.Models
         public List<Row> Rows { get; set; } = new List<Row>();
     }
 
-    public class Row
+    public class RowBase
     {
         public string Type { get; set; }
         public string Title { get; set; }
@@ -26,26 +26,21 @@ namespace JsonForm.Models
         public string Name { get; set; }
         public string Text { get; set; }
         public string Value { get; set; }
-        public string ColumnsWidth { get; set; }
-        public List<Column> Columns { get; set; }
         public Dictionary<string, string> Options { get; set; }
             = new Dictionary<string, string>();
+    }
+    public class Row : RowBase
+    {
+        public string ColumnsWidth { get; set; }
+        public List<Column> Columns { get; set; }
     }
     public class Column
     {
         public Viewitem[] ViewItems { get; set; }
     }
 
-    public class Viewitem
+    public class Viewitem : RowBase
     {
-        public string Name { get; set; }
-        public string Text { get; set; }
-        public string Type { get; set; }
-        public Dictionary<string, string> Options { get; set; }
-            = new Dictionary<string, string>();
-        public string Width { get; set; }
-        public string Title { get; set; }
-        public string Value { get; set; }
     }
 
     public class Options

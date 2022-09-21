@@ -51,6 +51,7 @@
     <None Remove="Resources\Raw\Form1.json" />
     <None Remove="Resources\Raw\Form2.json" />
     <None Remove="Resources\Raw\Form3.json" />
+    <None Remove="Resources\Raw\Form6.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,6 +63,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <MauiAsset Update="Resources\Raw\Form6.json">
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </MauiAsset>
     <MauiAsset Update="Resources\Raw\Form3.json">
       <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
     </MauiAsset>

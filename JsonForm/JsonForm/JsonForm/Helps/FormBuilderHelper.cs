@@ -20,7 +20,7 @@ namespace JsonForm.Helps
             this.magicHelper = magicHelper;
         }
 
-        public IView GenerateView(Row rowItem, bool insideColumnOfGrid = false)
+        public IView GenerateView(RowBase rowItem, bool insideColumnOfGrid = false)
         {
             IView generateView = null;
 
@@ -74,7 +74,7 @@ namespace JsonForm.Helps
                 {
                     rowItem.Value = e.NewTextValue;
                 };
-                    #endregion
+                #endregion
 
                 verticalStackLayout.Children.Add(entry);
                 generateView = verticalStackLayout;
@@ -109,6 +109,11 @@ namespace JsonForm.Helps
                 }
                 .Margin(new Thickness(0, 0, 0, 20));
 
+                entry.TextChanged += (s, e) =>
+                {
+                    rowItem.Value = e.NewTextValue;
+                };
+
                 verticalStackLayout.Children.Add(entry);
                 generateView = verticalStackLayout;
             }
@@ -141,6 +146,17 @@ namespace JsonForm.Helps
                 }
                 .Margin(new Thickness(0, 0, 0, 20));
 
+                picker.SelectedIndexChanged += (s, e) =>
+                {
+                    var callbackPicker = (Picker)s;
+                    int selectedIndex = callbackPicker.SelectedIndex;
+
+                    if (selectedIndex != -1)
+                    {
+                        rowItem.Value = (string)picker.ItemsSource[selectedIndex];
+                    }
+                };
+
                 var allOptions = new List<string>();
                 foreach (var item in rowItem.Options)
                 {
@@ -170,6 +186,11 @@ namespace JsonForm.Helps
                     VerticalOptions = LayoutOptions.Start,
                 }
                 .Margin(new Thickness(0, 0, 0, 0));
+
+                checkBox.CheckedChanged += (s, e) =>
+                {
+                    rowItem.Value = e.Value.ToString();
+                };
                 grid.Add(checkBox, 0, 0);
 
                 if (string.IsNullOrEmpty(rowItem.Text) == false)
@@ -213,27 +234,34 @@ namespace JsonForm.Helps
                     RadioButton radioButton = new RadioButton()
                     {
                         ClassId = rowItem.Name,
-                        Content = optionsItem,
+                        Content = optionsItem.Value,
                     }
                     .Margin(new Thickness(0, 0, 15, 0));
-                    stackLayout.Children.Add(radioButton);
-                }
 
-                if (string.IsNullOrEmpty(rowItem.Text) == false)
-                {
-                    #region Selector (RadioButton) 檢查輸入盒 的 前置說明文字
-                    stackLayout.Children.Add(new Label()
+                    TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
+                    tapGestureRecognizer.NumberOfTapsRequired = 1;
+                    tapGestureRecognizer.Tapped += (s, e) =>
                     {
-                        ClassId = rowItem.Text,
-                        VerticalOptions = LayoutOptions.Center,
-                        VerticalTextAlignment = TextAlignment.Center,
-                    }
-                    .Text(rowItem.Text)
-                    .Margin(new Thickness(0, 0, 0, 0))
-                    .FontSize(magicHelper.DefaultFontSize)
-                    .Bold()
-                    .TextColor(Color.FromArgb("dd888888")));
-                    #endregion
+                        if (radioButton.IsChecked == false)
+                        {
+                            radioButton.IsChecked = true;
+                            rowItem.Value = "true";
+                        }
+                    };
+                    TapGestureRecognizer tapGestureRecognizer2 = new TapGestureRecognizer();
+                    tapGestureRecognizer2.NumberOfTapsRequired = 2;
+                    tapGestureRecognizer2.Tapped += (s, e) =>
+                    {
+                        if (radioButton.IsChecked == true)
+                        {
+                            radioButton.IsChecked = false;
+                            rowItem.Value = "";
+                        }
+                    };
+                    radioButton.GestureRecognizers.Add(tapGestureRecognizer);
+                    radioButton.GestureRecognizers.Add(tapGestureRecognizer2);
+
+                    stackLayout.Children.Add(radioButton);
                 }
 
                 generateView = stackLayout;
@@ -266,6 +294,11 @@ namespace JsonForm.Helps
                 }
                 .Margin(new Thickness(0, 0, 0, 20));
 
+                datepicker.DateSelected += (s, e) =>
+                {
+                    rowItem.Value = datepicker.Date.ToString();
+                };
+
                 verticalStackLayout.Children.Add(datepicker);
                 generateView = verticalStackLayout;
             }
@@ -296,6 +329,11 @@ namespace JsonForm.Helps
                     Format = "HH:mm:ss",
                 };
 
+                timePicker.PropertyChanged += (s, e) =>
+                {
+                    rowItem.Value = timePicker.Time.ToString();
+                };
+
                 Grid grid = new Grid()
                 {
                     BackgroundColor = magicHelper.FormViewBackgroundColor,
@@ -315,8 +353,9 @@ namespace JsonForm.Helps
             #region Grid 網格
             if (rowItem.Type == magicHelper.FormGrid)
             {
+                Row gridRowItem = rowItem as Row;
                 #region Grid 網格定義
-                var cellDefinition = rowItem.ColumnsWidth.Split(",");
+                var cellDefinition = gridRowItem.ColumnsWidth.Split(",");
                 Grid grid = new Grid().Margin(new Thickness(0, 0, 0, 20));
 
                 #region 宣告要用到的 Column 的寬度定義
@@ -332,7 +371,7 @@ namespace JsonForm.Helps
                 #endregion
 
                 int columnIndex = 0;
-                foreach (Column columnItem in rowItem.Columns)
+                foreach (Column columnItem in gridRowItem.Columns)
                 {
                     if (columnItem.ViewItems == null)
                     {
@@ -347,16 +386,7 @@ namespace JsonForm.Helps
 
                     foreach (Viewitem item in columnItem.ViewItems)
                     {
-                        #region 從 Cell 中的 ViewItem，產生 Row 物件，接著，產生控制項
-                        Row cellRow = new Row();
-                        cellRow.Title = item.Title;
-                        cellRow.Text = item.Text;
-                        cellRow.Name = item.Name;
-                        cellRow.Type = item.Type;
-                        cellRow.Options = item.Options;
-                        #endregion
-
-                        IView cellView = this.GenerateView(cellRow, insideColumnOfGrid = true);
+                        IView cellView = this.GenerateView(item, insideColumnOfGrid = true);
                         stackLayout.Children.Add(cellView);
                     }
                     grid.Add(stackLayout, columnIndex, 0);

@@ -21,9 +21,11 @@
               Grid.Row="1"
               Margin="20,10">
             <Button Text="儲存"
+                    Margin="5"
                     Command="{Binding SaveCommand}"/>
             <Button Text="上傳"
                     Grid.Row="0" Grid.Column="1"
+                    Margin="5"
                     Command="{Binding UploadCommand}"/>
         </Grid>
     </Grid>
