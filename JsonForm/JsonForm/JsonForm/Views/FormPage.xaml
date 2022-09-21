@@ -2,16 +2,30 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="JsonForm.Views.FormPage"
+             xmlns:viewModels="clr-namespace:JsonForm.ViewModels"
+             x:DataType="viewModels:FormPageViewModel"
              Title="顯示 Json 定義的表單">
 
-    <ScrollView>
-        <VerticalStackLayout
-            x:Name="hostContainer"
-            Spacing="0"
-            Padding="30,30"
-            VerticalOptions="Start">
+    <Grid
+        RowDefinitions="*,70">
+        <ScrollView>
+            <VerticalStackLayout
+                x:Name="hostContainer"
+                Spacing="0"
+                Padding="30,30"
+                VerticalOptions="Start">
+            </VerticalStackLayout>
+        </ScrollView>
 
-        </VerticalStackLayout>
-    </ScrollView>
+        <Grid ColumnDefinitions="*,*"
+              Grid.Row="1"
+              Margin="20,10">
+            <Button Text="儲存"
+                    Command="{Binding SaveCommand}"/>
+            <Button Text="上傳"
+                    Grid.Row="0" Grid.Column="1"
+                    Command="{Binding UploadCommand}"/>
+        </Grid>
+    </Grid>
 
 </ContentPage>

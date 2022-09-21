@@ -6,49 +6,56 @@
         "Title": "姓名",
         "Required": "true",
         "Width": "24",
-        "Name": "textbox001"
+        "Name": "textbox001",
+        "Value": "Vulcan Lee"
       },
       {
         "Type": "Textbox",
         "Title": "身分證號",
         "Required": "true",
         "Width": "24",
-        "Name": "textbox002"
+        "Name": "textbox002",
+        "Value": ""
       },
       {
         "Type": "Textbox",
         "Title": "性別",
         "Required": "true",
         "Width": "24",
-        "Name": "textbox003"
+        "Name": "textbox003",
+        "Value": ""
       },
       {
         "Type": "Textbox",
         "Title": "聯絡電話",
         "Required": "true",
         "Width": "24",
-        "Name": "textbox004"
+        "Name": "textbox004",
+        "Value": ""
       },
       {
         "Type": "Textbox",
         "Title": "病歷號",
         "Required": "true",
         "Width": "24",
-        "Name": "textbox005"
+        "Name": "textbox005",
+        "Value": ""
       },
       {
         "Title": "出生日期",
         "Type": "Rocdate",
         "Required": "true",
         "Width": "24",
-        "Name": "textbox006"
+        "Name": "textbox006",
+        "Value": ""
       },
       {
         "Title": "諮商日期",
         "Type": "Rocdate",
         "Required": "true",
         "Width": "24",
-        "Name": "textbox007"
+        "Name": "textbox007",
+        "Value": ""
       },
       {
         "Text": "請輸入起、訖時間",
@@ -60,14 +67,16 @@
         "Type": "Time24",
         "Required": "true",
         "Width": "8",
-        "Name": "textbox008"
+        "Name": "textbox008",
+        "Value": ""
       },
       {
         "Title": "迄",
         "Type": "Time24",
         "Required": "true",
         "Width": "8",
-        "Name": "textbox009"
+        "Name": "textbox009",
+        "Value": ""
       }
     ]
   }

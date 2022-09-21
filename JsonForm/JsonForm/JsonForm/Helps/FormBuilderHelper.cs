@@ -65,6 +65,7 @@ namespace JsonForm.Helps
                     ClassId = rowItem.Name,
                     BackgroundColor = magicHelper.FormViewBackgroundColor
                 }
+                .Text(rowItem.Value)
                 .Margin(new Thickness(0, 0, 0, 20));
 
                 verticalStackLayout.Children.Add(entry);
@@ -158,7 +159,6 @@ namespace JsonForm.Helps
                 CheckBox checkBox = new CheckBox()
                 {
                     ClassId = rowItem.Name,
-                    BackgroundColor = magicHelper.FormViewBackgroundColor,
                     VerticalOptions = LayoutOptions.Start,
                 }
                 .Margin(new Thickness(0, 0, 0, 0));
@@ -301,6 +301,7 @@ namespace JsonForm.Helps
                 generateView = verticalStackLayout;
             }
             #endregion
+
             #endregion
 
             #region Grid 網格
