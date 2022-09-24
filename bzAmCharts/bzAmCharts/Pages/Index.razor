@@ -1,25 +1,103 @@
 ﻿@page "/"
+@using Newtonsoft.Json
 @inject IJSRuntime JS
 
 <PageTitle>Blazor With AmCharts</PageTitle>
 
-<h1>Blazor With AmCharts</h1>
-
 <button @onclick="GenerateColumnChart"
-    class="btn btn-info">顯示長條圖</button>
+        class="btn btn-info">
+    顯示長條圖
+</button>
 
-<div id="chartdiv"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="card mt-4">
+                <div class="card-header">
+                    最近一年市場分析
+                </div>
+                <div class="card-body">
+                    <div id="chartdiv1"></div>
+                </div>
+            </div>            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="card mt-4">
+                <div class="card-header">
+                    客戶族群市佔率
+                </div>
+                <div class="card-body">
+                    <div id="chartdiv2"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="card mt-4">
+                <div class="card-header">
+                    競爭對手比較
+                </div>
+                <div class="card-body">
+                    <div id="chartdiv3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-@code{
+@code {
+    public class Chart1
+    {
+        public string country { get; set; }
+        public double research { get; set; }
+        public int marketing { get; set; }
+        public int sales { get; set; }
+    }
+
+    List<Chart1> GetChart1Data()
+    {
+        List<Chart1> result = new List<Chart1>();
+        Random random = new Random();
+        for (int i = 0; i < 7; i++)
+        {
+            Chart1 chart1 = new Chart1()
+                {
+                    country = $"國家${i}",
+                    marketing = random.Next(20, 300),
+                    sales = random.Next(100, 250),
+                    research = random.NextDouble() * 95.0 + 5.0,
+                };
+            result.Add(chart1);
+        }
+        return result;
+    }
     async Task GenerateColumnChart()
     {
-        await JS.InvokeVoidAsync("CreateColumnChart");
+        List<Chart1> chart1 = GetChart1Data();
+        string jsonChart1 = JsonConvert.SerializeObject(chart1);
+        //https://codepen.io/team/amcharts/pen/GdQWxz
+        await JS.InvokeVoidAsync("CreateColumnChart", "chartdiv1", chart1);
+        // https://codepen.io/team/amcharts/embed/ZrdxJM?default-tab=result&editable=true&theme-id=dark
+        await JS.InvokeVoidAsync("CreatePieChart", "chartdiv2");
+        // https://codepen.io/team/amcharts/embed/dyMVpro?default-tab=result&editable=true&theme-id=dark
+        await JS.InvokeVoidAsync("CreateLineChart", "chartdiv3");
     }
 }
 
 <style>
-    #chartdiv {
+    #chartdiv1 {
         width: 100%;
-        height: 400px;
+        height: 200px;
+    }
+
+    #chartdiv2 {
+        width: 100%;
+        height: 150px;
+    }
+
+    #chartdiv3 {
+        width: 100%;
+        height: 150px;
     }
 </style>
