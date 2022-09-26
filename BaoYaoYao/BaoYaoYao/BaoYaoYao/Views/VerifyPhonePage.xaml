@@ -32,6 +32,7 @@
             BackgroundColor="#ebebeb"
             WidthRequest="35" HeightRequest="35">
             <Entry
+              x:Name="VerifyCode1"
               HorizontalOptions="Center"
               TextColor="#2b594d"
               WidthRequest="35"/>
@@ -42,6 +43,7 @@
             BackgroundColor="#ebebeb"
             WidthRequest="35" HeightRequest="35">
             <Entry
+              x:Name="VerifyCode2"
               HorizontalOptions="Center"
               TextColor="#2b594d"
               WidthRequest="35"/>
@@ -52,6 +54,7 @@
             BackgroundColor="#ebebeb"
             WidthRequest="35" HeightRequest="35">
             <Entry
+              x:Name="VerifyCode3"
               HorizontalOptions="Center"
               TextColor="#2b594d"
               WidthRequest="35"/>
@@ -62,6 +65,7 @@
             BackgroundColor="#ebebeb"
             WidthRequest="35" HeightRequest="35">
             <Entry
+              x:Name="VerifyCode4"
               HorizontalOptions="Center"
               TextColor="#2b594d"
               WidthRequest="35"/>

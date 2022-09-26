@@ -29,16 +29,13 @@ namespace BaoYaoYao.ViewModels
         [RelayCommand]
         public async Task SwitchLoginMode()
         {
-            await navigationService.CreateBuilder()
-                .UseAbsoluteNavigation(true)
-                .AddSegment<LoginPageViewModel>()
-                .NavigateAsync();
+            await navigationService.NavigateAsync("/LoginPage");
         }
 
         [RelayCommand]
         public async Task NextVerify()
         {
-            await navigationService.NavigateAsync($"NaviPage/VerifyPhonePage");
+            await navigationService.NavigateAsync($"VerifyPhonePage");
         }
         #endregion
 

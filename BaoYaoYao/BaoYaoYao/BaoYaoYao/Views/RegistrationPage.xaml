@@ -5,7 +5,8 @@
              xmlns:viewModel="clr-namespace:BaoYaoYao.ViewModels"
              x:DataType="viewModel:RegistrationPageViewModel"
              BackgroundColor="#4db19e"
-             Title="RegistrationPage">
+             NavigationPage.HasNavigationBar="False"
+             Title="">
 
   <VerticalStackLayout
     VerticalOptions="Start"

@@ -28,10 +28,7 @@ namespace BaoYaoYao.ViewModels
         [RelayCommand]
         public async Task Register()
         {
-            await navigationService.CreateBuilder()
-                .UseAbsoluteNavigation(true)
-                .AddSegment<RegistrationPageViewModel>()
-                .NavigateAsync();
+            await navigationService.NavigateAsync("/NaviPage/RegistrationPage");
         }
         #endregion
     }
