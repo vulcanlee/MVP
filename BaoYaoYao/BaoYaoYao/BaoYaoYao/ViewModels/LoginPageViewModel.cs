@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,25 +8,30 @@ using System.Threading.Tasks;
 
 namespace BaoYaoYao.ViewModels
 {
-    public partial class SplashPageViewModel : ObservableObject, INavigationAware
+    public partial class LoginPageViewModel : ObservableObject, INavigatedAware
     {
         private readonly INavigationService navigationService;
 
-        public SplashPageViewModel(INavigationService navigationService )
+        public LoginPageViewModel(INavigationService navigationService)
         {
             this.navigationService = navigationService;
         }
-
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
         }
 
-        public async void OnNavigatedTo(INavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
-            await Task.Delay(3000);
+        }
+
+        #region 綁定命令使用
+        [RelayCommand]
+        public async Task Login()
+        {
             await navigationService.CreateBuilder()
-                .AddSegment<LoginPageViewModel>()
+                .AddSegment<RegistrationPageViewModel>()
                 .NavigateAsync();
         }
+        #endregion
     }
 }

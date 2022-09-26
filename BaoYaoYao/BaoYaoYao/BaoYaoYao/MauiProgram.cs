@@ -22,6 +22,8 @@ public static class MauiProgram
                     container.RegisterForNavigation<MainPage>()
                                  .RegisterInstance(SemanticScreenReader.Default);
                     container.RegisterForNavigation<SplashPage, SplashPageViewModel>();
+                    container.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+                    container.RegisterForNavigation<RegistrationPage, RegistrationPageViewModel>();
                 });
 
                 //prism.ConfigureServices(container =>

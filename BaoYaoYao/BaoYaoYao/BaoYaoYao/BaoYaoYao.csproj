@@ -48,7 +48,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\login_logo.svg" />
     <None Remove="Resources\Images\splah_logo.svg" />
+    <None Remove="Resources\Images\splashlogobypng.png" />
     <None Remove="Resources\Images\splash_background.svg" />
   </ItemGroup>
 
@@ -61,6 +63,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <MauiXaml Update="Views\LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\RegistrationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\SplashPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
