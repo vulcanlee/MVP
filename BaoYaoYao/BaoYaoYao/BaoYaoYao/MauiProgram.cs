@@ -1,4 +1,7 @@
-﻿using BaoYaoYao.Views;
+﻿using BaoYaoYao.ViewModels;
+using BaoYaoYao.Views;
+using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Markup;
 using Prism.Ioc;
 
 namespace BaoYaoYao;
@@ -9,17 +12,25 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UsePrism(prism=>
+            .UseMauiApp<App>()
+            .UsePrism(prism =>
             {
-                prism.OnAppStart("NavigationPage/MainPage");
+                prism.OnAppStart("SplashPage");
 
                 prism.RegisterTypes(container =>
                 {
                     container.RegisterForNavigation<MainPage>()
                                  .RegisterInstance(SemanticScreenReader.Default);
+                    container.RegisterForNavigation<SplashPage, SplashPageViewModel>();
                 });
-                prism.ConfigureServices(container => { });
-                })
+
+                //prism.ConfigureServices(container =>
+                //{
+                //    container.RegisterForNavigation<MainPage>();
+                //});
+            })
+            .UseMauiCommunityToolkitMarkup()
+            .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
