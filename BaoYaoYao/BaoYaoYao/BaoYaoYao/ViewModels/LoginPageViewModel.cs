@@ -30,6 +30,11 @@ namespace BaoYaoYao.ViewModels
         {
             await navigationService.NavigateAsync("/NaviPage/RegistrationPage");
         }
+        [RelayCommand]
+        public async Task Login()
+        {
+            await navigationService.NavigateAsync("/NaviPage/ConnectPharmacyPage");
+        }
         #endregion
     }
 }

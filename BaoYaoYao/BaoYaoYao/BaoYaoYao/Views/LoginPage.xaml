@@ -52,6 +52,10 @@
       <Label Text="登入"
              VerticalOptions="Center" HorizontalOptions="Center"
              FontSize="14" TextColor="#2b594d"/>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer
+                    Command="{Binding LoginCommand}"/>
+            </Border.GestureRecognizers>
     </Border>
     
   </VerticalStackLayout>

@@ -1,19 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace BaoYaoYao.ViewModels
 {
-    public partial class VerifyPhonePageViewModel : ObservableObject, INavigatedAware
+    public partial class ConnectPharmacyPageViewModel : ObservableObject, INavigatedAware
     {
         private readonly INavigationService navigationService;
 
-        public VerifyPhonePageViewModel(INavigationService navigationService)
+        public ConnectPharmacyPageViewModel(INavigationService navigationService)
         {
             this.navigationService = navigationService;
         }
@@ -23,11 +21,6 @@ namespace BaoYaoYao.ViewModels
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-        }
-        [RelayCommand]
-        public async Task Login()
-        {
-            await navigationService.NavigateAsync("/NaviPage/ConnectPharmacyPage");
         }
     }
 }

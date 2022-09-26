@@ -84,6 +84,9 @@
       <Label Text="登入"
              VerticalOptions="Center" HorizontalOptions="Center"
              FontSize="14" TextColor="#fff"/>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding LoginCommand}"/>
+            </Border.GestureRecognizers>
     </Border>
 
     <Border
