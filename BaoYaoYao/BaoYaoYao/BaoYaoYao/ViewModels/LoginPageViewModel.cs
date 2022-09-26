@@ -26,9 +26,10 @@ namespace BaoYaoYao.ViewModels
 
         #region 綁定命令使用
         [RelayCommand]
-        public async Task Login()
+        public async Task Register()
         {
             await navigationService.CreateBuilder()
+                .UseAbsoluteNavigation(true)
                 .AddSegment<RegistrationPageViewModel>()
                 .NavigateAsync();
         }

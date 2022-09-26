@@ -6,6 +6,7 @@
              x:DataType="viewModel:LoginPageViewModel"
              BackgroundColor="#4db19e"
              Title="LoginPage">
+
   <VerticalStackLayout
     VerticalOptions="Start"
     Margin="0,140,0,0">
@@ -18,7 +19,13 @@
              FontSize="16" TextColor="#ffffff"/>
       <Label Text="註冊 | SIGNUP"
              FontSize="16" TextColor="#ffffff" Opacity="0.7"
-             Margin="26,0,0,0"/>
+             Margin="26,0,0,0">
+        <Label.GestureRecognizers>
+          <TapGestureRecognizer
+          Command="{Binding RegisterCommand}"/>
+        </Label.GestureRecognizers>
+
+      </Label>
       <Grid>
       </Grid>
     </HorizontalStackLayout>

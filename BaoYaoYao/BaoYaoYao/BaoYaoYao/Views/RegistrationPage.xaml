@@ -2,11 +2,57 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BaoYaoYao.Views.RegistrationPage"
+             xmlns:viewModel="clr-namespace:BaoYaoYao.ViewModels"
+             x:DataType="viewModel:RegistrationPageViewModel"
+             BackgroundColor="#4db19e"
              Title="RegistrationPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+  <VerticalStackLayout
+    VerticalOptions="Start"
+    Margin="0,140,0,0">
+    <Image Source="login_logo.png"
+           WidthRequest="119" HeightRequest="98"
+           HorizontalOptions="Center"/>
+    <HorizontalStackLayout
+      Margin="0,87,0,0" HorizontalOptions="Center">
+      <Label Text="登入 | LOGIN"
+             FontSize="16" TextColor="#ffffff" Opacity="0.7">
+        <Label.GestureRecognizers>
+          <TapGestureRecognizer
+          Command="{Binding SwitchLoginModeCommand}"/>
+        </Label.GestureRecognizers>
+      </Label>
+      <Label Text="註冊 | SIGNUP"
+             FontSize="16" TextColor="#ffffff"
+             Margin="26,0,0,0"/>
+      <Grid>
+      </Grid>
+    </HorizontalStackLayout>
+    <Border
+      Margin="0,17,0,0"
+      BackgroundColor="#68b38b"
+          WidthRequest="219" HeightRequest="40">
+      <Border.StrokeShape>
+        <RoundRectangle CornerRadius="0,0,0,0"/>
+      </Border.StrokeShape>
+      <Entry Placeholder="手機號碼 Phone"
+             Margin="15,0"
+             VerticalOptions="Center"
+             BackgroundColor="Transparent" TextColor="White"
+             />
+    </Border>
+    <Border
+      Margin="0,23,0,0"
+      BackgroundColor="#fff"
+          WidthRequest="219" HeightRequest="36">
+      <Border.StrokeShape>
+        <RoundRectangle CornerRadius="17,17,17,17"/>
+      </Border.StrokeShape>
+      <Label Text="下一步"
+             VerticalOptions="Center" HorizontalOptions="Center"
+             FontSize="14" TextColor="#2b594d"/>
+    </Border>
+
+  </VerticalStackLayout>
+
 </ContentPage>
