@@ -51,6 +51,10 @@
       <Label Text="下一步"
              VerticalOptions="Center" HorizontalOptions="Center"
              FontSize="14" TextColor="#2b594d"/>
+      <Border.GestureRecognizers>
+        <TapGestureRecognizer
+          Command="{Binding NextVerifyCommand}"/>
+      </Border.GestureRecognizers>
     </Border>
 
   </VerticalStackLayout>

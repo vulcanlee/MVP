@@ -25,6 +25,7 @@ public static class MauiProgram
                     container.RegisterForNavigation<LoginPage, LoginPageViewModel>();
                     container.RegisterForNavigation<RegistrationPage, RegistrationPageViewModel>();
                     container.RegisterForNavigation<NaviPage, NaviPageViewModel>();
+                    container.RegisterForNavigation<VerifyPhonePage, VerifyPhonePageViewModel>();
                 });
 
                 //prism.ConfigureServices(container =>

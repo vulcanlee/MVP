@@ -34,6 +34,12 @@ namespace BaoYaoYao.ViewModels
                 .AddSegment<LoginPageViewModel>()
                 .NavigateAsync();
         }
+
+        [RelayCommand]
+        public async Task NextVerify()
+        {
+            await navigationService.NavigateAsync($"NaviPage/VerifyPhonePage");
+        }
         #endregion
 
     }
