@@ -28,12 +28,21 @@ namespace BaoYaoYao.ViewModels
         [RelayCommand]
         public async Task Register()
         {
-            await navigationService.NavigateAsync("/NaviPage/RegistrationPage");
+            NavigationParameters para = new NavigationParameters();
+            para.Add(KnownNavigationParameters.Animated, false);
+
+            await navigationService.NavigateAsync("/NaviPage/RegistrationPage", para);
+
+            //await navigationService.CreateBuilder()
+            //    .UseAbsoluteNavigation()
+            //    .AddSegment<NaviPageViewModel>()
+            //    .AddSegment<RegistrationPageViewModel>()
+            //    .NavigateAsync();
         }
         [RelayCommand]
         public async Task Login()
         {
-            await navigationService.NavigateAsync("/NaviPage/ConnectPharmacyPage");
+            await navigationService.NavigateAsync("/NaviPage/ConnectPharmacyPage?Animated=false");
         }
         #endregion
     }

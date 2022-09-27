@@ -52,6 +52,7 @@
     <None Remove="Resources\Images\splah_logo.svg" />
     <None Remove="Resources\Images\splashlogobypng.png" />
     <None Remove="Resources\Images\splash_background.svg" />
+    <None Remove="Resources\Raw\MyForm.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -63,6 +64,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <MauiXaml Update="Views\ApplyPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\ConnectPharmacyPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>

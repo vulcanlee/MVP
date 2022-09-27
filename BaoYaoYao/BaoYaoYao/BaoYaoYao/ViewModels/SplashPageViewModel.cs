@@ -23,9 +23,15 @@ namespace BaoYaoYao.ViewModels
         public async void OnNavigatedTo(INavigationParameters parameters)
         {
             await Task.Delay(3000);
-            await navigationService.CreateBuilder()
-                .AddSegment<LoginPageViewModel>()
-                .NavigateAsync();
+
+            NavigationParameters para = new NavigationParameters();
+            para.Add(KnownNavigationParameters.Animated, false);
+
+            await navigationService.NavigateAsync("/LoginPage", para);
+
+            //await navigationService.CreateBuilder()
+            //    .AddSegment<LoginPageViewModel>()
+            //    .NavigateAsync();
         }
     }
 }
