@@ -36,6 +36,10 @@
         <Grid ColumnDefinitions="10,*"
               WidthRequest="333" HeightRequest="94"
               Margin="0,15,0,0">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer
+                    Command="{Binding GoFormHistoryCommand}"/>
+            </Grid.GestureRecognizers>
             <BoxView Color="#c43920"/>
             <BoxView Grid.Column="1" Color="#da5d3d"/>
             <Label Text="表單記錄"

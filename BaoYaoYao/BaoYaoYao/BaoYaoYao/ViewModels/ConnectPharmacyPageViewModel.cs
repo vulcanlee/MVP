@@ -29,5 +29,11 @@ namespace BaoYaoYao.ViewModels
         {
             await navigationService.NavigateAsync("ApplyPage");
         }
+
+        [RelayCommand]
+        async Task GoFormHistory()
+        {
+            await navigationService.NavigateAsync("ApplyHistoryPage");
+        }
     }
 }

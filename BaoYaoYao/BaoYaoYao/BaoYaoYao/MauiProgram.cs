@@ -28,6 +28,7 @@ public static class MauiProgram
                     container.RegisterForNavigation<VerifyPhonePage, VerifyPhonePageViewModel>();
                     container.RegisterForNavigation<ConnectPharmacyPage, ConnectPharmacyPageViewModel>();
                     container.RegisterForNavigation<ApplyPage, ApplyPageViewModel>();
+                    container.RegisterForNavigation<ApplyHistoryPage, ApplyHistoryPageViewModel>();
                 });
 
                 //prism.ConfigureServices(container =>
