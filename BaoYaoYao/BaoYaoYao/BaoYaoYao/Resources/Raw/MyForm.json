@@ -1,0 +1,46 @@
+{
+  "Page": {
+    "rows": [
+      {
+        "Type": "Textbox",
+        "Title": "姓名",
+        "Required": "true",
+        "Width": "24",
+        "Name": "textbox001",
+        "Value": ""
+      },
+      {
+        "Type": "Textbox",
+        "Title": "身分證號",
+        "Required": "true",
+        "Width": "24",
+        "Name": "textbox002",
+        "Value": "E123456789"
+      },
+      {
+        "Type": "Textbox",
+        "Title": "性別",
+        "Required": "true",
+        "Width": "24",
+        "Name": "textbox003",
+        "Value": ""
+      },
+      {
+        "Type": "Textbox",
+        "Title": "聯絡電話",
+        "Required": "true",
+        "Width": "24",
+        "Name": "textbox004",
+        "Value": ""
+      },
+      {
+        "Title": "出生日期",
+        "Type": "Rocdate",
+        "Required": "true",
+        "Width": "24",
+        "Name": "textbox006",
+        "Value": ""
+      }
+    ]
+  }
+}
