@@ -48,9 +48,9 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="1.3.0" />
+		<!--<PackageReference Include="CommunityToolkit.Maui" Version="1.3.0" />
 		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="1.1.1" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />-->
 		<PackageReference Include="Prism.DryIoc.Maui" Version="8.1.254-beta" />
 	</ItemGroup>
 

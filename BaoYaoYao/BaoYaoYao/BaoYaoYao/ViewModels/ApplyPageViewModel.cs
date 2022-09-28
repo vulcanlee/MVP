@@ -8,16 +8,43 @@ using System.Threading.Tasks;
 
 namespace BaoYaoYao.ViewModels
 {
-    public partial class ApplyPageViewModel : ObservableObject, INavigatedAware
+    public class ApplyPageViewModel :INavigatedAware
     {
         private readonly INavigationService navigationService;
 
-        [ObservableProperty]
         ImageSource imagePreview = null;
 
         public ApplyPageViewModel(INavigationService navigationService)
         {
             this.navigationService = navigationService;
+
+            TestCommand = new RelayCommand(async() =>
+            {
+                if (MediaPicker.Default.IsCaptureSupported)
+                {
+                    try
+                    {
+
+                        FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
+
+                        if (photo != null)
+                        {
+                            // save the file into local storage
+                            string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+
+                            using Stream sourceStream = await photo.OpenReadAsync();
+                            using FileStream localFileStream = File.OpenWrite(localFilePath);
+
+                            await sourceStream.CopyToAsync(localFileStream);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"{ex.Message}");
+                    }
+                }
+            });
+
         }
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
@@ -26,33 +53,33 @@ namespace BaoYaoYao.ViewModels
         public void OnNavigatedTo(INavigationParameters parameters)
         {
         }
+        public RelayCommand TestCommand { get; set; }
+        //[RelayCommand]
+        //public async Task TakePhoto()
+        //{
+        //    if (MediaPicker.Default.IsCaptureSupported)
+        //    {
+        //        try
+        //        {
 
-        [RelayCommand]
-        public async void TakePhoto()
-        {
-            if (MediaPicker.Default.IsCaptureSupported)
-            {
-                try
-                {
+        //            FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
 
-                    FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
+        //            if (photo != null)
+        //            {
+        //                // save the file into local storage
+        //                string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
 
-                    if (photo != null)
-                    {
-                        // save the file into local storage
-                        string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+        //                using Stream sourceStream = await photo.OpenReadAsync();
+        //                using FileStream localFileStream = File.OpenWrite(localFilePath);
 
-                        using Stream sourceStream = await photo.OpenReadAsync();
-                        using FileStream localFileStream = File.OpenWrite(localFilePath);
-
-                        await sourceStream.CopyToAsync(localFileStream);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"{ex.Message}");
-                }
-            }
-        }
+        //                await sourceStream.CopyToAsync(localFileStream);
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine($"{ex.Message}");
+        //        }
+        //    }
+        //}
     }
 }

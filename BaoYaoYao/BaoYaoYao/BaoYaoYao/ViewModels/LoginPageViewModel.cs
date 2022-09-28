@@ -42,30 +42,7 @@ namespace BaoYaoYao.ViewModels
         [RelayCommand]
         public async Task Login()
         {
-            if (MediaPicker.Default.IsCaptureSupported)
-            {
-                try
-                {
-
-                    FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
-
-                    if (photo != null)
-                    {
-                        // save the file into local storage
-                        string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
-
-                        using Stream sourceStream = await photo.OpenReadAsync();
-                        using FileStream localFileStream = File.OpenWrite(localFilePath);
-
-                        await sourceStream.CopyToAsync(localFileStream);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"{ex.Message}");
-                }
-            }
-            //await navigationService.NavigateAsync("/NaviPage/ConnectPharmacyPage?Animated=false");
+            await navigationService.NavigateAsync("/NaviPage/ConnectPharmacyPage");
         }
         #endregion
     }
