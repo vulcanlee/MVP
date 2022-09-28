@@ -54,4 +54,13 @@
     <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.254-beta" />
   </ItemGroup>
 
+  <ItemGroup>
+    <MauiXaml Update="Views\NextPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\SplashPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+  </ItemGroup>
+
 </Project>

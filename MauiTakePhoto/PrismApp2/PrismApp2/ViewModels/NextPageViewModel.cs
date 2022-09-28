@@ -1,23 +1,19 @@
 ﻿namespace PrismApp2.ViewModels;
 
-public class MainPageViewModel : BindableBase
+public class NextPageViewModel : BindableBase
 {
     private ISemanticScreenReader _screenReader { get; }
     private int _count;
 
-    public MainPageViewModel(ISemanticScreenReader screenReader,
-        INavigationService navigationService)
+    public NextPageViewModel(ISemanticScreenReader screenReader)
     {
         _screenReader = screenReader;
-        this.navigationService = navigationService;
         CountCommand = new DelegateCommand(OnCountCommandExecuted);
     }
 
     public string Title => "Main Page";
 
     private string _text = "Click me";
-    private readonly INavigationService navigationService;
-
     public string Text
     {
         get => _text;
@@ -35,11 +31,6 @@ public class MainPageViewModel : BindableBase
             Text = $"Clicked {_count} times";
 
         _screenReader.Announce(Text);
-
-        navigationService.NavigateAsync("/NextPage");
-
-        return;
-
         if (MediaPicker.Default.IsCaptureSupported)
         {
             try
