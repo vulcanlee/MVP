@@ -146,11 +146,11 @@
 
                         </Grid>
 
-                        <!--<Image Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                        <Image Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                                Margin="0"
                                HorizontalOptions="Fill"
                                Aspect="AspectFit"
-                               Source="{Binding ImagePreview}"/>-->
+                               Source="{Binding ImagePreview}"/>
                     </Grid>
                 </Border>
 

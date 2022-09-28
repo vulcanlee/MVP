@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace BaoYaoYao.ViewModels
 {
-    public class ApplyPageViewModel :INavigatedAware
+    public partial class ApplyPageViewModel :ObservableObject, INavigatedAware
     {
         private readonly INavigationService navigationService;
-
+        [ObservableProperty]
         ImageSource imagePreview = null;
 
         public ApplyPageViewModel(INavigationService navigationService)
@@ -36,6 +36,8 @@ namespace BaoYaoYao.ViewModels
                             using FileStream localFileStream = File.OpenWrite(localFilePath);
 
                             await sourceStream.CopyToAsync(localFileStream);
+                            sourceStream.Seek(0, SeekOrigin.Begin);
+                            imagePreview = ImageSource.FromFile(localFilePath);
                         }
                     }
                     catch (Exception ex)
