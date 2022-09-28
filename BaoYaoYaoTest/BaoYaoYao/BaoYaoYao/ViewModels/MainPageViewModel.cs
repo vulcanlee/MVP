@@ -37,7 +37,7 @@ public class MainPageViewModel : BindableBase
 
         _screenReader.Announce(Text);
 
-        navigationService.NavigateAsync("/TestPage");
+        navigationService.NavigateAsync("TestPage");
 
         return;
     }

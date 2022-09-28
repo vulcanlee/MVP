@@ -1,8 +1,10 @@
-﻿namespace PrismApp2.ViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-public class SplashPageViewModel : BindableBase, INavigatedAware
+namespace PrismApp2.ViewModels;
+
+public class SplashPageViewModel : ObservableObject, INavigatedAware
 {
-    private int _count;
+    int count;
 
     public SplashPageViewModel( INavigationService navigationService)
     {
@@ -10,16 +12,11 @@ public class SplashPageViewModel : BindableBase, INavigatedAware
         //CountCommand = new DelegateCommand(OnCountCommandExecuted);
     }
 
-    public string Title => "Main Page";
+    string title = "Main Page";
 
-    private string _text = "Click me";
+    string text = "Click me";
     private readonly INavigationService navigationService;
 
-    public string Text
-    {
-        get => _text;
-        set => SetProperty(ref _text, value);
-    }
 
     public DelegateCommand CountCommand { get; }
 

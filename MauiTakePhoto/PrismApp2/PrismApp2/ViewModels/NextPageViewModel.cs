@@ -1,6 +1,9 @@
-﻿namespace PrismApp2.ViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
-public class NextPageViewModel : BindableBase
+namespace PrismApp2.ViewModels;
+
+public partial class NextPageViewModel : ObservableObject,INavigatedAware
 {
     private ISemanticScreenReader _screenReader { get; }
     private int _count;
@@ -8,21 +11,17 @@ public class NextPageViewModel : BindableBase
     public NextPageViewModel(ISemanticScreenReader screenReader)
     {
         _screenReader = screenReader;
-        CountCommand = new DelegateCommand(OnCountCommandExecuted);
     }
 
-    public string Title => "Main Page";
+    [ObservableProperty]
+    string title = "Main Page";
+    [ObservableProperty]
+    string text = "Click me";
+    private readonly INavigationService navigationService;
 
-    private string _text = "Click me";
-    public string Text
-    {
-        get => _text;
-        set => SetProperty(ref _text, value);
-    }
 
-    public DelegateCommand CountCommand { get; }
-
-    private async void OnCountCommandExecuted()
+    [RelayCommand]
+    private async void Count()
     {
         _count++;
         if (_count == 1)
@@ -54,5 +53,13 @@ public class NextPageViewModel : BindableBase
                 Console.WriteLine($"{ex.Message}");
             }
         }
+    }
+
+    public void OnNavigatedFrom(INavigationParameters parameters)
+    {
+    }
+
+    public void OnNavigatedTo(INavigationParameters parameters)
+    {
     }
 }
