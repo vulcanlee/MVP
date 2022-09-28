@@ -48,6 +48,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Remove="Resources\Images\camera.svg" />
 		<None Remove="Resources\Images\line_scan.svg" />
 		<None Remove="Resources\Images\login_logo.svg" />
 		<None Remove="Resources\Images\qrcode_scan.svg" />
@@ -61,8 +62,7 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="1.3.0" />
 		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="1.1.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
-		<PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.3-beta1" />
-		<PackageReference Include="Prism.DryIoc.Maui" Version="8.1.273-pre" />
+		<PackageReference Include="Prism.DryIoc.Maui" Version="8.1.254-beta" />
 	</ItemGroup>
 
 	<ItemGroup>

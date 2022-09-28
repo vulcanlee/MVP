@@ -12,30 +12,32 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UseMauiApp<App>()
-            .UsePrism(prism =>
-            {
-                prism.OnAppStart("SplashPage");
+            .UsePrismApp<App>(PrismStartup.Configure)
 
-                prism.RegisterTypes(container =>
-                {
-                    container.RegisterForNavigation<MainPage>()
-                                 .RegisterInstance(SemanticScreenReader.Default);
-                    container.RegisterForNavigation<SplashPage, SplashPageViewModel>();
-                    container.RegisterForNavigation<LoginPage, LoginPageViewModel>();
-                    container.RegisterForNavigation<RegistrationPage, RegistrationPageViewModel>();
-                    container.RegisterForNavigation<NaviPage, NaviPageViewModel>();
-                    container.RegisterForNavigation<VerifyPhonePage, VerifyPhonePageViewModel>();
-                    container.RegisterForNavigation<ConnectPharmacyPage, ConnectPharmacyPageViewModel>();
-                    container.RegisterForNavigation<ApplyPage, ApplyPageViewModel>();
-                    container.RegisterForNavigation<ApplyHistoryPage, ApplyHistoryPageViewModel>();
-                });
+            //.UseMauiApp<App>()
+            //.UsePrism(prism =>
+            //{
+            //    prism.OnAppStart("SplashPage");
 
-                //prism.ConfigureServices(container =>
-                //{
-                //    container.RegisterForNavigation<MainPage>();
-                //});
-            })
+            //    prism.RegisterTypes(container =>
+            //    {
+            //        container.RegisterForNavigation<MainPage>()
+            //                     .RegisterInstance(SemanticScreenReader.Default);
+            //        container.RegisterForNavigation<SplashPage, SplashPageViewModel>();
+            //        container.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            //        container.RegisterForNavigation<RegistrationPage, RegistrationPageViewModel>();
+            //        container.RegisterForNavigation<NaviPage, NaviPageViewModel>();
+            //        container.RegisterForNavigation<VerifyPhonePage, VerifyPhonePageViewModel>();
+            //        container.RegisterForNavigation<ConnectPharmacyPage, ConnectPharmacyPageViewModel>();
+            //        container.RegisterForNavigation<ApplyPage, ApplyPageViewModel>();
+            //        container.RegisterForNavigation<ApplyHistoryPage, ApplyHistoryPageViewModel>();
+            //    });
+
+            //    //prism.ConfigureServices(container =>
+            //    //{
+            //    //    container.RegisterForNavigation<MainPage>();
+            //    //});
+            //})
             .UseMauiCommunityToolkitMarkup()
             .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>

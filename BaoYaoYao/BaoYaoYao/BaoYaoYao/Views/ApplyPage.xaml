@@ -115,8 +115,17 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="5,5,5,5"/>
                             </Border.StrokeShape>
-                        </Border>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TakePhotoCommand}"/>
+                            </Border.GestureRecognizers>
 
+                            <Grid
+                                VerticalOptions="Fill" HorizontalOptions="Fill">
+                                <Image Source="camera.png"
+                                       WidthRequest="27" 
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
 
                         <Grid Grid.Row="0" Grid.Column="1"
                               HorizontalOptions="Fill" VerticalOptions="Start">
@@ -136,6 +145,12 @@
                                VerticalOptions="Start" VerticalTextAlignment="Center"/>
 
                         </Grid>
+
+                        <Image Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                               Margin="0"
+                               HorizontalOptions="Fill"
+                               Aspect="AspectFit"
+                               Source="{Binding ImagePreview}"/>
                     </Grid>
                 </Border>
 
