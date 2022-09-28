@@ -28,6 +28,14 @@ namespace xfBaoYao
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<ApplyHistoryPage, ApplyHistoryPageViewModel>();
+            containerRegistry.RegisterForNavigation<ApplyPage, ApplyPageViewModel>();
+            containerRegistry.RegisterForNavigation<ConnectPharmacyPage, ConnectPharmacyPageViewModel>();
+            containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            containerRegistry.RegisterForNavigation<NaviPage, NaviPageViewModel>();
+            containerRegistry.RegisterForNavigation<SplashPage, SplashPageViewModel>();
+            containerRegistry.RegisterForNavigation<RegistrationPage, RegistrationPageViewModel>();
+            containerRegistry.RegisterForNavigation<VerifyPhonePage, VerifyPhonePageViewModel>();
         }
     }
 }
