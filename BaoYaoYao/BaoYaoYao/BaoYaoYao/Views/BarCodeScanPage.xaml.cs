@@ -32,6 +32,7 @@ public partial class BarCodeScanPage : ContentPage
             {
                 BarcodeResult barcodeResult = e.Results[0];
                 barCodeScanPageViewModel.QRCodeScanResult = barcodeResult.Value;
+                barCodeScanPageViewModel.FormRecord.QRCode = barcodeResult.Value;
                 barCodeScanPageViewModel.GoBackApplyPage();
             }
         }

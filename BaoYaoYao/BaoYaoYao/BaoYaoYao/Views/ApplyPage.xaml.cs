@@ -36,4 +36,26 @@ public partial class ApplyPage : ContentPage
             }
         }
     }
+
+    private void RadioButton男生_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        if (applyPageViewModel != null)
+        {
+            if (e.Value == true)
+            {
+                applyPageViewModel.FormRecord.Gender = "男性";
+            }
+        }
+    }
+
+    private void RadioButton女生_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        if (applyPageViewModel != null)
+        {
+            if (e.Value == true)
+            {
+                applyPageViewModel.FormRecord.Gender = "女生";
+            }
+        }
+    }
 }

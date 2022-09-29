@@ -1,4 +1,5 @@
-﻿using BaoYaoYao.ViewModels;
+﻿using BaoYaoYao.Helpers;
+using BaoYaoYao.ViewModels;
 using BaoYaoYao.Views;
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Markup;
@@ -34,6 +35,8 @@ public static class MauiProgram
                     container.RegisterForNavigation<ApplyPage, ApplyPageViewModel>();
                     container.RegisterForNavigation<ApplyHistoryPage, ApplyHistoryPageViewModel>();
                     container.RegisterForNavigation<BarCodeScanPage, BarCodeScanPageViewModel>();
+
+                    container.RegisterSingleton<MagicObjectHelper>();
                 });
 
                 //prism.ConfigureServices(container =>

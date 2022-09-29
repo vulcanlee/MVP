@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using BaoYaoYao.Helpers;
+using BaoYaoYao.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -11,8 +13,11 @@ namespace BaoYaoYao.ViewModels
     public partial class ApplyPageViewModel :ObservableObject, INavigatedAware
     {
         private readonly INavigationService navigationService;
+        private readonly MagicObjectHelper magicObjectHelper;
         [ObservableProperty]
-        ImageSource imagePreview = null;
+        FormRecord formRecord = new FormRecord();
+        //[ObservableProperty]
+        //ImageSource imagePreview = null;
 
         [ObservableProperty]
         bool isShowQRCodeView = true;
@@ -20,10 +25,11 @@ namespace BaoYaoYao.ViewModels
         [ObservableProperty]
         string qRCodeScanResult = "";
 
-        public ApplyPageViewModel(INavigationService navigationService)
+        public ApplyPageViewModel(INavigationService navigationService,
+            MagicObjectHelper magicObjectHelper)
         {
             this.navigationService = navigationService;
-
+            this.magicObjectHelper = magicObjectHelper;
             TestCommand = new RelayCommand(async() =>
             {
                 if (MediaPicker.Default.IsCaptureSupported)
@@ -43,7 +49,7 @@ namespace BaoYaoYao.ViewModels
 
                             await sourceStream.CopyToAsync(localFileStream);
                             sourceStream.Seek(0, SeekOrigin.Begin);
-                            ImagePreview = ImageSource.FromFile(localFilePath);
+                            FormRecord.Photo = ImageSource.FromFile(localFilePath);
                         }
                     }
                     catch (Exception ex)
@@ -60,6 +66,10 @@ namespace BaoYaoYao.ViewModels
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
+            if (parameters.ContainsKey(magicObjectHelper.FormRecordName))
+            {
+                FormRecord = parameters.GetValue<FormRecord>(magicObjectHelper.FormRecordName);
+            }
         }
 
         public RelayCommand TestCommand { get; set; }
@@ -68,7 +78,11 @@ namespace BaoYaoYao.ViewModels
         public void ShowQRCodeView()
         {
             IsShowQRCodeView = true;
-            navigationService.NavigateAsync("/BarCodeScanPage");
+
+            NavigationParameters para = new NavigationParameters();
+            para.Add(magicObjectHelper.FormRecordName, formRecord);
+
+            navigationService.NavigateAsync("/BarCodeScanPage", para);
         }
         //[RelayCommand]
         //public async Task TakePhoto()

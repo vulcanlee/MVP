@@ -1,5 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using BaoYaoYao.Helpers;
+using BaoYaoYao.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Prism.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +14,17 @@ namespace BaoYaoYao.ViewModels
     public partial class BarCodeScanPageViewModel : ObservableObject, INavigatedAware
     {
         private readonly INavigationService navigationService;
-
+        private readonly MagicObjectHelper magicObjectHelper;
         [ObservableProperty]
         string qRCodeScanResult = "";
+        [ObservableProperty]
+        FormRecord formRecord = new FormRecord();
 
-        public BarCodeScanPageViewModel(INavigationService navigationService)
+        public BarCodeScanPageViewModel(INavigationService navigationService,
+            MagicObjectHelper magicObjectHelper)
         {
             this.navigationService = navigationService;
+            this.magicObjectHelper = magicObjectHelper;
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
@@ -26,6 +33,10 @@ namespace BaoYaoYao.ViewModels
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
+            if(parameters.ContainsKey(magicObjectHelper.FormRecordName))
+            {
+                formRecord = parameters.GetValue<FormRecord>(magicObjectHelper.FormRecordName);
+            }
         }
 
         [RelayCommand]
@@ -43,6 +54,7 @@ namespace BaoYaoYao.ViewModels
                 .UseAbsoluteNavigation()
                 .AddSegment("NaviPage")
                 .AddSegment("ConnectPharmacyPage")
+                .AddParameter(magicObjectHelper.FormRecordName, FormRecord)
                 .AddSegment("ApplyPage")
                 .Navigate();
 

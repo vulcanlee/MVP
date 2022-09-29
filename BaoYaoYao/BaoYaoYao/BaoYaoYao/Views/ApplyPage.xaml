@@ -4,6 +4,7 @@
              x:Class="BaoYaoYao.Views.ApplyPage"
              xmlns:viewModel="clr-namespace:BaoYaoYao.ViewModels"
              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI"
+             xmlns:prism="http://prismlibrary.com"
              x:DataType="viewModel:ApplyPageViewModel"
              BackgroundColor="#bce1df"
              Title="基本資料表">
@@ -33,7 +34,7 @@
                            HorizontalOptions="Start"
                            VerticalOptions="Center" VerticalTextAlignment="Center"/>
 
-                        <Entry Text=""
+                        <Entry Text="{Binding FormRecord.Name}"
                            TextColor="#737577" FontSize="16"
                            BackgroundColor="#f9f9f9"
                            Margin="0,0,52,0"
@@ -47,7 +48,7 @@
                            HorizontalOptions="Start"
                            VerticalOptions="Center" VerticalTextAlignment="Center"/>
 
-                        <Entry Text=""
+                        <Entry Text="{Binding FormRecord.IdentityCard}"
                            TextColor="#737577" FontSize="16"
                            BackgroundColor="#f9f9f9"
                            Margin="0,0,52,0"
@@ -65,10 +66,16 @@
                         Grid.Row="2" Grid.Column="2"
                         HorizontalOptions="Start" VerticalOptions="Center">
                             <RadioButton Content="男生" GroupName="性別"
-                                     FontSize="16" TextColor="#737577"/>
+                                         IsChecked="{Binding FormRecord.GenderM}"
+                                     FontSize="16" TextColor="#737577"
+                                         CheckedChanged="RadioButton男生_CheckedChanged"
+                                         >
+                            </RadioButton>
                             <RadioButton Content="女生" GroupName="性別"
+                                         IsChecked="{Binding FormRecord.GenderW}"
                                      Margin="9,0,0,0"
-                                     FontSize="16" TextColor="#737577"/>
+                                     FontSize="16" TextColor="#737577"
+                                         CheckedChanged="RadioButton女生_CheckedChanged"/>
                         </HorizontalStackLayout>
 
                         <Label Text="電話"
@@ -77,7 +84,7 @@
                            HorizontalOptions="Start"
                            VerticalOptions="Center" VerticalTextAlignment="Center"/>
 
-                        <Entry Text=""
+                        <Entry Text="{Binding FormRecord.Phone}"
                            TextColor="#737577" FontSize="16"
                            BackgroundColor="#f9f9f9"
                            Margin="0,0,52,0"
@@ -92,6 +99,7 @@
                            VerticalOptions="Center" VerticalTextAlignment="Center"/>
 
                         <DatePicker Grid.Row="4" Grid.Column="2"
+                                    Date="{Binding FormRecord.Birthday}"
                                 BackgroundColor="#f9f9f9"
                                 Margin="0,0,52,0"
                                 Format="yyyy-MM-dd"
@@ -151,7 +159,7 @@
                                Margin="10,20"
                                HorizontalOptions="Fill"
                                Aspect="AspectFit"
-                               Source="{Binding ImagePreview}"/>
+                               Source="{Binding FormRecord.Photo}"/>
                     </Grid>
                 </Border>
 
@@ -183,9 +191,10 @@
                                HorizontalOptions="Start"
                                VerticalOptions="Start" VerticalTextAlignment="Center"/>
                         </Grid>
-                        
-                        <Label Text="{Binding QRCodeScanResult}"
+
+                        <Label Text="{Binding FormRecord.QRCode}"
                                Grid.Row="1" Grid.ColumnSpan="2"
+                              Margin="30,0,30,0"
                            TextColor="Blue" FontSize="16"/>
                     </Grid>
 

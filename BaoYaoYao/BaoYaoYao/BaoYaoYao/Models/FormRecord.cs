@@ -14,10 +14,18 @@ namespace BaoYaoYao.Models
         [ObservableProperty]
         string identityCard = "";
         [ObservableProperty]
-        bool gender = false;
+        string gender = "";
+        [ObservableProperty]
+        bool genderM = false;
+        [ObservableProperty]
+        bool genderW = false;
         [ObservableProperty]
         string phone = "";
         [ObservableProperty]
         DateTime birthday;
+        [ObservableProperty]
+        string qRCode = "";
+        [ObservableProperty]
+        ImageSource photo = null;
     }
 }
