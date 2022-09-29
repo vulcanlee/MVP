@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI"
+             xmlns:viewModel="clr-namespace:BaoYaoYao.ViewModels"
+             x:DataType="viewModel:BarCodeScanPageViewModel"
+             x:Class="BaoYaoYao.Views.BarCodeScanPage"
+             Title="條碼掃描">
+
+    <Grid
+        HorizontalOptions="Fill" VerticalOptions="Fill">
+        <zxing:CameraBarcodeReaderView
+                x:Name="cameraBarcodeReaderView"
+                Margin="0"
+            HorizontalOptions="Fill" VerticalOptions="Fill"
+                BarcodesDetected="OnBarcodesDetected">
+        </zxing:CameraBarcodeReaderView>
+
+        <Image Source="x_circle.png"
+               HorizontalOptions="End" VerticalOptions="Start"
+               WidthRequest="70" HeightRequest="70"
+               Margin="0,30,30,0">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+            </Image.GestureRecognizers>
+        </Image>
+    </Grid>
+</ContentPage>

@@ -14,6 +14,12 @@ namespace BaoYaoYao.ViewModels
         [ObservableProperty]
         ImageSource imagePreview = null;
 
+        [ObservableProperty]
+        bool isShowQRCodeView = true;
+
+        [ObservableProperty]
+        string qRCodeScanResult = "";
+
         public ApplyPageViewModel(INavigationService navigationService)
         {
             this.navigationService = navigationService;
@@ -55,7 +61,15 @@ namespace BaoYaoYao.ViewModels
         public void OnNavigatedTo(INavigationParameters parameters)
         {
         }
+
         public RelayCommand TestCommand { get; set; }
+
+        [RelayCommand]
+        public void ShowQRCodeView()
+        {
+            IsShowQRCodeView = true;
+            navigationService.NavigateAsync("/BarCodeScanPage");
+        }
         //[RelayCommand]
         //public async Task TakePhoto()
         //{

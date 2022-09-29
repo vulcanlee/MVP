@@ -42,6 +42,7 @@ namespace BaoYaoYao.ViewModels
         [RelayCommand]
         public async Task Login()
         {
+            //navigationService.NavigateAsync("/BarCodeScanPage");
             await navigationService.NavigateAsync("/NaviPage/ConnectPharmacyPage");
         }
         #endregion

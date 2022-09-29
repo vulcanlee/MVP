@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI"
              x:Class="BaoYaoYao.Views.LoginPage"
              xmlns:viewModel="clr-namespace:BaoYaoYao.ViewModels"
              x:DataType="viewModel:LoginPageViewModel"
@@ -15,7 +16,16 @@
            HorizontalOptions="Center"/>
     <HorizontalStackLayout
       Margin="0,87,0,0" HorizontalOptions="Center">
-      <Label Text="登入 | LOGIN"
+
+            <Grid>
+
+            <!--<zxing:CameraBarcodeReaderView
+                x:Name="cameraBarcodeReaderView">
+            </zxing:CameraBarcodeReaderView>-->
+        </Grid>
+
+
+            <Label Text="登入 | LOGIN"
              FontSize="16" TextColor="#ffffff"/>
       <Label Text="註冊 | SIGNUP"
              FontSize="16" TextColor="#ffffff" Opacity="0.7"

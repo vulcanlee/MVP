@@ -3,6 +3,7 @@ using BaoYaoYao.Views;
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Markup;
 using Prism.Ioc;
+using ZXing.Net.Maui;
 
 namespace BaoYaoYao;
 
@@ -15,6 +16,7 @@ public static class MauiProgram
             //.UsePrismApp<App>(PrismStartup.Configure)
 
             .UseMauiApp<App>()
+            .UseBarcodeReader()
             .UsePrism(prism =>
             {
                 prism.OnAppStart("SplashPage");
@@ -31,6 +33,7 @@ public static class MauiProgram
                     container.RegisterForNavigation<ConnectPharmacyPage, ConnectPharmacyPageViewModel>();
                     container.RegisterForNavigation<ApplyPage, ApplyPageViewModel>();
                     container.RegisterForNavigation<ApplyHistoryPage, ApplyHistoryPageViewModel>();
+                    container.RegisterForNavigation<BarCodeScanPage, BarCodeScanPageViewModel>();
                 });
 
                 //prism.ConfigureServices(container =>
