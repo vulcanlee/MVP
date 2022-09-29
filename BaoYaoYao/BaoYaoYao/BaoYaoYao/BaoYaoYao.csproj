@@ -10,6 +10,7 @@
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
 
 		<!-- Display name -->
 		<ApplicationTitle>BaoYaoYao</ApplicationTitle>
@@ -97,6 +98,12 @@
 		<MauiXaml Update="Views\VerifyPhonePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Platforms\Android\google-services.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>
