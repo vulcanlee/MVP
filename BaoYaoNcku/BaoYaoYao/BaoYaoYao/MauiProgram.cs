@@ -20,7 +20,7 @@ public static class MauiProgram
             .UseBarcodeReader()
             .UsePrism(prism =>
             {
-                prism.OnAppStart("SplashPage");
+                prism.OnAppStart("/NaviPage/ConnectPharmacyPage");
 
                 prism.RegisterTypes(container =>
                 {
@@ -35,6 +35,10 @@ public static class MauiProgram
                     container.RegisterForNavigation<ApplyPage, ApplyPageViewModel>();
                     container.RegisterForNavigation<ApplyHistoryPage, ApplyHistoryPageViewModel>();
                     container.RegisterForNavigation<BarCodeScanPage, BarCodeScanPageViewModel>();
+                    container.RegisterForNavigation<軟體Page, 軟體PageViewModel>();
+                    container.RegisterForNavigation<硬體Page, 硬體PageViewModel>();
+                    container.RegisterForNavigation<PACSPage, PACSPageViewModel>();
+                    container.RegisterForNavigation<報告系統Page, 報告系統PageViewModel>();
 
                     container.RegisterSingleton<MagicObjectHelper>();
                 });

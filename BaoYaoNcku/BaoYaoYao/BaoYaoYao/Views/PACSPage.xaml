@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BaoYaoYao.Views.PACSPage"
+             Title="PACS 叫修">
+
+    <Grid
+        RowDefinitions="*,50"
+        ColumnSpacing="0" RowSpacing="0"
+        Margin="6">
+        <ScrollView>
+            <VerticalStackLayout>
+                <Border
+                BackgroundColor="#FFF">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10,10,10,10"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout
+                      Margin="15,15">
+
+                        <Label Text="叫修內容"
+                           TextColor="#737577" FontSize="14"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Picker
+                           TextColor="#737577" FontSize="16"
+                           BackgroundColor="#f9f9f9"
+                           Margin="0,0,20,20"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Label Text="問題描述"
+                           TextColor="#737577" FontSize="14"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Entry Text=""
+                           TextColor="#737577" FontSize="16"
+                           BackgroundColor="#f9f9f9"
+                           Margin="0,0,20,20"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Label Text="叫修地點"
+                           TextColor="#737577" FontSize="14"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Entry Text=""
+                           TextColor="#737577" FontSize="16"
+                           BackgroundColor="#f9f9f9"
+                           Margin="0,0,20,20"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Label Text="支援電話"
+                           TextColor="#737577" FontSize="14"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Entry Text=""
+                           TextColor="#737577" FontSize="16"
+                           BackgroundColor="#f9f9f9"
+                           Margin="0,0,20,20"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Label Text="IP"
+                           TextColor="#737577" FontSize="14"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Entry Text=""
+                           TextColor="#737577" FontSize="16"
+                           BackgroundColor="#f9f9f9"
+                           Margin="0,0,20,20"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Label Text="PACS 病歷號"
+                           TextColor="#737577" FontSize="14"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Entry Text=""
+                           TextColor="#737577" FontSize="16"
+                           BackgroundColor="#f9f9f9"
+                           Margin="0,0,20,20"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Label Text="PACS 單號"
+                           TextColor="#737577" FontSize="14"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Entry Text=""
+                           TextColor="#737577" FontSize="16"
+                           BackgroundColor="#f9f9f9"
+                           Margin="0,0,20,20"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Label Text="修改後病歷號"
+                           TextColor="#737577" FontSize="14"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Entry Text=""
+                           TextColor="#737577" FontSize="16"
+                           BackgroundColor="#f9f9f9"
+                           Margin="0,0,20,20"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Label Text="修改後單號"
+                           TextColor="#737577" FontSize="14"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Entry Text=""
+                           TextColor="#737577" FontSize="16"
+                           BackgroundColor="#f9f9f9"
+                           Margin="0,0,20,20"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Label Text="修改後姓名"
+                           TextColor="#737577" FontSize="14"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                        <Entry Text=""
+                           TextColor="#737577" FontSize="16"
+                           BackgroundColor="#f9f9f9"
+                           Margin="0,0,20,20"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center" VerticalTextAlignment="Center"/>
+
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid
+            Grid.Row="1"
+            ColumnDefinitions="*,*,*">
+            <Button Text="送出"
+                    HeightRequest="37"
+                    HorizontalOptions="Fill" VerticalOptions="Center"
+                    FontSize="14" TextColor="#2b594d" BackgroundColor="#f9f9f9"
+                    Margin="10,5">
+                <Button.Shadow>
+                    <Shadow Brush="black"
+                            Offset="5,5"
+                            Opacity="0.8"/>
+                </Button.Shadow>
+            </Button>
+
+            <Button Text="暫存"
+                    Grid.Column="1"
+                    HeightRequest="37"
+                    HorizontalOptions="Fill" VerticalOptions="Center"
+                    FontSize="14" TextColor="#2b594d" BackgroundColor="#f9f9f9"
+                    Margin="10,5">
+                <Button.Shadow>
+                    <Shadow Brush="black"
+                            Offset="5,5"
+                            Opacity="0.8"/>
+                </Button.Shadow>
+            </Button>
+
+            <Button Text="取消"
+                    Grid.Column="2"
+                    HeightRequest="37"
+                    HorizontalOptions="Fill" VerticalOptions="Center"
+                    FontSize="14" TextColor="#2b594d" BackgroundColor="#f9f9f9"
+                    Margin="10,5">
+                <Button.Shadow>
+                    <Shadow Brush="black"
+                            Offset="5,5"
+                            Opacity="0.8"/>
+                </Button.Shadow>
+            </Button>
+
+        </Grid>
+    </Grid>
+
+</ContentPage>

@@ -25,9 +25,28 @@ namespace BaoYaoYao.ViewModels
         }
 
         [RelayCommand]
-        async Task GoApplyForm()
+        async Task GoApplyForm(string parameter)
         {
-            await navigationService.NavigateAsync("ApplyPage");
+            if (parameter == "軟體")
+            {
+                await navigationService.NavigateAsync("軟體Page");
+            }
+            else if (parameter == "硬體")
+            {
+                await navigationService.NavigateAsync("硬體Page");
+            }
+            else if (parameter == "PACS")
+            {
+                await navigationService.NavigateAsync("PACSPage");
+            }
+            else if (parameter == "報告系統")
+            {
+                await navigationService.NavigateAsync("報告系統Page");
+            }
+            else
+            {
+
+            }
         }
 
         [RelayCommand]

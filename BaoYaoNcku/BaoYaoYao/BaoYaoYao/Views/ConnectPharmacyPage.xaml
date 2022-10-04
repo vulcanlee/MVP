@@ -5,29 +5,19 @@
              xmlns:viewModel="clr-namespace:BaoYaoYao.ViewModels"
              x:DataType="viewModel:ConnectPharmacyPageViewModel"
              BackgroundColor="#bce1df"
-             Title="連線藥局">
+             Title="成大醫院 叫修系統">
     <VerticalStackLayout>
         <Grid ColumnDefinitions="10,*"
               WidthRequest="333" HeightRequest="94"
               Margin="0,15,0,0">
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer
-                    Command="{Binding GoApplyFormCommand}"/>
+                    Command="{Binding GoApplyFormCommand}"
+                    CommandParameter="軟體"/>
             </Grid.GestureRecognizers>
             <BoxView Color="#58a4b7"/>
             <BoxView Grid.Column="1" Color="#add8e2"/>
-            <Label Text="基本資料表"
-                   Grid.Column="1"
-                   TextColor="#fff" FontSize="20" FontAttributes="Bold"
-                   Margin="24,19,0,0"/>
-        </Grid>
-
-        <Grid ColumnDefinitions="10,*"
-              WidthRequest="333" HeightRequest="94"
-              Margin="0,15,0,0">
-            <BoxView Color="#da7b12"/>
-            <BoxView Grid.Column="1" Color="#eea03b"/>
-            <Label Text="書寫記錄"
+            <Label Text="軟體 叫修"
                    Grid.Column="1"
                    TextColor="#fff" FontSize="20" FontAttributes="Bold"
                    Margin="24,19,0,0"/>
@@ -38,11 +28,44 @@
               Margin="0,15,0,0">
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer
-                    Command="{Binding GoFormHistoryCommand}"/>
+                    Command="{Binding GoApplyFormCommand}"
+                    CommandParameter="硬體"/>
+            </Grid.GestureRecognizers>
+            <BoxView Color="#5aabbf"/>
+            <BoxView Grid.Column="1" Color="#3a6b78"/>
+            <Label Text="硬體 叫修"
+                   Grid.Column="1"
+                   TextColor="#fff" FontSize="20" FontAttributes="Bold"
+                   Margin="24,19,0,0"/>
+        </Grid>
+
+        <Grid ColumnDefinitions="10,*"
+              WidthRequest="333" HeightRequest="94"
+              Margin="0,15,0,0">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer
+                    Command="{Binding GoApplyFormCommand}"
+                    CommandParameter="PACS"/>
+            </Grid.GestureRecognizers>
+            <BoxView Color="#da7b12"/>
+            <BoxView Grid.Column="1" Color="#eea03b"/>
+            <Label Text="PACS 叫修"
+                   Grid.Column="1"
+                   TextColor="#fff" FontSize="20" FontAttributes="Bold"
+                   Margin="24,19,0,0"/>
+        </Grid>
+
+        <Grid ColumnDefinitions="10,*"
+              WidthRequest="333" HeightRequest="94"
+              Margin="0,15,0,0">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer
+                    Command="{Binding GoApplyFormCommand}"
+                    CommandParameter="報告系統"/>
             </Grid.GestureRecognizers>
             <BoxView Color="#c43920"/>
             <BoxView Grid.Column="1" Color="#da5d3d"/>
-            <Label Text="表單記錄"
+            <Label Text="報告系統 叫修"
                    Grid.Column="1"
                    TextColor="#fff" FontSize="20" FontAttributes="Bold"
                    Margin="24,19,0,0"/>
