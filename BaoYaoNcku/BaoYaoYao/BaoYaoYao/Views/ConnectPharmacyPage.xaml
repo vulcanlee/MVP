@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BaoYaoYao.Views.ConnectPharmacyPage"
+             xmlns:viewModel="clr-namespace:BaoYaoYao.ViewModels"
+             x:DataType="viewModel:ConnectPharmacyPageViewModel"
+             BackgroundColor="#bce1df"
+             Title="連線藥局">
+    <VerticalStackLayout>
+        <Grid ColumnDefinitions="10,*"
+              WidthRequest="333" HeightRequest="94"
+              Margin="0,15,0,0">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer
+                    Command="{Binding GoApplyFormCommand}"/>
+            </Grid.GestureRecognizers>
+            <BoxView Color="#58a4b7"/>
+            <BoxView Grid.Column="1" Color="#add8e2"/>
+            <Label Text="基本資料表"
+                   Grid.Column="1"
+                   TextColor="#fff" FontSize="20" FontAttributes="Bold"
+                   Margin="24,19,0,0"/>
+        </Grid>
+
+        <Grid ColumnDefinitions="10,*"
+              WidthRequest="333" HeightRequest="94"
+              Margin="0,15,0,0">
+            <BoxView Color="#da7b12"/>
+            <BoxView Grid.Column="1" Color="#eea03b"/>
+            <Label Text="書寫記錄"
+                   Grid.Column="1"
+                   TextColor="#fff" FontSize="20" FontAttributes="Bold"
+                   Margin="24,19,0,0"/>
+        </Grid>
+
+        <Grid ColumnDefinitions="10,*"
+              WidthRequest="333" HeightRequest="94"
+              Margin="0,15,0,0">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer
+                    Command="{Binding GoFormHistoryCommand}"/>
+            </Grid.GestureRecognizers>
+            <BoxView Color="#c43920"/>
+            <BoxView Grid.Column="1" Color="#da5d3d"/>
+            <Label Text="表單記錄"
+                   Grid.Column="1"
+                   TextColor="#fff" FontSize="20" FontAttributes="Bold"
+                   Margin="24,19,0,0"/>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>
