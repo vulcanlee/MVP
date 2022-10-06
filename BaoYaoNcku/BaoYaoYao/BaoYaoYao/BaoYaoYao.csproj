@@ -13,11 +13,11 @@
 		<AndroidPackageFormat>apk</AndroidPackageFormat>
 
 		<!-- Display name -->
-		<ApplicationTitle>BaoYaoYao</ApplicationTitle>
+		<ApplicationTitle>叫修系統</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.baoyaoyao</ApplicationId>
-		<ApplicationIdGuid>C9A22AD6-5A05-47B1-86A2-6CB8334BB6C5</ApplicationIdGuid>
+		<ApplicationId>com.Ncku.baoyaoyao</ApplicationId>
+		<ApplicationIdGuid>C9A22AD6-5A05-47B2-86A2-6CB8334BB6C5</ApplicationIdGuid>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
