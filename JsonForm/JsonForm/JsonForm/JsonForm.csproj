@@ -52,6 +52,8 @@
     <None Remove="Resources\Raw\Form2.json" />
     <None Remove="Resources\Raw\Form3.json" />
     <None Remove="Resources\Raw\Form6.json" />
+    <None Remove="Resources\Raw\WorkOrder.json" />
+    <None Remove="Resources\Raw\WorkOrderPanel.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,6 +74,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <MauiXaml Update="Views\FormIOPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\FormPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>

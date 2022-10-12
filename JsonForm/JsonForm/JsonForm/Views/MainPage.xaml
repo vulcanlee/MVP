@@ -4,59 +4,79 @@
              Title="行動表單 JSON 測試"
              x:Class="JsonForm.Views.MainPage">
 
-  <ScrollView>
-    <VerticalStackLayout
+    <ScrollView>
+        <StackLayout
             Spacing="25"
             Padding="30,0"
+            Orientation="Vertical"
             VerticalOptions="Center">
 
-            <VerticalStackLayout 
+            <!--<VerticalStackLayout 
                 >
                 <Label Text="Text wrapping and truncation can be controlled by setting the LineBreakMode property to a value of the LineBreakMode enumeration:"
                        LineBreakMode="WordWrap"/>
             </VerticalStackLayout>
 
             <Grid BackgroundColor="Red">
-            <TimePicker
+                <TimePicker
             BackgroundColor="Red"/>
-            </Grid>
+            </Grid>-->
+
+            <!--<Editor 
+        Placeholder="Enter your response here"
+        HeightRequest="250"  BackgroundColor="Yellow"
+                HorizontalOptions="Fill"
+                />-->
 
             <Image Source="prism.png"
              SemanticProperties.Description="Cute dot net bot waving hi to you!"
              HeightRequest="150"
              HorizontalOptions="Center" />
 
-      <Grid
-        ColumnDefinitions="*,*">
-        <Button Text="JSON 5"
+            <Grid
+        ColumnDefinitions="*,*,*">
+                <Button Text="JSON 5"
                 Grid.Column="0"
                 Command="{Binding ShowJsonFormCommand}"
                 CommandParameter="Form5.json"
                 HorizontalOptions="Fill"
                 Margin="10,5" CornerRadius="10"
                 BackgroundColor="LightGreen" TextColor="DarkSlateBlue">
-          <Button.Shadow>
-            <Shadow Brush="Black"
+                    <Button.Shadow>
+                        <Shadow Brush="Black"
                 Offset="5,5"
                 Opacity="0.8" />
-          </Button.Shadow>
-        </Button>
-        <Button Text="JSON 2"
+                    </Button.Shadow>
+                </Button>
+                <Button Text="JSON 2"
                 Grid.Column="1"
                 Command="{Binding ShowJsonFormCommand}"
                 CommandParameter="Form3.json"
                 HorizontalOptions="Fill"
                 Margin="10,5" CornerRadius="10"
                 BackgroundColor="LightPink" TextColor="DarkSlateBlue">
-          <Button.Shadow>
-          <Shadow Brush="Black"
+                    <Button.Shadow>
+                        <Shadow Brush="Black"
                 Offset="5,5"
                 Opacity="0.8" />
-          </Button.Shadow>
-        </Button>
-      </Grid>
+                    </Button.Shadow>
+                </Button>
+                <Button Text="叫修單"
+                    Grid.Column="2"
+                    Command="{Binding ShowJsonFormCommand}"
+                    CommandParameter="WorkOrderPanel.json"
+                    HorizontalOptions="Fill"
+                    Margin="10,5" CornerRadius="10"
+                    BackgroundColor="LightPink" TextColor="DarkSlateBlue">
+                    <Button.Shadow>
+                        <Shadow Brush="Black"
+                            Offset="5,5"
+                            Opacity="0.8" />
+                    </Button.Shadow>
+                </Button>
+            </Grid>
 
-    </VerticalStackLayout>
-  </ScrollView>
+        </StackLayout>
+    </ScrollView>
 
 </ContentPage>

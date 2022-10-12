@@ -8,6 +8,10 @@ namespace JsonForm.Helps
 {
     public class MagicHelper
     {
+        public string FormIOPanel => "panel";
+        public string FormIOTextarea => "textarea";
+        public string FormIOTextfield => "textfield";
+
         public string FormTexBox => "Textbox";
         public string FormRocDate => "Rocdate";
         public string FormLabel => "Label";
