@@ -49,7 +49,7 @@ namespace JsonForm.Helps
             #endregion
             #endregion
 
-            #region 基礎檢視控制項
+            #region 基礎檢視控制項 
 
             #region Textbox 文字輸入盒
             if (component.type == magicHelper.FormIOTextfield)
@@ -128,6 +128,56 @@ namespace JsonForm.Helps
                 };
 
                 verticalStackLayout.Children.Add(entry);
+                generateView = verticalStackLayout;
+            }
+            #endregion
+
+            #region Dropdown 下拉選單
+            if (component.type == magicHelper.FormIOSelect)
+            {
+                VerticalStackLayout verticalStackLayout = new VerticalStackLayout();
+                if (string.IsNullOrEmpty(component.tooltip) == false)
+                {
+                    #region Dropdown 下拉選單 的 前置說明文字
+                    verticalStackLayout.Children.Add(new Label()
+                    {
+                        ClassId = component.tooltip,
+                    }
+                    .Text(component.tooltip)
+                    .Margin(new Thickness(0, 0, 0, 0))
+                    .FontSize(magicHelper.DefaultFontSize)
+                    .Bold()
+                    .TextColor(magicHelper.FormEntryBackgroundColor));
+                    #endregion
+                }
+
+                Picker picker = new Picker()
+                {
+                    ClassId = component.key,
+                    BackgroundColor = magicHelper.FormViewBackgroundColor,
+                    HorizontalOptions = LayoutOptions.Fill,
+                }
+                .Margin(new Thickness(0, 0, 0, 20));
+
+                picker.SelectedIndexChanged += (s, e) =>
+                {
+                    var callbackPicker = (Picker)s;
+                    int selectedIndex = callbackPicker.SelectedIndex;
+
+                    if (selectedIndex != -1)
+                    {
+                        component.Value = (string)picker.ItemsSource[selectedIndex];
+                    }
+                };
+
+                var allOptions = new List<string>();
+                foreach (var item in component?.data?.values)
+                {
+                    allOptions.Add(item.label);
+                }
+                picker.ItemsSource = allOptions;
+
+                verticalStackLayout.Children.Add(picker);
                 generateView = verticalStackLayout;
             }
             #endregion

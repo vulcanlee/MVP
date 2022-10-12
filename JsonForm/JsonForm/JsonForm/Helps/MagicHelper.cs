@@ -11,6 +11,7 @@ namespace JsonForm.Helps
         public string FormIOPanel => "panel";
         public string FormIOTextarea => "textarea";
         public string FormIOTextfield => "textfield";
+        public string FormIOSelect => "select";
 
         public string FormTexBox => "Textbox";
         public string FormRocDate => "Rocdate";

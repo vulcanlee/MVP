@@ -22,6 +22,7 @@ namespace JsonForm.Models
         public bool tableView { get; set; }
         public List<Component> components { get; set; }= new List<Component>();
         public string tooltip { get; set; }
+        public Data data { get; set; }
         public bool? webcam { get; set; }
         public List<FileType> fileTypes { get; set; } = new List<FileType>();
         public bool? disableOnInvalid { get; set; }
@@ -47,5 +48,13 @@ namespace JsonForm.Models
     {
         public bool required { get; set; }
     }
-
+    public class Data
+    {
+        public List<Value> values { get; set; }
+    }
+    public class Value
+    {
+        public string label { get; set; }
+        public string value { get; set; }
+    }
 }
