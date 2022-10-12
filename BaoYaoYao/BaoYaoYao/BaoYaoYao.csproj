@@ -89,7 +89,7 @@
 		<MauiXaml Update="Views\NaviPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="Views\ProcessingPage.xaml">
+		<MauiXaml Update="Controls\ProcessingPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\RegistrationPage.xaml">

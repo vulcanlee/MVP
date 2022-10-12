@@ -1,5 +1,6 @@
 using BaoYaoYao.Events;
 using BaoYaoYao.Helpers;
+using BaoYaoYao.Controls;
 using CommunityToolkit.Maui.Core.Platform;
 using CommunityToolkit.Maui.Views;
 
