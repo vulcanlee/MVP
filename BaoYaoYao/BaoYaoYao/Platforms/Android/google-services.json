@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "911588644143",
+    "project_id": "baoyao-d7b78",
+    "storage_bucket": "baoyao-d7b78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911588644143:android:1193e4f9e9bb6798dd7dda",
+        "android_client_info": {
+          "package_name": "com.companyname.baoyaoyao"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911588644143-2vk8g6nbmfpkb75700s4unuuidqenvvb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbYzcYZnz5A-kPBwBOj3AzHT9wcx_CX0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911588644143-2vk8g6nbmfpkb75700s4unuuidqenvvb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

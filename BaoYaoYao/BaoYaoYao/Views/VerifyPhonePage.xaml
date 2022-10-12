@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:BaoYaoYao.ViewModels"
+             xmlns:model="clr-namespace:BaoYaoYao.Models"
+             x:DataType="viewModel:VerifyPhonePageViewModel"
+             x:Class="BaoYaoYao.Views.VerifyPhonePage"
+             BackgroundColor="#bce1df"
+             Title="驗證電話號碼">
+    <VerticalStackLayout>
+        <Border
+            WidthRequest="260" HeightRequest="103"
+            BackgroundColor="White"
+            Margin="0,96,0,0"
+            >
+            <Grid
+                Margin="0,15,0,0"        
+                HorizontalOptions="Center" VerticalOptions="Start">
+                <Label 
+                  Text="請輸入簡訊驗證碼"
+                  TextColor="#2b594d" FontSize="20"
+                  VerticalOptions="Start" 
+                  HorizontalOptions="Center" />
+
+                <Grid
+                  Margin="0,38,0,0"
+                  WidthRequest="190"
+                  HorizontalOptions="End"
+                  ColumnDefinitions="38,15,35,15,35,15,38">
+
+                    <Border
+                        Grid.Column="0"
+                        BackgroundColor="#ebebeb"
+                        WidthRequest="35" HeightRequest="35">
+                        <Label Text="{Binding Key1}"
+                               TextColor="#2b594d"
+                               FontSize="18" FontAttributes="Bold"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <!--<Entry
+                          x:Name="VerifyCode1"
+                          HorizontalOptions="Center"
+                          TextColor="#2b594d"
+                          WidthRequest="35"/>-->
+                    </Border>
+
+                    <Border
+                        Grid.Column="2"
+                        BackgroundColor="#ebebeb"
+                        WidthRequest="35" HeightRequest="35">
+                        <Label Text="{Binding Key2}"
+                               TextColor="#2b594d"
+                               FontSize="18" FontAttributes="Bold"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+
+                    <Border
+                        Grid.Column="4"
+                        BackgroundColor="#ebebeb"
+                        WidthRequest="35" HeightRequest="35">
+                        <Label Text="{Binding Key3}"
+                               TextColor="#2b594d"
+                               FontSize="18" FontAttributes="Bold"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+
+                    <Border
+                        Grid.Column="6"
+                        BackgroundColor="#ebebeb"
+                        WidthRequest="35" HeightRequest="35">
+                        <Label Text="{Binding Key4}"
+                               TextColor="#2b594d"
+                               FontSize="18" FontAttributes="Bold"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                </Grid>
+
+            </Grid>
+        </Border>
+
+        <CollectionView ItemsSource="{Binding PressNumberKeys}"
+                        Margin="0,30,0,0"
+                        WidthRequest="200"
+                        BackgroundColor="Transparent"
+                        SelectionMode="None"
+                        ItemsLayout="VerticalGrid, 3">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:PressNumberKey">
+                    <Grid WidthRequest="60" HeightRequest="60">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer
+                                    Command="{Binding Path=VerifyCodePressCommand, 
+                                        Source={RelativeSource AncestorType=
+                                        {x:Type viewModel:VerifyPhonePageViewModel}}}"
+                                    CommandParameter="{Binding KeyName}"/>
+                        </Grid.GestureRecognizers>
+                        <Border 
+                            WidthRequest="50" HeightRequest="50"
+                            HorizontalOptions="Center" VerticalOptions="Center"
+                            BackgroundColor="#2b594d"
+                            >
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="25"/>
+                            </Border.StrokeShape>
+                            <Label Text="{Binding KeyName}"
+                                HorizontalOptions="Center" VerticalOptions="Center"
+                                VerticalTextAlignment="Center"
+                                TextColor="#FFFFFE" FontSize="22" FontAttributes="Bold">
+                            </Label>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Border
+          Margin="0,30,0,0"
+          BackgroundColor="#2b594d"
+          WidthRequest="219" HeightRequest="36">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="17,17,17,17"/>
+            </Border.StrokeShape>
+            <Label Text="登入"
+             VerticalOptions="Center" HorizontalOptions="Center"
+             FontSize="14" TextColor="#fff"/>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding LoginCommand}"/>
+            </Border.GestureRecognizers>
+        </Border>
+
+        <Border
+      Margin="0,18,0,0"
+      BackgroundColor="#fff"
+          WidthRequest="219" HeightRequest="36">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="17,17,17,17"/>
+            </Border.StrokeShape>
+            <Label Text="重送驗證碼"
+             VerticalOptions="Center" HorizontalOptions="Center"
+             FontSize="14" TextColor="#2b594d"/>
+        </Border>
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:BaoYaoYao.ViewModels"
+             xmlns:model="clr-namespace:BaoYaoYao.Models"
+             x:DataType="viewModel:ApplyHistoryPageViewModel"
+             BackgroundColor="#bce1df"
+             x:Class="BaoYaoYao.Views.ApplyHistoryPage"
+             Title="表單紀錄">
+    <Grid>
+        <CollectionView
+            Margin="11,8,11,25"
+            ItemsSource="{Binding FormRecords}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:FormRecord">
+                    <Grid ColumnDefinitions="150,*"
+                        HorizontalOptions="Fill"
+                        HeightRequest="45">
+
+                        <Border
+                            Grid.ColumnSpan="2"
+                            BackgroundColor="White" Margin="0"
+                            HorizontalOptions="Fill" HeightRequest="42">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="7,7,7,7"/>
+                            </Border.StrokeShape>
+                        </Border>
+                        <Label Text="{Binding Name}"
+                                   Margin="20,0"
+                               FontSize="14" TextColor="#2d2d2d"
+                               VerticalOptions="Center"/>
+
+                        <Label Text="{Binding Birthday,StringFormat='{0:yyyy 年 MM 月 dd 日}'}"
+                               Grid.Column="1" Margin="0,0,20,0"
+                               FontSize="14" TextColor="#d46428"
+                               VerticalOptions="Center" HorizontalOptions="End"
+                               />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
