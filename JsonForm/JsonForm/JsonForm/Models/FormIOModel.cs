@@ -25,6 +25,7 @@ namespace JsonForm.Models
         public Data data { get; set; }
         public bool? webcam { get; set; }
         public List<FileType> fileTypes { get; set; } = new List<FileType>();
+        public List<Value> values { get; set; } =new List<Value>();
         public bool? disableOnInvalid { get; set; }
         public string widget { get; set; }
         public Validate validate { get; set; }
@@ -50,11 +51,12 @@ namespace JsonForm.Models
     }
     public class Data
     {
-        public List<Value> values { get; set; }
+        public List<Value> values { get; set; }=new List<Value>();
     }
     public class Value
     {
         public string label { get; set; }
         public string value { get; set; }
+        public string shortcut { get; set; }
     }
 }

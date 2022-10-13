@@ -36,7 +36,7 @@ namespace JsonForm.Helps
                     {
                         CornerRadius = new CornerRadius(5, 5, 5, 5)
                     },
-                    Padding = new Thickness(10,10,10,10),
+                    Padding = new Thickness(10, 10, 10, 10),
                 };
 
                 border.Margin(new Thickness(0, 0, 0, 30));
@@ -161,7 +161,7 @@ namespace JsonForm.Helps
                 #region 綁定變更事件
                 entry.TextChanged += (s, e) =>
                 {
-                    if(string.IsNullOrEmpty(e.NewTextValue))
+                    if (string.IsNullOrEmpty(e.NewTextValue))
                     {
                         entry.Text = "0";
                         component.Value = "0";
@@ -209,6 +209,8 @@ namespace JsonForm.Helps
                 string requireMessage = "";
                 if (component.validate?.required == true)
                     requireMessage = " ，請注意這個欄位為必填";
+
+                // Todo 需要有片語輸入功能
                 Editor entry = new Editor()
                 {
                     ClassId = component.key,
@@ -276,6 +278,100 @@ namespace JsonForm.Helps
 
                 verticalStackLayout.Children.Add(picker);
                 generateView = verticalStackLayout;
+            }
+            #endregion
+
+            #region checkbox 檢查輸入盒
+            if (component.type == magicHelper.FormIOCheckbox)
+            {
+                Grid grid = new Grid();
+                grid.RowDefinitions = Rows.Define(Auto);
+                grid.ColumnDefinitions = Columns.Define(30, Stars(1));
+                grid.Margin(new Thickness(0, 0, 0, 20));
+
+                CheckBox checkBox = new CheckBox()
+                {
+                    ClassId = component.key,
+                    VerticalOptions = LayoutOptions.Start,
+                    HorizontalOptions = LayoutOptions.Start,
+                }
+                .Margin(new Thickness(0, 0, 0, 0));
+
+                checkBox.CheckedChanged += (s, e) =>
+                {
+                    component.Value = e.Value.ToString();
+                };
+                grid.Add(checkBox, 0, 0);
+
+                if (string.IsNullOrEmpty(component.tooltip) == false)
+                {
+                    #region 文字輸入盒 的 前置說明文字
+                    Label label = new Label()
+                    {
+                        ClassId = component.tooltip,
+                        VerticalOptions = LayoutOptions.Center,
+                        VerticalTextAlignment = TextAlignment.Center,
+                        HorizontalTextAlignment = TextAlignment.Start,
+                        LineBreakMode = LineBreakMode.WordWrap,
+                    }
+                    .Text(component.tooltip)
+                    .Margin(new Thickness(0, 0, 0, 0))
+                    .FontSize(magicHelper.DefaultFontSize)
+                    .Bold()
+                    .TextColor(Color.FromArgb("dd888888"));
+                    grid.Add(label, 1, 0);
+                    #endregion
+                }
+
+                generateView = grid;
+            }
+            #endregion
+
+            #region radio 收音機按鈕 輸入盒
+            if (component.type == magicHelper.FormIORadio)
+            {
+                StackLayout stackLayout = new StackLayout()
+                {
+                    Orientation = StackOrientation.Vertical,
+                };
+                stackLayout.Margin(new Thickness(0, 0, 0, 20));
+
+                foreach (var optionsItem in component.values)
+                {
+                    RadioButton radioButton = new RadioButton()
+                    {
+                        ClassId = component.key,
+                        Content = optionsItem.label,
+                    }
+                    .Margin(new Thickness(0, 0, 15, 0));
+
+                    TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
+                    tapGestureRecognizer.NumberOfTapsRequired = 1;
+                    tapGestureRecognizer.Tapped += (s, e) =>
+                    {
+                        if (radioButton.IsChecked == false)
+                        {
+                            radioButton.IsChecked = true;
+                            component.Value = optionsItem.value;
+                        }
+                    };
+                    TapGestureRecognizer tapGestureRecognizer2 = new TapGestureRecognizer();
+                    tapGestureRecognizer2.NumberOfTapsRequired = 2;
+                    tapGestureRecognizer2.Tapped += (s, e) =>
+                    {
+                        if (radioButton.IsChecked == true)
+                        {
+                            radioButton.IsChecked = false;
+                            component.Value = "";
+                        }
+                    };
+                    radioButton.GestureRecognizers.Add(tapGestureRecognizer);
+                    radioButton.GestureRecognizers.Add(tapGestureRecognizer2);
+
+                    stackLayout.Children.Add(radioButton);
+                }
+
+                generateView = stackLayout;
             }
             #endregion
 
