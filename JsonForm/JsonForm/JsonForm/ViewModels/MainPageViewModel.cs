@@ -23,7 +23,8 @@ public partial class MainPageViewModel : ObservableObject
             using var reader = new StreamReader(stream);
             var result = await reader.ReadToEndAsync();
 
-            if (jsonFilename == "WorkOrderPanel.json")
+            if (jsonFilename == "WorkOrderPanel.json" ||
+                jsonFilename == "FormIOElement.json")
             {
                 #region 採用 form.io 產生的 JSON
                 var mobileForm = JsonConvert.DeserializeObject<FormIOModel>(result);

@@ -51,7 +51,7 @@ namespace JsonForm.Helps
 
             #region 基礎檢視控制項 
 
-            #region Textbox 文字輸入盒
+            #region textfield 文字輸入盒
             if (component.type == magicHelper.FormIOTextfield)
             {
                 VerticalStackLayout verticalStackLayout = new VerticalStackLayout();
@@ -90,7 +90,104 @@ namespace JsonForm.Helps
             }
             #endregion
 
-            #region Textarea 多行文字輸入盒
+            #region password 密碼 文字輸入盒
+            if (component.type == magicHelper.FormIOPassword)
+            {
+                VerticalStackLayout verticalStackLayout = new VerticalStackLayout();
+                if (string.IsNullOrEmpty(component.tooltip) == false)
+                {
+                    #region 文字輸入盒 的 前置說明文字
+                    verticalStackLayout.Children.Add(new Label()
+                    {
+                        ClassId = component.tooltip,
+                    }
+                    .Text(component.tooltip)
+                    .Margin(new Thickness(0, 0, 0, 0))
+                    .FontSize(magicHelper.DefaultFontSize)
+                    .Bold()
+                    .TextColor(magicHelper.FormEntryBackgroundColor));
+                    #endregion
+                }
+
+                Entry entry = new Entry()
+                {
+                    ClassId = component.key,
+                    BackgroundColor = magicHelper.FormViewBackgroundColor,
+                    IsPassword = true,
+                }
+                .Text(component.Value)
+                .Margin(new Thickness(0, 0, 0, 20));
+
+                #region 綁定變更事件
+                entry.TextChanged += (s, e) =>
+                {
+                    component.Value = e.NewTextValue;
+                };
+                #endregion
+
+                verticalStackLayout.Children.Add(entry);
+                generateView = verticalStackLayout;
+            }
+            #endregion
+
+            #region number 數值 文字輸入盒
+            if (component.type == magicHelper.FormIONumber)
+            {
+                VerticalStackLayout verticalStackLayout = new VerticalStackLayout();
+                if (string.IsNullOrEmpty(component.tooltip) == false)
+                {
+                    #region 文字輸入盒 的 前置說明文字
+                    verticalStackLayout.Children.Add(new Label()
+                    {
+                        ClassId = component.tooltip,
+                    }
+                    .Text(component.tooltip)
+                    .Margin(new Thickness(0, 0, 0, 0))
+                    .FontSize(magicHelper.DefaultFontSize)
+                    .Bold()
+                    .TextColor(magicHelper.FormEntryBackgroundColor));
+                    #endregion
+                }
+
+                Entry entry = new Entry()
+                {
+                    ClassId = component.key,
+                    BackgroundColor = magicHelper.FormViewBackgroundColor,
+                    Keyboard = Keyboard.Numeric,
+                }
+                .Text(component.Value)
+                .Margin(new Thickness(0, 0, 0, 20));
+
+                #region 綁定變更事件
+                entry.TextChanged += (s, e) =>
+                {
+                    if(string.IsNullOrEmpty(e.NewTextValue))
+                    {
+                        entry.Text = "0";
+                        component.Value = "0";
+                        return;
+                    }
+
+                    double inputNumber = 0;
+                    bool isNumber = double.TryParse(e.NewTextValue, out inputNumber);
+                    if (isNumber == true)
+                    {
+                        component.Value = e.NewTextValue;
+                    }
+                    else
+                    {
+                        entry.Text = component.Value;
+                        return;
+                    }
+                };
+                #endregion
+
+                verticalStackLayout.Children.Add(entry);
+                generateView = verticalStackLayout;
+            }
+            #endregion
+
+            #region textarea 多行文字輸入盒
             if (component.type == magicHelper.FormIOTextarea)
             {
                 VerticalStackLayout verticalStackLayout = new VerticalStackLayout();
@@ -132,7 +229,7 @@ namespace JsonForm.Helps
             }
             #endregion
 
-            #region Dropdown 下拉選單
+            #region select 下拉選單
             if (component.type == magicHelper.FormIOSelect)
             {
                 VerticalStackLayout verticalStackLayout = new VerticalStackLayout();

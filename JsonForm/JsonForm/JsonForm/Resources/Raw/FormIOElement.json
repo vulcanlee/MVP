@@ -1,0 +1,202 @@
+{
+  "display": "form",
+  "components": [
+    {
+      "title": "Basic",
+      "collapsible": false,
+      "key": "basic",
+      "type": "panel",
+      "label": "Panel",
+      "input": false,
+      "tableView": false,
+      "components": [
+        {
+          "label": "Text Field",
+          "tooltip": "單行文字輸入",
+          "tableView": true,
+          "key": "textField",
+          "type": "textfield",
+          "input": true
+        },
+        {
+          "label": "Text Area",
+          "tooltip": "多行文字輸入",
+          "autoExpand": false,
+          "tableView": true,
+          "key": "textArea",
+          "type": "textarea",
+          "input": true
+        },
+        {
+          "label": "Number",
+          "tooltip": "輸入數值",
+          "mask": false,
+          "tableView": false,
+          "delimiter": false,
+          "requireDecimal": false,
+          "inputFormat": "plain",
+          "truncateMultipleSpaces": false,
+          "key": "number",
+          "type": "number",
+          "input": true
+        },
+        {
+          "label": "Password",
+          "tooltip": "輸入密碼",
+          "tableView": false,
+          "key": "password",
+          "type": "password",
+          "input": true,
+          "protected": true
+        },
+        {
+          "label": "Checkbox",
+          "tooltip": "檢查盒",
+          "tableView": false,
+          "key": "checkbox1",
+          "type": "checkbox",
+          "input": true,
+          "defaultValue": false
+        },
+        {
+          "label": "Select Boxes",
+          "optionsLabelPosition": "right",
+          "tooltip": "多個檢查盒",
+          "tableView": false,
+          "values": [
+            {
+              "label": "選擇1",
+              "value": "選擇1",
+              "shortcut": ""
+            },
+            {
+              "label": "選擇2",
+              "value": "選擇2",
+              "shortcut": ""
+            },
+            {
+              "label": "選擇3",
+              "value": "選擇3",
+              "shortcut": ""
+            }
+          ],
+          "key": "selectBoxes1",
+          "type": "selectboxes",
+          "input": true,
+          "inputType": "checkbox"
+        },
+        {
+          "label": "Radio",
+          "optionsLabelPosition": "right",
+          "tooltip": "Radio按鈕",
+          "inline": false,
+          "tableView": false,
+          "values": [
+            {
+              "label": "選擇1",
+              "value": "選擇1",
+              "shortcut": ""
+            },
+            {
+              "label": "選擇2",
+              "value": "選擇2",
+              "shortcut": ""
+            },
+            {
+              "label": "選擇3",
+              "value": "選擇3",
+              "shortcut": ""
+            }
+          ],
+          "key": "radio1",
+          "type": "radio",
+          "input": true
+        },
+        {
+          "label": "Select",
+          "widget": "choicesjs",
+          "tooltip": "下拉選單",
+          "tableView": true,
+          "data": {
+            "values": [
+              {
+                "label": "選項1",
+                "value": "選項1"
+              },
+              {
+                "label": "選項2",
+                "value": "選項2"
+              },
+              {
+                "label": "選項3",
+                "value": "選項3"
+              }
+            ]
+          },
+          "key": "select1",
+          "type": "select",
+          "input": true
+        }
+      ]
+    },
+    {
+      "title": "Advanced",
+      "tooltip": "進階",
+      "collapsible": false,
+      "key": "panel",
+      "type": "panel",
+      "label": "Panel",
+      "input": false,
+      "tableView": false,
+      "components": [
+        {
+          "label": "Day",
+          "hideInputLabels": false,
+          "inputsLabelPosition": "top",
+          "useLocaleSettings": false,
+          "tooltip": "日期",
+          "tableView": false,
+          "fields": {
+            "day": {
+              "hide": false
+            },
+            "month": {
+              "hide": false
+            },
+            "year": {
+              "hide": false
+            }
+          },
+          "key": "day",
+          "type": "day",
+          "input": true,
+          "defaultValue": "00/00/0000"
+        },
+        {
+          "label": "Time",
+          "tooltip": "時間",
+          "tableView": true,
+          "key": "time",
+          "type": "time",
+          "input": true,
+          "inputMask": "99:99"
+        },
+        {
+          "label": "Signature",
+          "tableView": false,
+          "key": "signature",
+          "type": "signature",
+          "input": true
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "label": "Submit",
+      "key": "submit",
+      "disableOnInvalid": true,
+      "input": true,
+      "tableView": false
+    }
+  ]
+}

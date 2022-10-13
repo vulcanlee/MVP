@@ -12,6 +12,12 @@ namespace JsonForm.Helps
         public string FormIOTextarea => "textarea";
         public string FormIOTextfield => "textfield";
         public string FormIOSelect => "select";
+        public string FormIONumber => "number";
+        public string FormIOPassword => "password";
+        public string FormIOCheckbox => "checkbox";
+        public string FormIOSelectboxes => "selectboxes";
+        public string FormIORadio => "radio";
+
 
         public string FormTexBox => "Textbox";
         public string FormRocDate => "Rocdate";

@@ -33,8 +33,7 @@
              HeightRequest="150"
              HorizontalOptions="Center" />
 
-            <Grid
-        ColumnDefinitions="*,*,*">
+            <Grid ColumnDefinitions="*,*,*" RowDefinitions="*,*">
                 <Button Text="JSON 5"
                 Grid.Column="0"
                 Command="{Binding ShowJsonFormCommand}"
@@ -65,6 +64,19 @@
                     Grid.Column="2"
                     Command="{Binding ShowJsonFormCommand}"
                     CommandParameter="WorkOrderPanel.json"
+                    HorizontalOptions="Fill"
+                    Margin="10,5" CornerRadius="10"
+                    BackgroundColor="LightPink" TextColor="DarkSlateBlue">
+                    <Button.Shadow>
+                        <Shadow Brush="Black"
+                            Offset="5,5"
+                            Opacity="0.8" />
+                    </Button.Shadow>
+                </Button>
+                <Button Text="form.io"
+                    Grid.Row="1" Grid.Column="0"
+                    Command="{Binding ShowJsonFormCommand}"
+                    CommandParameter="FormIOElement.json"
                     HorizontalOptions="Fill"
                     Margin="10,5" CornerRadius="10"
                     BackgroundColor="LightPink" TextColor="DarkSlateBlue">

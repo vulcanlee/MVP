@@ -52,6 +52,7 @@
     <None Remove="Resources\Raw\Form2.json" />
     <None Remove="Resources\Raw\Form3.json" />
     <None Remove="Resources\Raw\Form6.json" />
+    <None Remove="Resources\Raw\FormIOElement.json" />
     <None Remove="Resources\Raw\WorkOrder.json" />
     <None Remove="Resources\Raw\WorkOrderPanel.json" />
   </ItemGroup>
@@ -69,6 +70,9 @@
       <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
     </MauiAsset>
     <MauiAsset Update="Resources\Raw\Form3.json">
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </MauiAsset>
+    <MauiAsset Update="Resources\Raw\FormIOElement.json">
       <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
     </MauiAsset>
   </ItemGroup>
