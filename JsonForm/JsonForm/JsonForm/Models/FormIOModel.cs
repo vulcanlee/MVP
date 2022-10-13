@@ -58,5 +58,6 @@ namespace JsonForm.Models
         public string label { get; set; }
         public string value { get; set; }
         public string shortcut { get; set; }
+        public string select { get; set; } = "";
     }
 }

@@ -327,6 +327,95 @@ namespace JsonForm.Helps
             }
             #endregion
 
+            #region selectboxes 群組多個檢查輸入盒
+            if (component.type == magicHelper.FormIOSelectboxes)
+            {
+                StackLayout stackLayout = new StackLayout()
+                {
+                    Orientation = StackOrientation.Vertical,
+                };
+                stackLayout.Margin(new Thickness(0, 0, 0, 20));
+
+                stackLayout.Children.Add(new Label()
+                {
+                    ClassId = component.tooltip,
+                }
+                    .Text(component.tooltip)
+                    .Margin(new Thickness(0, 0, 0, 0))
+                    .FontSize(magicHelper.DefaultFontSize)
+                    .Bold()
+                    .TextColor(magicHelper.FormEntryBackgroundColor));
+
+                foreach (var item in component.values)
+                {
+                    Grid grid = new Grid();
+                    grid.RowDefinitions = Rows.Define(Auto);
+                    grid.ColumnDefinitions = Columns.Define(30, Stars(1));
+                    grid.Margin(new Thickness(0, 0, 0, 0));
+
+                    CheckBox checkBox = new CheckBox()
+                    {
+                        ClassId = component.key,
+                        VerticalOptions = LayoutOptions.Start,
+                        HorizontalOptions = LayoutOptions.Start,
+                    }
+                    .Margin(new Thickness(0, 0, 0, 0));
+
+                    checkBox.CheckedChanged += (s, e) =>
+                    {
+                        if (e.Value == true)
+                        {
+                            item.select = item.value;
+                        }
+                        else
+                        {
+                            item.select = "";
+                        }
+                        #region 將多個檢查盒的輸入結果，組合成為一個物件
+                        component.Value = "";
+                        foreach (var itemReview in component.values)
+                        {
+                            if (string.IsNullOrEmpty(itemReview.select) == false)
+                            {
+                                if (string.IsNullOrEmpty(component.Value))
+                                {
+                                    component.Value = $"{itemReview.select}";
+                                }
+                                else
+                                {
+                                    component.Value = $"{component.Value} ; {itemReview.select}";
+                                }
+                            }
+                        }
+                        #endregion
+                    };
+                    grid.Add(checkBox, 0, 0);
+
+                    if (string.IsNullOrEmpty(component.tooltip) == false)
+                    {
+                        #region 文字輸入盒 的 前置說明文字
+                        Label label = new Label()
+                        {
+                            ClassId = item.label,
+                            VerticalOptions = LayoutOptions.Center,
+                            VerticalTextAlignment = TextAlignment.Center,
+                            HorizontalTextAlignment = TextAlignment.Start,
+                            LineBreakMode = LineBreakMode.WordWrap,
+                        }
+                        .Text(item.label)
+                        .Margin(new Thickness(0, 0, 0, 0))
+                        .FontSize(magicHelper.DefaultFontSize)
+                        .Bold()
+                        .TextColor(Color.FromArgb("dd888888"));
+                        grid.Add(label, 1, 0);
+                        #endregion
+                    }
+                    stackLayout.Children.Add(grid);
+                }
+                generateView = stackLayout;
+            }
+            #endregion
+
             #region radio 收音機按鈕 輸入盒
             if (component.type == magicHelper.FormIORadio)
             {
