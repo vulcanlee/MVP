@@ -17,6 +17,8 @@ namespace JsonForm.Helps
         public string FormIOCheckbox => "checkbox";
         public string FormIOSelectboxes => "selectboxes";
         public string FormIORadio => "radio";
+        public string FormIODay => "day";
+        public string FormIOTime => "time";
 
 
         public string FormTexBox => "Textbox";
@@ -30,10 +32,13 @@ namespace JsonForm.Helps
         public string FormGrid => "Grid";
 
         public double DefaultFontSize { get; set; } = 13;
+        public double DefaultPanelTitleFontSize { get; set; } = 16;
 
         public Color FormViewBackgroundColor { get; set; }
             = Color.FromArgb("FFededed");
         public Color FormEntryBackgroundColor { get; set; }
             = Color.FromArgb("bb888888");
+        public Color FormPanelTextColor { get; set; }
+            = Color.FromArgb("858585");
     }
 }

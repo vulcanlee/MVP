@@ -42,6 +42,21 @@ namespace JsonForm.Helps
                 border.Margin(new Thickness(0, 0, 0, 30));
 
                 VerticalStackLayout verticalStackLayout = new VerticalStackLayout();
+
+                #region 加入面板標題
+                verticalStackLayout.Children.Add(new Label()
+                    .Text(component.title)
+                    .Margin(new Thickness(0, 0, 0, 0))
+                    .FontSize(magicHelper.DefaultPanelTitleFontSize)
+                    .CenterHorizontal()
+                    .Bold()
+                    .TextColor(magicHelper.FormPanelTextColor));
+                verticalStackLayout.Children.Add(new Border()
+                {
+                    BackgroundColor = magicHelper.FormPanelTextColor,
+                    Margin = new Thickness(0, 20, 0, 20),
+                });
+                #endregion
                 border.Content = verticalStackLayout;
 
                 generateView = border;
@@ -461,6 +476,90 @@ namespace JsonForm.Helps
                 }
 
                 generateView = stackLayout;
+            }
+            #endregion
+
+            #endregion
+
+            #region 進階控制項
+            #region day 國曆日期
+            if (component.type == magicHelper.FormIODay)
+            {
+                VerticalStackLayout verticalStackLayout = new VerticalStackLayout();
+                if (string.IsNullOrEmpty(component.tooltip) == false)
+                {
+                    #region 文字輸入盒 的 前置說明文字
+                    verticalStackLayout.Children.Add(new Label()
+                    {
+                        ClassId = component.tooltip,
+                    }
+                    .Text(component.tooltip)
+                    .Margin(new Thickness(0, 0, 0, 0))
+                    .FontSize(magicHelper.DefaultFontSize)
+                    .Bold()
+                    .TextColor(magicHelper.FormEntryBackgroundColor));
+                    #endregion
+                }
+
+                DatePicker datepicker = new DatePicker()
+                {
+                    ClassId = component.key,
+                    BackgroundColor = magicHelper.FormViewBackgroundColor,
+                    Date = DateTime.Now.Date,
+                }
+                .Margin(new Thickness(0, 0, 0, 20));
+
+                datepicker.DateSelected += (s, e) =>
+                {
+                    component.Value = datepicker.Date.ToString();
+                };
+
+                verticalStackLayout.Children.Add(datepicker);
+                generateView = verticalStackLayout;
+            }
+            #endregion
+
+            #region time 24小時時間
+            if (component.type == magicHelper.FormIOTime)
+            {
+                VerticalStackLayout verticalStackLayout = new VerticalStackLayout();
+                if (string.IsNullOrEmpty(component.tooltip) == false)
+                {
+                    #region 文字輸入盒 的 前置說明文字
+                    verticalStackLayout.Children.Add(new Label()
+                    {
+                        ClassId = component.tooltip,
+                    }
+                    .Text(component.tooltip)
+                    .Margin(new Thickness(0, 0, 0, 0))
+                    .FontSize(magicHelper.DefaultFontSize)
+                    .Bold()
+                    .TextColor(magicHelper.FormEntryBackgroundColor));
+                    #endregion
+                }
+
+                TimePicker timePicker = new TimePicker()
+                {
+                    ClassId = component.key,
+                    Format = "HH:mm:ss",
+                };
+
+                timePicker.PropertyChanged += (s, e) =>
+                {
+                    component.Value = timePicker.Time.ToString();
+                };
+
+                Grid grid = new Grid()
+                {
+                    BackgroundColor = magicHelper.FormViewBackgroundColor,
+                    RowSpacing = 0,
+                    ColumnSpacing = 0,
+                }
+                .Margin(new Thickness(0, 0, 0, 20));
+                grid.Children.Add(timePicker);
+                verticalStackLayout.Children.Add(grid);
+
+                generateView = verticalStackLayout;
             }
             #endregion
 

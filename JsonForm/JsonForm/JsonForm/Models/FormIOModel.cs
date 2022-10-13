@@ -15,6 +15,7 @@ namespace JsonForm.Models
     public class Component
     {
         public bool collapsible { get; set; }
+        public string title { get; set; }
         public string key { get; set; }
         public string type { get; set; }
         public string label { get; set; }

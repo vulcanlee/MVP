@@ -27,7 +27,12 @@
         HeightRequest="250"  BackgroundColor="Yellow"
                 HorizontalOptions="Fill"
                 />-->
-
+            <Line X1="40"
+      Y1="0"
+      X2="0"
+      Y2="120"
+      Stroke="Red" />
+            <Line Stroke="Red"      X2="200" HorizontalOptions="Fill" />
             <Image Source="prism.png"
              SemanticProperties.Description="Cute dot net bot waving hi to you!"
              HeightRequest="150"
