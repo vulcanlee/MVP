@@ -48,11 +48,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\login_top_image.svg" />
+    <None Remove="Resources\Images\splashpage_background.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <PackageReference Include="CommunityToolkit.Maui" Version="1.3.0" />
 	  <PackageReference Include="CommunityToolkit.Maui.Markup" Version="1.1.1" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2" />
 	  <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.273-pre" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiXaml Update="Views\SplashPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
   </ItemGroup>
 
 </Project>

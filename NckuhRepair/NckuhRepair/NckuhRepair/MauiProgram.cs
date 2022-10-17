@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Markup;
+using NckuhRepair.Helpers;
+using NckuhRepair.ViewModels;
 using NckuhRepair.Views;
 
 namespace NckuhRepair;
@@ -15,13 +17,15 @@ public static class MauiProgram
             .UseMauiCommunityToolkit()
             .UsePrism(prism =>
             {
-                prism.OnAppStart("MainPage");
+                prism.OnAppStart("SplashPage");
 
                 prism.RegisterTypes(containerRegistry =>
                 {
                     containerRegistry.RegisterForNavigation<MainPage>()
                     .RegisterInstance(SemanticScreenReader.Default);
+                    containerRegistry.RegisterForNavigation<SplashPage, SplashPageViewModel>();
 
+                    containerRegistry.RegisterSingleton<MagicObjectHelper>();
                 });
             })
             .ConfigureFonts(fonts =>
