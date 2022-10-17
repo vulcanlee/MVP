@@ -27,6 +27,8 @@ public static class MauiProgram
                     containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
                     containerRegistry.RegisterForNavigation<FormGallery, FormGalleryViewModel>();
                     containerRegistry.RegisterForNavigation<NaviPage, NaviPageViewModel>();
+                    containerRegistry.RegisterForNavigation<MemberPage, MemberPageViewModel>();
+                    containerRegistry.RegisterForNavigation<FormRecord, FormRecordViewModel>();
 
                     containerRegistry.RegisterSingleton<MagicObjectHelper>();
                 });

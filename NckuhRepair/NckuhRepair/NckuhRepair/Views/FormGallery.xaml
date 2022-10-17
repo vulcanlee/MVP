@@ -6,7 +6,8 @@
              x:DataType="viewModel:FormGalleryViewModel"
              x:Class="NckuhRepair.Views.FormGallery"
              Title="表單庫"
-             BackgroundColor="#F8F7F6">
+             BackgroundColor="#F8F7F6"
+             IconImageSource="search.png">
     <Grid RowDefinitions="auto,*">
 
         <VerticalStackLayout Grid.Row="0"

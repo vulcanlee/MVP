@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,12 @@ namespace NckuhRepair.ViewModels
             await Task.Yield();
             await navigationService.CreateBuilder()
                 .AddSegment<NaviPageViewModel>()
-                .AddSegment<FormGalleryViewModel>()
+                .AddTabbedSegment(t=>
+                {
+                    t.CreateTab<FormGalleryViewModel>();
+                    t.CreateTab<FormRecordViewModel>();
+                    t.CreateTab<MemberPageViewModel>();
+                })
                 .NavigateAsync();
         }
         #endregion
