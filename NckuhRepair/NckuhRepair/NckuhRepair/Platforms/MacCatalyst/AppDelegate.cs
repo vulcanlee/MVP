@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace RepairService;
+namespace NckuhRepair;
 
 [Register(nameof(AppDelegate))]
 public class AppDelegate : MauiUIApplicationDelegate

@@ -1,4 +1,4 @@
-﻿namespace RepairService.Views;
+﻿namespace NckuhRepair.Views;
 
 public partial class MainPage : ContentPage
 {

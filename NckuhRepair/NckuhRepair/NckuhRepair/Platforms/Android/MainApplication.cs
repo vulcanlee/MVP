@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace RepairService;
+namespace NckuhRepair;
 
 [Application]
 public class MainApplication : MauiApplication

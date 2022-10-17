@@ -1,6 +1,6 @@
-﻿using RepairService.Views;
+﻿using NckuhRepair.Views;
 
-namespace RepairService;
+namespace NckuhRepair;
 
 internal static class PrismStartup
 {

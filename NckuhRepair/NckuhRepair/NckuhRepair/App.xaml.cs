@@ -1,4 +1,4 @@
-﻿namespace RepairService;
+﻿namespace NckuhRepair;
 
 public partial class App : Application
 {

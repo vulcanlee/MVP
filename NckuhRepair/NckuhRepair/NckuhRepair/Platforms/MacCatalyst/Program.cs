@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace RepairService;
+namespace NckuhRepair;
 
 public class Program
 {

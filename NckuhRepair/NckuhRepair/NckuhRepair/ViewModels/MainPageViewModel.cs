@@ -1,4 +1,4 @@
-﻿namespace RepairService.ViewModels;
+﻿namespace NckuhRepair.ViewModels;
 
 public class MainPageViewModel : BindableBase
 {
