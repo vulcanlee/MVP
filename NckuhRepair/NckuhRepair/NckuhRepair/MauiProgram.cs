@@ -24,6 +24,7 @@ public static class MauiProgram
                     containerRegistry.RegisterForNavigation<MainPage>()
                     .RegisterInstance(SemanticScreenReader.Default);
                     containerRegistry.RegisterForNavigation<SplashPage, SplashPageViewModel>();
+                    containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
 
                     containerRegistry.RegisterSingleton<MagicObjectHelper>();
                 });

@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using NckuhRepair.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace NckuhRepair.ViewModels
 {
-    public partial class SplashPageViewModel : ObservableObject, INavigatedAware
+    public partial class LoginPageViewModel : ObservableObject, INavigatedAware
     {
         private readonly INavigationService navigationService;
 
-        public SplashPageViewModel(INavigationService navigationService)
+        public LoginPageViewModel(INavigationService navigationService)
         {
             this.navigationService = navigationService;
         }
@@ -20,12 +19,8 @@ namespace NckuhRepair.ViewModels
         {
         }
 
-        public async void OnNavigatedTo(INavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
-            await Task.Delay(3000);
-            await navigationService.CreateBuilder()
-                .AddSegment<LoginPageViewModel>()
-                .NavigateAsync();
         }
     }
 }
