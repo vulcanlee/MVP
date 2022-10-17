@@ -30,6 +30,7 @@ namespace NckuhRepair.ViewModels
         {
             await Task.Yield();
             await navigationService.CreateBuilder()
+                .AddSegment<NaviPageViewModel>()
                 .AddSegment<FormGalleryViewModel>()
                 .NavigateAsync();
         }
