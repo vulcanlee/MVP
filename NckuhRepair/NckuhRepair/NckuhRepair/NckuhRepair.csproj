@@ -12,7 +12,7 @@
 	<ImplicitUsings>enable</ImplicitUsings>
 
 	<!-- Display name -->
-	<ApplicationTitle>NckuhRepair</ApplicationTitle>
+	<ApplicationTitle>成大叫修</ApplicationTitle>
 
 	<!-- App Identifier -->
 	<ApplicationId>com.companyname.nckuhrepair</ApplicationId>
@@ -35,7 +35,7 @@
 	<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" />
 
 	<!-- Splash Screen -->
-	<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#FFFFFF" />
+	<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#69BBA9" BaseSize="72,72" />
 
 	<!-- Images -->
 	<MauiImage Include="Resources\Images\*" />

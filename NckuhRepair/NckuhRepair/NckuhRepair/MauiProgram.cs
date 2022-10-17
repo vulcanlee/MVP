@@ -23,11 +23,6 @@ public static class MauiProgram
                     .RegisterInstance(SemanticScreenReader.Default);
 
                 });
-
-                //prism.ConfigureServices(container =>
-                //{
-                //    container.RegisterForNavigation<MainPage>();
-                //});
             })
             .ConfigureFonts(fonts =>
             {
