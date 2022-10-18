@@ -6,6 +6,7 @@
       "key": "panel",
       "type": "panel",
       "label": "Panel",
+      "title": "叫修分類",
       "input": false,
       "tableView": false,
       "components": [
@@ -59,6 +60,7 @@
       "key": "panel1",
       "type": "panel",
       "label": "Panel",
+      "title": "叫修明細",
       "input": false,
       "tableView": false,
       "components": [
@@ -93,6 +95,7 @@
       "key": "panel2",
       "type": "panel",
       "label": "Panel",
+      "title": "附件檔案",
       "input": false,
       "tableView": false,
       "components": [

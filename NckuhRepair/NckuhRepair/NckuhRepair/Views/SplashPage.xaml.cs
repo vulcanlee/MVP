@@ -5,9 +5,9 @@ namespace NckuhRepair.Views;
 
 public partial class SplashPage : ContentPage
 {
-	private readonly MagicObjectHelper magicObjectHelper;
+	private readonly MagicHelper magicObjectHelper;
 
-	public SplashPage(MagicObjectHelper magicObjectHelper)
+	public SplashPage(MagicHelper magicObjectHelper)
 	{
 		InitializeComponent();
 		this.magicObjectHelper = magicObjectHelper;

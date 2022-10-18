@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using NckuhRepair.Helpers;
 using NckuhRepair.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,11 +15,14 @@ namespace NckuhRepair.ViewModels
     public partial class FormGalleryViewModel : ObservableObject, INavigatedAware
     {
         private readonly INavigationService navigationService;
+        private readonly MagicHelper magicHelper;
         [ObservableProperty]
         ObservableCollection<FormItem> formItems = new ObservableCollection<FormItem>();
-        public FormGalleryViewModel(INavigationService navigationService)
+        public FormGalleryViewModel(INavigationService navigationService,
+            MagicHelper magicHelper)
         {
             this.navigationService = navigationService;
+            this.magicHelper = magicHelper;
         }
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
@@ -32,7 +37,38 @@ namespace NckuhRepair.ViewModels
         [RelayCommand]
         public async Task TapFormItem(FormItem formItem)
         {
-            await Task.Yield();
+            try
+            {
+                string jsonFilename = "";
+                jsonFilename = formItem.ChineseName switch
+                {
+                    "軟體叫修" => "WorkOrderPanel.json",
+                    "硬體叫修" => "WorkOrderPanel.json",
+                    "PACS叫修" => "WorkOrderPanel.json",
+                    "報告系統叫修" => "WorkOrderPanel.json",
+                };
+
+                using var stream = await FileSystem.OpenAppPackageFileAsync(jsonFilename);
+                using var reader = new StreamReader(stream);
+                var result = await reader.ReadToEndAsync();
+
+                #region 採用 form.io 產生的 JSON
+                var mobileForm = JsonConvert.DeserializeObject<FormIOModel>(result);
+
+                NavigationParameters parameters = new NavigationParameters();
+                parameters.Add("FormIOModel", mobileForm);
+                parameters.Add("JSON", result);
+
+                await navigationService.CreateBuilder()
+                    .WithParameters(parameters)
+                    .AddSegment<FormIOPageViewModel>()
+                    .NavigateAsync();
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
         }
         #endregion
 

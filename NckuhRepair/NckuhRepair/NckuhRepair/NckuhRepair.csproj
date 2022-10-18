@@ -53,6 +53,7 @@
 	<None Remove="Resources\Images\records.svg" />
 	<None Remove="Resources\Images\search.svg" />
 	<None Remove="Resources\Images\splashpage_background.svg" />
+	<None Remove="Resources\Raw\WorkOrderPanel.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -65,6 +66,9 @@
 
   <ItemGroup>
 	<MauiXaml Update="Views\FormGallery.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</MauiXaml>
+	<MauiXaml Update="Views\FormIOPage.xaml">
 	  <Generator>MSBuild:Compile</Generator>
 	</MauiXaml>
 	<MauiXaml Update="Views\FormRecord.xaml">
