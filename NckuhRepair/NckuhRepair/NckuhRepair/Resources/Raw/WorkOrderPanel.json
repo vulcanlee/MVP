@@ -1,0 +1,117 @@
+{
+  "display": "form",
+  "components": [
+    {
+      "collapsible": false,
+      "key": "panel",
+      "type": "panel",
+      "label": "Panel",
+      "input": false,
+      "tableView": false,
+      "components": [
+        {
+          "label": "Software Category",
+          "widget": "html5",
+          "tooltip": "軟體類別",
+          "tableView": true,
+          "data": {
+            "values": [
+              {
+                "label": "A",
+                "value": "a"
+              },
+              {
+                "label": "B",
+                "value": "b"
+              },
+              {
+                "label": "C",
+                "value": "c"
+              }
+            ]
+          },
+          "validate": {
+            "required": true
+          },
+          "key": "softwareCategory",
+          "properties": {
+            "APIEndPoint": "https://127.0.0.1/api/softwarecategory"
+          },
+          "type": "select",
+          "input": true
+        },
+        {
+          "label": "Problem Description",
+          "tooltip": "問題描述",
+          "autoExpand": false,
+          "tableView": true,
+          "validate": {
+            "required": true
+          },
+          "key": "problemDescription",
+          "type": "textarea",
+          "input": true
+        }
+      ]
+    },
+    {
+      "collapsible": false,
+      "key": "panel1",
+      "type": "panel",
+      "label": "Panel",
+      "input": false,
+      "tableView": false,
+      "components": [
+        {
+          "label": "Location",
+          "tooltip": "叫修地點",
+          "tableView": true,
+          "key": "location",
+          "type": "textfield",
+          "input": true
+        },
+        {
+          "label": "Phone",
+          "tooltip": "連絡電話",
+          "tableView": true,
+          "key": "phone",
+          "type": "textfield",
+          "input": true
+        },
+        {
+          "label": "IP",
+          "tooltip": "IP",
+          "tableView": true,
+          "key": "ip",
+          "type": "textfield",
+          "input": true
+        }
+      ]
+    },
+    {
+      "collapsible": false,
+      "key": "panel2",
+      "type": "panel",
+      "label": "Panel",
+      "input": false,
+      "tableView": false,
+      "components": [
+        {
+          "label": "Upload",
+          "tooltip": "檔案上傳",
+          "tableView": false,
+          "webcam": false,
+          "fileTypes": [
+            {
+              "label": "",
+              "value": ""
+            }
+          ],
+          "key": "file",
+          "type": "file",
+          "input": true
+        }
+      ]
+    }
+  ]
+}
