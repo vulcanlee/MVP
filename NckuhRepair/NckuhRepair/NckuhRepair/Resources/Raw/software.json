@@ -1,6 +1,6 @@
 {
   "display": "form",
-  "title" :  "軟體 叫修表單",
+  "title": "軟體 叫修表單",
   "components": [
     {
       "collapsible": false,
@@ -100,6 +100,14 @@
       "input": false,
       "tableView": false,
       "components": [
+        {
+          "type": "camera",
+          "key": "takePhoto",
+          "input": true,
+          "tableView": false,
+          "imageContent": "",
+          "tooltip": "拍照"
+        },
         {
           "label": "Upload",
           "tooltip": "檔案上傳",

@@ -562,6 +562,58 @@ public class FormIOBuilderHelper
 
         #endregion
 
+        #region 手機專屬控制項
+        #region camera 手機拍照
+        if (component.type == magicHelper.FormIOCamera)
+        {
+            VerticalStackLayout verticalStackLayout = new VerticalStackLayout();
+            if (string.IsNullOrEmpty(component.tooltip) == false)
+            {
+                #region 文字輸入盒 的 前置說明文字
+                verticalStackLayout.Children.Add(new Label()
+                {
+                    ClassId = component.tooltip,
+                }
+                .Text(component.tooltip)
+                .Margin(new Thickness(0, 0, 0, 0))
+                .FontSize(magicHelper.DefaultFontSize)
+                .Bold()
+                .TextColor(magicHelper.FormEntryBackgroundColor));
+                #endregion
+            }
+
+            Grid grid = new Grid();
+            grid.RowDefinitions = Rows.Define(Auto);
+            grid.ColumnDefinitions = Columns.Define(Stars(1),50,50);
+            grid.Margin(new Thickness(0, 0, 0, 20));
+
+            #region 該圖片的檔案名稱
+            Entry entry = new Entry()
+            {
+                ClassId = component.key,
+                BackgroundColor = magicHelper.FormViewBackgroundColor,
+                IsEnabled = false,
+            }
+            .Text(component.Value)
+            .Margin(new Thickness(0, 0, 0, 20));
+            grid.Add(entry,0,0);
+            #endregion
+
+            #region 清除圖片按鈕
+
+            #endregion
+
+            #region 拍照按鈕
+
+            #endregion
+
+            verticalStackLayout.Children.Add(grid);
+            generateView = verticalStackLayout;
+        }
+        #endregion
+
+        #endregion
+
         return generateView;
     }
 }

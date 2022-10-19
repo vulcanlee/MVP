@@ -35,6 +35,7 @@ namespace NckuhRepair.Models
         public Properties properties { get; set; }
         public bool? autoExpand { get; set; }
         public string Value { get; set; } = "";
+        public string imageContent { get; set; } = "";
     }
 
     public class FileType

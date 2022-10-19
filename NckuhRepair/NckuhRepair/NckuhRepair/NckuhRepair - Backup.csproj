@@ -48,7 +48,6 @@
 
   <ItemGroup>
 	<None Remove="Resources\Images\camera_fill.svg" />
-	<None Remove="Resources\Images\circle_fill.svg" />
 	<None Remove="Resources\Images\login_top_image.png" />
 	<None Remove="Resources\Images\member.svg" />
 	<None Remove="Resources\Images\nckuh.svg" />
