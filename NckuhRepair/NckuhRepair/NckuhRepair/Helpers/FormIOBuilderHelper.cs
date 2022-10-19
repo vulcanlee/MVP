@@ -606,6 +606,7 @@ public class FormIOBuilderHelper
                 HorizontalOptions = LayoutOptions.Fill,
                 VerticalOptions = LayoutOptions.Fill,
                 Aspect = Aspect.AspectFit,
+                IsVisible = false,
             };
             grid.Add(imageTake, 0,1);
             grid.SetColumnSpan(imageTake, 3);
@@ -620,6 +621,20 @@ public class FormIOBuilderHelper
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Start,
             };
+
+            TapGestureRecognizer tapGestureRecognizerClear = new TapGestureRecognizer();
+            tapGestureRecognizerClear.Tapped += (s, e) =>
+            {
+                #region 清除已經選定的照片
+                imageTake.Source = null;
+                imageTake.IsVisible = false;
+                entry.Text = "";
+                component.Value = "";
+                #endregion
+            };
+
+            imageClear.GestureRecognizers.Add(tapGestureRecognizerClear);
+
             grid.Add(imageClear, 1, 0);
             #endregion
 
@@ -646,6 +661,7 @@ public class FormIOBuilderHelper
                         #region 將取得的媒體檔案，儲存到快取目錄下
                         string targetFilePath = System.IO.Path.Combine(FileSystem.CacheDirectory,
                             photo.FileName);
+                        entry.Text = photo.FileName;
                         using Stream sourceStream = await photo.OpenReadAsync();
                         using FileStream targetStream = File.OpenWrite(targetFilePath);
 
@@ -657,20 +673,21 @@ public class FormIOBuilderHelper
 
                         #region 顯示該圖片
                         imageTake.Source = ImageSource.FromFile(targetFilePath);
+                        imageTake.IsVisible = true;
                         #endregion
 
                         #region 轉換成為 base64
-                        component.imageContent = "";
-                        using Stream sourceStream2 = await photo.OpenReadAsync();
-                        using (MemoryStream memory = new MemoryStream())
-                        {
-                            sourceStream2.CopyTo(memory);
-                            byte[] bytes = memory.ToArray();
-                            //如何將 Image Stream 轉換成為 ImageSource
-                            //image.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
-                            string base64 = System.Convert.ToBase64String(bytes);
-                            component.imageContent = base64;
-                        }
+                        //component.imageContent = "";
+                        //using Stream sourceStream2 = await photo.OpenReadAsync();
+                        //using (MemoryStream memory = new MemoryStream())
+                        //{
+                        //    sourceStream2.CopyTo(memory);
+                        //    byte[] bytes = memory.ToArray();
+                        //    //如何將 Image Stream 轉換成為 ImageSource
+                        //    //image.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
+                        //    string base64 = System.Convert.ToBase64String(bytes);
+                        //    component.imageContent = base64;
+                        //}
                         #endregion
                     }
                     #endregion
