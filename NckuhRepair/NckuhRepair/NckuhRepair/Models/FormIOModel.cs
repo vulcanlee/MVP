@@ -10,6 +10,7 @@ namespace NckuhRepair.Models
     public class FormIOModel
     {
         public string display { get; set; }
+        public string title { get; set; }
         public List<Component> components { get; set; } = new List<Component>();
     }
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);

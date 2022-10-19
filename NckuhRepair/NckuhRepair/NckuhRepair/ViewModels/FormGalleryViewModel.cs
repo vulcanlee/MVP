@@ -42,10 +42,10 @@ namespace NckuhRepair.ViewModels
                 string jsonFilename = "";
                 jsonFilename = formItem.ChineseName switch
                 {
-                    "軟體叫修" => "WorkOrderPanel.json",
-                    "硬體叫修" => "WorkOrderPanel.json",
-                    "PACS叫修" => "WorkOrderPanel.json",
-                    "報告系統叫修" => "WorkOrderPanel.json",
+                    "軟體叫修" => "software.json",
+                    "硬體叫修" => "hardware.json",
+                    "PACS叫修" => "pacs.json",
+                    "報告系統叫修" => "report.json",
                 };
 
                 using var stream = await FileSystem.OpenAppPackageFileAsync(jsonFilename);

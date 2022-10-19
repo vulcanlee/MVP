@@ -48,6 +48,11 @@ public partial class FormIOPage : ContentPage
     {
         var form = FormIOPageViewModel.FormIOModel;
 
+        if(!string.IsNullOrEmpty(form.title))
+        {
+            this.Title = form.title;
+        }
+
         foreach (Models.Component componentParent in form.components)
         {
             IView view = formIOBuilderHelper.GenerateView(componentParent);

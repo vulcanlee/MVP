@@ -53,7 +53,10 @@
 	<None Remove="Resources\Images\records.svg" />
 	<None Remove="Resources\Images\search.svg" />
 	<None Remove="Resources\Images\splashpage_background.svg" />
-	<None Remove="Resources\Raw\WorkOrderPanel.json" />
+	<None Remove="Resources\Raw\hardware.json" />
+	<None Remove="Resources\Raw\pacs.json" />
+	<None Remove="Resources\Raw\report.json" />
+	<None Remove="Resources\Raw\software.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,6 +65,18 @@
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2" />
 	  <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.273-pre" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiAsset Update="Resources\Raw\hardware.json">
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </MauiAsset>
+    <MauiAsset Update="Resources\Raw\report.json">
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </MauiAsset>
+    <MauiAsset Update="Resources\Raw\pacs.json">
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </MauiAsset>
   </ItemGroup>
 
   <ItemGroup>

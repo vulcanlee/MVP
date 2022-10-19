@@ -1,5 +1,6 @@
 {
   "display": "form",
+  "title": "硬體 叫修表單",
   "components": [
     {
       "collapsible": false,
@@ -85,6 +86,14 @@
           "tooltip": "IP",
           "tableView": true,
           "key": "ip",
+          "type": "textfield",
+          "input": true
+        },
+        {
+          "label": "Property Number",
+          "tooltip": "財產編號",
+          "tableView": true,
+          "key": "propertyNumber",
           "type": "textfield",
           "input": true
         }

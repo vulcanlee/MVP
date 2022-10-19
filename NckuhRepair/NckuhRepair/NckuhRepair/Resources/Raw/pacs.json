@@ -1,0 +1,172 @@
+{
+  "display": "form",
+  "title": "PACS 叫修表單",
+  "components": [
+    {
+      "collapsible": false,
+      "key": "panel",
+      "type": "panel",
+      "label": "Panel",
+      "title": "叫修分類",
+      "input": false,
+      "tableView": false,
+      "components": [
+        {
+          "label": "Call Service Content",
+          "widget": "html5",
+          "tooltip": "叫修內容",
+          "tableView": true,
+          "data": {
+            "values": [
+              {
+                "label": "A",
+                "value": "a"
+              },
+              {
+                "label": "B",
+                "value": "b"
+              },
+              {
+                "label": "C",
+                "value": "c"
+              }
+            ]
+          },
+          "validate": {
+            "required": true
+          },
+          "key": "callServiceContent",
+          "properties": {
+            "APIEndPoint": "https://127.0.0.1/api/softwarecategory"
+          },
+          "type": "select",
+          "input": true
+        },
+        {
+          "label": "Problem Description",
+          "tooltip": "問題描述",
+          "autoExpand": false,
+          "tableView": true,
+          "validate": {
+            "required": true
+          },
+          "key": "problemDescription",
+          "type": "textarea",
+          "input": true
+        }
+      ]
+    },
+    {
+      "collapsible": false,
+      "key": "panel1",
+      "type": "panel",
+      "label": "Panel",
+      "title": "叫修明細",
+      "input": false,
+      "tableView": false,
+      "components": [
+        {
+          "label": "Location",
+          "tooltip": "叫修地點",
+          "tableView": true,
+          "key": "location",
+          "type": "textfield",
+          "input": true
+        },
+        {
+          "label": "Phone",
+          "tooltip": "連絡電話",
+          "tableView": true,
+          "key": "phone",
+          "type": "textfield",
+          "input": true
+        },
+        {
+          "label": "IP",
+          "tooltip": "IP",
+          "tableView": true,
+          "key": "ip",
+          "type": "textfield",
+          "input": true
+        }
+      ]
+    },
+    {
+      "title": "PACS 相關資訊",
+      "collapsible": false,
+      "key": "panel3",
+      "type": "panel",
+      "label": "Panel",
+      "input": false,
+      "tableView": false,
+      "components": [
+        {
+          "label": "PACS Patient No",
+          "tooltip": "PACS 病歷號",
+          "tableView": true,
+          "key": "pacsPatientNo",
+          "type": "textfield",
+          "input": true
+        },
+        {
+          "label": "PACS No",
+          "tooltip": "PACS 單號",
+          "tableView": true,
+          "key": "pacsNo",
+          "type": "textfield",
+          "input": true
+        },
+        {
+          "label": "Modify Patient No",
+          "tooltip": "修改後病歷號",
+          "tableView": true,
+          "key": "modifyPatientNo",
+          "type": "textfield",
+          "input": true
+        },
+        {
+          "label": "Modify PACS No",
+          "tooltip": "修改後單號",
+          "tableView": true,
+          "key": "modifyPacsNo",
+          "type": "textfield",
+          "input": true
+        },
+        {
+          "label": "Modify Name",
+          "tooltip": "修改後姓名",
+          "tableView": true,
+          "key": "modifyName",
+          "type": "textfield",
+          "input": true
+        }
+      ]
+    },
+    {
+      "collapsible": false,
+      "key": "panel2",
+      "type": "panel",
+      "label": "Panel",
+      "title": "附件檔案",
+      "input": false,
+      "tableView": false,
+      "components": [
+        {
+          "label": "Upload",
+          "tooltip": "檔案上傳",
+          "tableView": false,
+          "webcam": false,
+          "fileTypes": [
+            {
+              "label": "",
+              "value": ""
+            }
+          ],
+          "key": "file",
+          "type": "file",
+          "input": true
+        }
+      ]
+    }
+  ]
+}
