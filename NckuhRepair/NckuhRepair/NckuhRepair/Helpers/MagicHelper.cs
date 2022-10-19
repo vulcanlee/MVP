@@ -16,6 +16,8 @@ namespace NckuhRepair.Helpers
         public readonly Color StatusBarBackgroundColor = Color.FromArgb("ff4bb09d");
 
         public readonly string PageRegistration = "RegistrationPage";
+        public readonly string ClearCircleFillImageName = "circleclear_fill.png";
+        public readonly string CameraImageName = "camera_fill.png";
 
         #region 對應表單的欄位名稱
         public string FormIOPanel => "panel";
@@ -42,6 +44,8 @@ namespace NckuhRepair.Helpers
             = Color.FromArgb("bb888888");
         public Color FormPanelTextColor { get; set; }
             = Color.FromArgb("858585");
+        public Color DisableColor { get; set; }
+            = Color.FromArgb("d1d1d1");
         #endregion
     }
 }

@@ -572,7 +572,7 @@ public class FormIOBuilderHelper
                 #region 文字輸入盒 的 前置說明文字
                 verticalStackLayout.Children.Add(new Label()
                 {
-                    ClassId = component.tooltip,
+                    ClassId = component.tooltip
                 }
                 .Text(component.tooltip)
                 .Margin(new Thickness(0, 0, 0, 0))
@@ -583,28 +583,104 @@ public class FormIOBuilderHelper
             }
 
             Grid grid = new Grid();
-            grid.RowDefinitions = Rows.Define(Auto);
-            grid.ColumnDefinitions = Columns.Define(Stars(1),50,50);
+            grid.RowDefinitions = Rows.Define(Auto,Auto);
+            grid.ColumnDefinitions = Columns.Define(Stars(1), 50, 50);
             grid.Margin(new Thickness(0, 0, 0, 20));
 
-            #region 該圖片的檔案名稱
+            #region 該圖片的檔案名稱顯示欄位
             Entry entry = new Entry()
             {
                 ClassId = component.key,
-                BackgroundColor = magicHelper.FormViewBackgroundColor,
                 IsEnabled = false,
+                VerticalOptions = LayoutOptions.Center,
+                BackgroundColor = magicHelper.DisableColor,
             }
             .Text(component.Value)
             .Margin(new Thickness(0, 0, 0, 20));
-            grid.Add(entry,0,0);
+            grid.Add(entry, 0, 0);
+            #endregion
+
+            #region 待顯示圖片
+            Image imageTake = new Image()
+            {
+                HorizontalOptions = LayoutOptions.Fill,
+                VerticalOptions = LayoutOptions.Fill,
+                Aspect = Aspect.AspectFit,
+            };
+            grid.Add(imageTake, 0,1);
+            grid.SetColumnSpan(imageTake, 3);
             #endregion
 
             #region 清除圖片按鈕
-
+            Image imageClear = new Image()
+            {
+                Source = ImageSource.FromFile(magicHelper.ClearCircleFillImageName),
+                HeightRequest = 30,
+                WidthRequest = 30,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Start,
+            };
+            grid.Add(imageClear, 1, 0);
             #endregion
 
             #region 拍照按鈕
+            Image imageCamera = new Image()
+            {
+                Source = ImageSource.FromFile(magicHelper.CameraImageName),
+                HeightRequest = 30,
+                WidthRequest = 30,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Start,
+            };
 
+            #region 加入點選的手勢操作
+            TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
+            tapGestureRecognizer.Tapped += async (s, e) =>
+            {
+                if (MediaPicker.Default.IsCaptureSupported)
+                {
+                    #region 這台裝置有支援拍照功能
+                    FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
+                    if (photo != null)
+                    {
+                        #region 將取得的媒體檔案，儲存到快取目錄下
+                        string targetFilePath = System.IO.Path.Combine(FileSystem.CacheDirectory,
+                            photo.FileName);
+                        using Stream sourceStream = await photo.OpenReadAsync();
+                        using FileStream targetStream = File.OpenWrite(targetFilePath);
+
+                        await sourceStream.CopyToAsync(targetStream);
+                        sourceStream.Close(); targetStream.Close();
+
+                        component.Value = targetFilePath;
+                        #endregion
+
+                        #region 顯示該圖片
+                        imageTake.Source = ImageSource.FromFile(targetFilePath);
+                        #endregion
+
+                        #region 轉換成為 base64
+                        component.imageContent = "";
+                        using Stream sourceStream2 = await photo.OpenReadAsync();
+                        using (MemoryStream memory = new MemoryStream())
+                        {
+                            sourceStream2.CopyTo(memory);
+                            byte[] bytes = memory.ToArray();
+                            //如何將 Image Stream 轉換成為 ImageSource
+                            //image.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
+                            string base64 = System.Convert.ToBase64String(bytes);
+                            component.imageContent = base64;
+                        }
+                        #endregion
+                    }
+                    #endregion
+                }
+            };
+            imageCamera.GestureRecognizers.Add(tapGestureRecognizer);
+
+            #endregion
+
+            grid.Add(imageCamera, 2, 0);
             #endregion
 
             verticalStackLayout.Children.Add(grid);
