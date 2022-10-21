@@ -109,6 +109,14 @@
       "tableView": false,
       "components": [
         {
+          "type": "camera",
+          "key": "takePhoto",
+          "input": true,
+          "tableView": false,
+          "imageContent": "",
+          "tooltip": "拍照"
+        },
+        {
           "label": "Upload",
           "tooltip": "檔案上傳",
           "tableView": false,

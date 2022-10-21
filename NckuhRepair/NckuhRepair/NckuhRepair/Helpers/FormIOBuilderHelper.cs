@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Controls.Shapes;
+using NckuhRepair.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ public class FormIOBuilderHelper
         this.magicHelper = magicHelper;
     }
 
-    public IView GenerateView(Models.Component component)
+    public IView GenerateView(Models.Component component, IPageDialogService dialogService)
     {
         IView generateView = null;
 
@@ -479,6 +480,7 @@ public class FormIOBuilderHelper
         #endregion
 
         #region 進階控制項
+
         #region day 國曆日期
         if (component.type == magicHelper.FormIODay)
         {
@@ -583,7 +585,7 @@ public class FormIOBuilderHelper
             }
 
             Grid grid = new Grid();
-            grid.RowDefinitions = Rows.Define(Auto,Auto);
+            grid.RowDefinitions = Rows.Define(Auto, Auto);
             grid.ColumnDefinitions = Columns.Define(Stars(1), 50, 50);
             grid.Margin(new Thickness(0, 0, 0, 20));
 
@@ -608,7 +610,7 @@ public class FormIOBuilderHelper
                 Aspect = Aspect.AspectFit,
                 IsVisible = false,
             };
-            grid.Add(imageTake, 0,1);
+            grid.Add(imageTake, 0, 1);
             grid.SetColumnSpan(imageTake, 3);
             #endregion
 
@@ -701,6 +703,124 @@ public class FormIOBuilderHelper
             #endregion
 
             verticalStackLayout.Children.Add(grid);
+            generateView = verticalStackLayout;
+        }
+        #endregion
+
+        #region file 多檔案上傳
+        if (component.type == magicHelper.FormIOFile)
+        {
+            component.fileTypes.Clear();
+            VerticalStackLayout verticalStackLayout = new VerticalStackLayout();
+            if (string.IsNullOrEmpty(component.tooltip) == false)
+            {
+                #region 文字輸入盒 的 前置說明文字
+                verticalStackLayout.Children.Add(new Label()
+                {
+                    ClassId = component.tooltip,
+                }
+                .Text(component.tooltip)
+                .Margin(new Thickness(0, 0, 0, 0))
+                .FontSize(magicHelper.DefaultFontSize)
+                .Bold()
+                .TextColor(magicHelper.FormEntryBackgroundColor));
+                #endregion
+            }
+
+            #region 顯示出多個要上傳的檔案 Bindable Layouts
+            StackLayout stackLayout = new StackLayout();
+            #endregion
+
+            Button button = new Button()
+            {
+                ClassId = component.key,
+            }
+            .Text(component.tooltip)
+            .Margin(new Thickness(0, 0, 0, 20));
+
+            #region 綁定點選事件
+            button.Clicked += async (s, e) =>
+            {
+                var result = await FilePicker.PickAsync();
+                if (result == null)
+                    return;
+
+                #region 檢查該檔案是否已經存在
+                var isExistFile = component.fileTypes
+                .FirstOrDefault(x => System.IO.Path.GetFileName(x.value) ==
+                System.IO.Path.GetFileName(result.FullPath));
+
+                //foreach (var item in component.fileTypes)
+                //{
+                //    var foo = (item.value == result.FullPath);
+                //    if(foo==true)
+                //    {
+                //        var bar = 0;
+                //    }
+                //}
+                if (isExistFile != null)
+                {
+                    await dialogService
+                    .DisplayAlertAsync("錯誤", $"這個選定檔案，已經存在於上傳清單內。" +
+                    $"{Environment.NewLine}{Environment.NewLine}" +
+                    $"{result.FileName}", "確定");
+                    return;
+                }
+                #endregion
+
+                FileType fileType = new FileType
+                {
+                    label = result.ContentType,
+                    value = result.FullPath,
+                };
+                component.fileTypes.Add(fileType);
+
+                #region 建立要顯示該上傳檔案的 Grid
+                Grid grid = new Grid()
+                {
+                    ClassId = fileType.value,
+                };
+                grid.RowDefinitions = Rows.Define(Auto);
+                grid.ColumnDefinitions = Columns.Define(Stars(1), 40);
+                grid.Margin(new Thickness(0, 10, 0, 10));
+                #endregion
+
+                #region 將相關的內容，填入到 Grid 內
+                Label fileName = new Label()
+                {
+                    Text = fileType.value,
+                    FontSize = 14
+                };
+                grid.Add(fileName, 0, 0);
+
+                Image imageClear = new Image()
+                {
+                    Source = ImageSource.FromFile(magicHelper.ClearCircleFillImageName),
+                    HeightRequest = 30,
+                    WidthRequest = 30,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Start,
+                };
+
+                TapGestureRecognizer tapGestureRecognizerClear = new TapGestureRecognizer();
+                tapGestureRecognizerClear.Tapped += (s, e) =>
+                {
+                    #region 清除已經選定的照片
+                    component.fileTypes.Remove(fileType);
+                    stackLayout.Children.Remove(grid);
+                    #endregion
+                };
+
+                imageClear.GestureRecognizers.Add(tapGestureRecognizerClear);
+
+                grid.Add(imageClear, 1, 0);
+                stackLayout.Children.Add(grid);
+                #endregion
+            };
+            #endregion
+
+            verticalStackLayout.Children.Add(button);
+            verticalStackLayout.Children.Add(stackLayout);
             generateView = verticalStackLayout;
         }
         #endregion

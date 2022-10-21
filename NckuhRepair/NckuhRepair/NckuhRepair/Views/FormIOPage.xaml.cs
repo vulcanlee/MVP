@@ -8,8 +8,10 @@ public partial class FormIOPage : ContentPage
     public FormIOPageViewModel FormIOPageViewModel { get; set; }
     private readonly MagicHelper magicHelper;
     private readonly FormIOBuilderHelper formIOBuilderHelper;
+    private readonly IPageDialogService dialogService;
 
-    public FormIOPage(MagicHelper magicHelper, FormIOBuilderHelper formIOBuilderHelper)
+    public FormIOPage(MagicHelper magicHelper, FormIOBuilderHelper formIOBuilderHelper,
+        IPageDialogService dialogService)
     {
         InitializeComponent();
 
@@ -17,6 +19,7 @@ public partial class FormIOPage : ContentPage
 
         this.magicHelper = magicHelper;
         this.formIOBuilderHelper = formIOBuilderHelper;
+        this.dialogService = dialogService;
     }
 
     /// <summary>
@@ -55,7 +58,7 @@ public partial class FormIOPage : ContentPage
 
         foreach (Models.Component componentParent in form.components)
         {
-            IView view = formIOBuilderHelper.GenerateView(componentParent);
+            IView view = formIOBuilderHelper.GenerateView(componentParent, dialogService);
             hostContainer.Children.Add(view);
 
             if (componentParent.type == magicHelper.FormIOPanel)
@@ -64,7 +67,7 @@ public partial class FormIOPage : ContentPage
 
                 foreach (Models.Component componentChild in componentParent.components)
                 {
-                    IView viewChild = formIOBuilderHelper.GenerateView(componentChild);
+                    IView viewChild = formIOBuilderHelper.GenerateView(componentChild, dialogService);
                     if (viewChild != null)
                     {
                         verticalStackLayout.Children.Add(viewChild);

@@ -32,6 +32,7 @@ namespace NckuhRepair.Helpers
         public string FormIODay => "day";
         public string FormIOTime => "time";
         public string FormIOCamera => "camera";
+        public string FormIOFile => "file";
         #endregion
 
         #region 表單會用到個全域屬性物件
