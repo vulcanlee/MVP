@@ -1,0 +1,33 @@
+{
+  "display": "form",
+  "title": "軟體 叫修表單",
+  "DbMapping": [
+    {
+      "FormInput": "problemDescription",
+      "RdbmsColumn": "Table1.Columne3"
+    },
+    {
+      "FormInput": "location",
+      "RdbmsColumn": "Table1.Columne1",
+    }
+  ],
+  "ValidationAPI": [],
+  "components": [
+    {
+      "tooltip": "問題描述",
+      "validate": {
+        "required": true
+      },
+      "key": "problemDescription",
+      "type": "textarea"
+    },
+    {
+      "tooltip": "叫修地點",
+      "validate": {
+        "required": true
+      },
+      "key": "location",
+      "type": "textfield"
+    }
+  ]
+}
