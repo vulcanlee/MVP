@@ -48,7 +48,7 @@
           "autoExpand": false,
           "tableView": true,
           "validate": {
-            "required": true
+            "required": false
           },
           "key": "problemDescription",
           "type": "textarea",
@@ -69,6 +69,9 @@
           "label": "Location",
           "tooltip": "叫修地點",
           "tableView": true,
+          "validate": {
+            "required": false
+          },
           "key": "location",
           "type": "textfield",
           "input": true
@@ -77,6 +80,9 @@
           "label": "Phone",
           "tooltip": "連絡電話",
           "tableView": true,
+          "validate": {
+            "required": true
+          },
           "key": "phone",
           "type": "textfield",
           "input": true
@@ -85,6 +91,9 @@
           "label": "IP",
           "tooltip": "IP",
           "tableView": true,
+          "validate": {
+            "required": false
+          },
           "key": "ip",
           "type": "textfield",
           "input": true
@@ -104,6 +113,9 @@
           "label": "PACS Patient No",
           "tooltip": "PACS 病歷號",
           "tableView": true,
+          "validate": {
+            "required": false
+          },
           "key": "pacsPatientNo",
           "type": "textfield",
           "input": true
@@ -112,6 +124,9 @@
           "label": "PACS No",
           "tooltip": "PACS 單號",
           "tableView": true,
+          "validate": {
+            "required": false
+          },
           "key": "pacsNo",
           "type": "textfield",
           "input": true
@@ -120,6 +135,9 @@
           "label": "Modify Patient No",
           "tooltip": "修改後病歷號",
           "tableView": true,
+          "validate": {
+            "required": false
+          },
           "key": "modifyPatientNo",
           "type": "textfield",
           "input": true
@@ -128,6 +146,9 @@
           "label": "Modify PACS No",
           "tooltip": "修改後單號",
           "tableView": true,
+          "validate": {
+            "required": false
+          },
           "key": "modifyPacsNo",
           "type": "textfield",
           "input": true
@@ -136,6 +157,9 @@
           "label": "Modify Name",
           "tooltip": "修改後姓名",
           "tableView": true,
+          "validate": {
+            "required": false
+          },
           "key": "modifyName",
           "type": "textfield",
           "input": true
@@ -152,14 +176,6 @@
       "tableView": false,
       "components": [
         {
-          "type": "camera",
-          "key": "takePhoto",
-          "input": true,
-          "tableView": false,
-          "imageContent": "",
-          "tooltip": "拍照"
-        },
-        {
           "label": "Upload",
           "tooltip": "檔案上傳",
           "tableView": false,
@@ -170,6 +186,9 @@
               "value": ""
             }
           ],
+          "validate": {
+            "required": false
+          },
           "key": "file",
           "type": "file",
           "input": true

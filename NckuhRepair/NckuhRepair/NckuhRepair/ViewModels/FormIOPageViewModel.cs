@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using NckuhRepair.Helpers;
 using NckuhRepair.Models;
 using Newtonsoft.Json;
 using System;
@@ -14,12 +15,14 @@ public partial class FormIOPageViewModel : ObservableObject, INavigatedAware
 {
     private readonly INavigationService navigationService;
     private readonly IPageDialogService dialogService;
+    private readonly FormIOVerifyHelper formIOVerifyHelper;
 
     public FormIOPageViewModel(INavigationService navigationService,
-        IPageDialogService dialogService)
+        IPageDialogService dialogService, FormIOVerifyHelper formIOVerifyHelper)
     {
         this.navigationService = navigationService;
         this.dialogService = dialogService;
+        this.formIOVerifyHelper = formIOVerifyHelper;
     }
 
     public FormIOModel FormIOModel { get; set; } = null;
@@ -28,8 +31,15 @@ public partial class FormIOPageViewModel : ObservableObject, INavigatedAware
     public bool ReadSuccessful { get; set; } = false;
 
     [RelayCommand]
-    void Save()
+    async void Save()
     {
+        var result = formIOVerifyHelper.CheckRequired(FormIOModel);
+        if(string.IsNullOrEmpty(result)==false)
+        {
+            await dialogService.DisplayAlertAsync("錯誤",
+                $"{result}", "確定");
+            return;
+        }
         var mobileFormJson = JsonConvert.SerializeObject(FormIOModel);
         dialogService.DisplayAlertAsync("通知", $"{mobileFormJson}", "OK");
     }

@@ -33,7 +33,7 @@
             ]
           },
           "validate": {
-            "required": true
+            "required": false
           },
           "key": "softwareCategory",
           "properties": {
@@ -69,6 +69,9 @@
           "label": "Location",
           "tooltip": "叫修地點",
           "tableView": true,
+          "validate": {
+            "required": true
+          },
           "key": "location",
           "type": "textfield",
           "input": true
@@ -77,6 +80,9 @@
           "label": "Phone",
           "tooltip": "連絡電話",
           "tableView": true,
+          "validate": {
+            "required": true
+          },
           "key": "phone",
           "type": "textfield",
           "input": true
@@ -85,6 +91,9 @@
           "label": "IP",
           "tooltip": "IP",
           "tableView": true,
+          "validate": {
+            "required": true
+          },
           "key": "ip",
           "type": "textfield",
           "input": true
@@ -93,6 +102,9 @@
           "label": "Property Number",
           "tooltip": "財產編號",
           "tableView": true,
+          "validate": {
+            "required": true
+          },
           "key": "propertyNumber",
           "type": "textfield",
           "input": true
@@ -109,14 +121,6 @@
       "tableView": false,
       "components": [
         {
-          "type": "camera",
-          "key": "takePhoto",
-          "input": true,
-          "tableView": false,
-          "imageContent": "",
-          "tooltip": "拍照"
-        },
-        {
           "label": "Upload",
           "tooltip": "檔案上傳",
           "tableView": false,
@@ -127,6 +131,9 @@
               "value": ""
             }
           ],
+          "validate": {
+            "required": false
+          },
           "key": "file",
           "type": "file",
           "input": true

@@ -33,7 +33,7 @@
             ]
           },
           "validate": {
-            "required": true
+            "required": false
           },
           "key": "softwareCategory",
           "properties": {
@@ -71,7 +71,10 @@
           "tableView": true,
           "key": "location",
           "type": "textfield",
-          "input": true
+          "input": true,
+          "validate": {
+            "required": true
+          }
         },
         {
           "label": "Phone",
@@ -79,7 +82,10 @@
           "tableView": true,
           "key": "phone",
           "type": "textfield",
-          "input": true
+          "input": true,
+          "validate": {
+            "required": true
+          }
         },
         {
           "label": "IP",
@@ -87,7 +93,10 @@
           "tableView": true,
           "key": "ip",
           "type": "textfield",
-          "input": true
+          "input": true,
+          "validate": {
+            "required": true
+          }
         }
       ]
     },
@@ -106,7 +115,10 @@
           "input": true,
           "tableView": false,
           "imageContent": "",
-          "tooltip": "拍照"
+          "tooltip": "拍照",
+          "validate": {
+            "required": false
+          }
         },
         {
           "label": "Upload",
@@ -119,6 +131,9 @@
               "value": ""
             }
           ],
+          "validate": {
+            "required": false
+          },
           "key": "file",
           "type": "file",
           "input": true

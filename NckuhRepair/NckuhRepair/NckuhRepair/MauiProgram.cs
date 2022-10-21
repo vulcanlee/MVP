@@ -32,6 +32,7 @@ public static class MauiProgram
                     containerRegistry.RegisterForNavigation<FormIOPage, FormIOPageViewModel>();
 
                     containerRegistry.RegisterSingleton<MagicHelper>();
+                    containerRegistry.Register<FormIOVerifyHelper>();
                 });
             })
             .ConfigureFonts(fonts =>
