@@ -84,13 +84,25 @@ public class FormIOBuilderHelper
                 #endregion
             }
 
+            Border border = new Border()
+            {
+                BackgroundColor = magicHelper.FormViewBackgroundColor,
+                StrokeThickness = 2,
+                Stroke= Color.FromArgb("7C9B73"),
+                StrokeShape = new RoundRectangle()
+                {
+                    CornerRadius = new CornerRadius(5, 5, 5, 5)
+                },
+            }
+            .Margin(new Thickness(0, 0, 0, 20));
+
             Entry entry = new Entry()
             {
                 ClassId = component.key,
                 BackgroundColor = magicHelper.FormViewBackgroundColor,
             }
             .Text(component.Value)
-            .Margin(new Thickness(0, 0, 0, 20));
+            .Margin(new Thickness(3));
 
             #region 綁定變更事件
             entry.TextChanged += (s, e) =>
@@ -99,7 +111,8 @@ public class FormIOBuilderHelper
             };
             #endregion
 
-            verticalStackLayout.Children.Add(entry);
+            border.Content = entry;
+            verticalStackLayout.Children.Add(border);
             generateView = verticalStackLayout;
         }
         #endregion
@@ -123,6 +136,18 @@ public class FormIOBuilderHelper
                 #endregion
             }
 
+            Border border = new Border()
+            {
+                BackgroundColor = magicHelper.FormViewBackgroundColor,
+                StrokeThickness = 2,
+                Stroke = Color.FromArgb("7C9B73"),
+                StrokeShape = new RoundRectangle()
+                {
+                    CornerRadius = new CornerRadius(5, 5, 5, 5)
+                },
+            }
+            .Margin(new Thickness(0, 0, 0, 20));
+
             Entry entry = new Entry()
             {
                 ClassId = component.key,
@@ -130,7 +155,7 @@ public class FormIOBuilderHelper
                 IsPassword = true,
             }
             .Text(component.Value)
-            .Margin(new Thickness(0, 0, 0, 20));
+            .Margin(new Thickness(3));
 
             #region 綁定變更事件
             entry.TextChanged += (s, e) =>
@@ -139,7 +164,8 @@ public class FormIOBuilderHelper
             };
             #endregion
 
-            verticalStackLayout.Children.Add(entry);
+            border.Content = entry;
+            verticalStackLayout.Children.Add(border);
             generateView = verticalStackLayout;
         }
         #endregion
@@ -163,6 +189,18 @@ public class FormIOBuilderHelper
                 #endregion
             }
 
+            Border border = new Border()
+            {
+                BackgroundColor = magicHelper.FormViewBackgroundColor,
+                StrokeThickness = 2,
+                Stroke = Color.FromArgb("7C9B73"),
+                StrokeShape = new RoundRectangle()
+                {
+                    CornerRadius = new CornerRadius(5, 5, 5, 5)
+                },
+            }
+            .Margin(new Thickness(0, 0, 0, 20));
+
             Entry entry = new Entry()
             {
                 ClassId = component.key,
@@ -170,7 +208,7 @@ public class FormIOBuilderHelper
                 Keyboard = Keyboard.Numeric,
             }
             .Text(component.Value)
-            .Margin(new Thickness(0, 0, 0, 20));
+            .Margin(new Thickness(3));
 
             #region 綁定變更事件
             entry.TextChanged += (s, e) =>
@@ -196,7 +234,8 @@ public class FormIOBuilderHelper
             };
             #endregion
 
-            verticalStackLayout.Children.Add(entry);
+            border.Content = entry;
+            verticalStackLayout.Children.Add(border);
             generateView = verticalStackLayout;
         }
         #endregion
@@ -220,6 +259,18 @@ public class FormIOBuilderHelper
                 #endregion
             }
 
+            Border border = new Border()
+            {
+                BackgroundColor = magicHelper.FormViewBackgroundColor,
+                StrokeThickness = 2,
+                Stroke = Color.FromArgb("7C9B73"),
+                StrokeShape = new RoundRectangle()
+                {
+                    CornerRadius = new CornerRadius(5, 5, 5, 5)
+                },
+            }
+            .Margin(new Thickness(0, 0, 0, 20));
+
             string requireMessage = "";
             if (component.validate?.required == true)
                 requireMessage = " ，請注意這個欄位為必填";
@@ -233,7 +284,7 @@ public class FormIOBuilderHelper
                 HeightRequest = 150,
                 Placeholder = $"請在此填入 {component.tooltip} {requireMessage}",
             }
-            .Margin(new Thickness(0, 0, 0, 20));
+            .Margin(new Thickness(3));
             entry.Text = component.Value;
 
             entry.TextChanged += (s, e) =>
@@ -241,7 +292,8 @@ public class FormIOBuilderHelper
                 component.Value = e.NewTextValue;
             };
 
-            verticalStackLayout.Children.Add(entry);
+            border.Content = entry;
+            verticalStackLayout.Children.Add(border);
             generateView = verticalStackLayout;
         }
         #endregion
