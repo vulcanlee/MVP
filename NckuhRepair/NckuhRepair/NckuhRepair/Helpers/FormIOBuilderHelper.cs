@@ -34,7 +34,7 @@ public class FormIOBuilderHelper
                 {
                     CornerRadius = new CornerRadius(5, 5, 5, 5)
                 },
-                Padding = new Thickness(10, 10, 10, 10),
+                Padding = magicHelper.LayoutPadding,
             };
 
             border.Margin(new Thickness(0, 0, 0, 30));
@@ -55,6 +55,7 @@ public class FormIOBuilderHelper
                 Margin = new Thickness(0, 20, 0, 20),
             });
             #endregion
+
             border.Content = verticalStackLayout;
 
             generateView = border;

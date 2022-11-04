@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NckuhRepair.Views.FormIOPage"
              Title="表單頁面"
-             BackgroundColor="#FFFFFE">
+             BackgroundColor="#bee1dc">
 
     <Grid
         RowDefinitions="*,70">

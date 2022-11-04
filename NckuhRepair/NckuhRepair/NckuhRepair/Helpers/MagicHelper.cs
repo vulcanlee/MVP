@@ -47,6 +47,7 @@ namespace NckuhRepair.Helpers
             = Color.FromArgb("858585");
         public Color DisableColor { get; set; }
             = Color.FromArgb("d1d1d1");
+        public Thickness LayoutPadding { get; set; } = new Thickness(20, 10, 20, 10);
         #endregion
     }
 }

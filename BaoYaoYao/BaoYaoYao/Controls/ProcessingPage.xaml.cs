@@ -3,11 +3,11 @@ using CommunityToolkit.Maui.Views;
 
 namespace BaoYaoYao.Controls;
 
-public partial class ProcessingPage : Popup
+public partial class ProcessingView : Popup
 {
 	private readonly IEventAggregator eventAggregator;
 
-	public ProcessingPage(IEventAggregator eventAggregator)
+	public ProcessingView(IEventAggregator eventAggregator)
 	{
 		InitializeComponent();
 		this.eventAggregator = eventAggregator;
