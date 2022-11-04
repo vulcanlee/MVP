@@ -58,8 +58,8 @@
 	<None Remove="Resources\Raw\hardware.json" />
 	<None Remove="Resources\Raw\pacs.json" />
 	<None Remove="Resources\Raw\report.json" />
+	<None Remove="Resources\Raw\simpleform.json" />
 	<None Remove="Resources\Raw\software.json" />
-	<None Remove="Resources\Raw\精簡化表單.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -80,7 +80,7 @@
     <MauiAsset Update="Resources\Raw\pacs.json">
       <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
     </MauiAsset>
-    <MauiAsset Update="Resources\Raw\精簡化表單.json">
+    <MauiAsset Update="Resources\Raw\simpleform.json">
       <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
     </MauiAsset>
   </ItemGroup>

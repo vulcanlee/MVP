@@ -233,6 +233,7 @@ public class FormIOBuilderHelper
                 Placeholder = $"請在此填入 {component.tooltip} {requireMessage}",
             }
             .Margin(new Thickness(0, 0, 0, 20));
+            entry.Text = component.Value;
 
             entry.TextChanged += (s, e) =>
             {
@@ -270,6 +271,8 @@ public class FormIOBuilderHelper
                 HorizontalOptions = LayoutOptions.Fill,
             }
             .Margin(new Thickness(0, 0, 0, 20));
+
+            // Todo : 要能顯示上次輸入的內容
 
             picker.SelectedIndexChanged += (s, e) =>
             {
@@ -309,6 +312,13 @@ public class FormIOBuilderHelper
                 HorizontalOptions = LayoutOptions.Start,
             }
             .Margin(new Thickness(0, 0, 0, 0));
+
+            #region 帶入之前輸入的內容
+            bool result = false;
+            bool convertResult = bool.TryParse(component.Value, out result);
+            if (convertResult)
+                checkBox.IsChecked = result;
+            #endregion
 
             checkBox.CheckedChanged += (s, e) =>
             {
@@ -373,6 +383,13 @@ public class FormIOBuilderHelper
                     HorizontalOptions = LayoutOptions.Start,
                 }
                 .Margin(new Thickness(0, 0, 0, 0));
+
+                #region 帶入之前輸入的內容
+                bool result = false;
+                bool convertResult = bool.TryParse(component.Value, out result);
+                if (convertResult)
+                    checkBox.IsChecked = result;
+                #endregion
 
                 checkBox.CheckedChanged += (s, e) =>
                 {
@@ -447,6 +464,13 @@ public class FormIOBuilderHelper
                 }
                 .Margin(new Thickness(0, 0, 15, 0));
 
+                #region 帶入之前輸入的內容
+                bool result = false;
+                bool convertResult = bool.TryParse(component.Value, out result);
+                if (convertResult)
+                    radioButton.IsChecked = result;
+                #endregion
+
                 TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
                 tapGestureRecognizer.NumberOfTapsRequired = 1;
                 tapGestureRecognizer.Tapped += (s, e) =>
@@ -508,6 +532,13 @@ public class FormIOBuilderHelper
             }
             .Margin(new Thickness(0, 0, 0, 20));
 
+            #region 帶入之前輸入的內容
+            DateTime result = DateTime.Now;
+            bool convertResult = DateTime.TryParse(component.Value, out result);
+            if (convertResult)
+                datepicker.Date = result;
+            #endregion
+
             datepicker.DateSelected += (s, e) =>
             {
                 component.Value = datepicker.Date.ToString();
@@ -542,6 +573,13 @@ public class FormIOBuilderHelper
                 ClassId = component.key,
                 Format = "HH:mm:ss",
             };
+
+            #region 帶入之前輸入的內容
+            TimeSpan result ;
+            bool convertResult = TimeSpan.TryParse(component.Value, out result);
+            if (convertResult)
+                timePicker.Time = result;
+            #endregion
 
             timePicker.PropertyChanged += (s, e) =>
             {
@@ -601,6 +639,8 @@ public class FormIOBuilderHelper
             .Margin(new Thickness(0, 0, 0, 20));
             grid.Add(entry, 0, 0);
             #endregion
+
+            // Todo camera 手機拍照 帶入之前輸入的內容
 
             #region 待顯示圖片
             Image imageTake = new Image()
@@ -726,6 +766,8 @@ public class FormIOBuilderHelper
                 .TextColor(magicHelper.FormEntryBackgroundColor));
                 #endregion
             }
+
+            // Todo 多檔案上傳的 帶入之前輸入的內容
 
             #region 顯示出多個要上傳的檔案 Bindable Layouts
             StackLayout stackLayout = new StackLayout();
