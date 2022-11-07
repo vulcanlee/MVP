@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using NckuhRepair.Helpers;
 using NckuhRepair.Models;
+using NckuhRepair.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,13 +17,16 @@ public partial class FormIOPageViewModel : ObservableObject, INavigatedAware
     private readonly INavigationService navigationService;
     private readonly IPageDialogService dialogService;
     private readonly FormIOVerifyHelper formIOVerifyHelper;
+    private readonly FormItemService formItemService;
 
     public FormIOPageViewModel(INavigationService navigationService,
-        IPageDialogService dialogService, FormIOVerifyHelper formIOVerifyHelper)
+        IPageDialogService dialogService, FormIOVerifyHelper formIOVerifyHelper,
+        FormItemService formItemService)
     {
         this.navigationService = navigationService;
         this.dialogService = dialogService;
         this.formIOVerifyHelper = formIOVerifyHelper;
+        this.formItemService = formItemService;
     }
 
     public FormIOModel FormIOModel { get; set; } = null;
@@ -31,17 +35,19 @@ public partial class FormIOPageViewModel : ObservableObject, INavigatedAware
     public bool ReadSuccessful { get; set; } = false;
 
     [RelayCommand]
-    async void Save()
+    async Task Save()
     {
         var result = formIOVerifyHelper.CheckRequired(FormIOModel);
-        if(string.IsNullOrEmpty(result)==false)
+        if (string.IsNullOrEmpty(result) == false)
         {
             await dialogService.DisplayAlertAsync("錯誤",
                 $"{result}", "確定");
             return;
         }
-        var mobileFormJson = JsonConvert.SerializeObject(FormIOModel);
-        dialogService.DisplayAlertAsync("通知", $"{mobileFormJson}", "OK");
+
+        if (formItemService.Items.Count == 0) await formItemService.ReadFromFileAsync();
+        formItemService.Items.Add(FormIOModel);
+        await dialogService.DisplayAlertAsync("通知", $"已經儲存", "OK");
     }
 
     [RelayCommand]

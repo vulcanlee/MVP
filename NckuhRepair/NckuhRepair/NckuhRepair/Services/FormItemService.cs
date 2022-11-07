@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NckuhRepair.Services
 {
-    public class FormItemService : BaseWebAPI<List<FormIOModel>>
+    public class FormItemService : BaseWebAPI<FormIOModel>
     {
         public FormItemService()
             : base()
@@ -18,7 +18,7 @@ namespace NckuhRepair.Services
 
         void SetDefaultPersistentBehavior()
         {
-            ApiResultIsCollection = false;
+            ApiResultIsCollection = true;
             PersistentStorage = ApiResultIsCollection ? PersistentStorage.Collection : PersistentStorage.Single;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Markup;
 using NckuhRepair.Helpers;
+using NckuhRepair.Services;
 using NckuhRepair.ViewModels;
 using NckuhRepair.Views;
 
@@ -33,6 +34,7 @@ public static class MauiProgram
 
                     containerRegistry.RegisterSingleton<MagicHelper>();
                     containerRegistry.Register<FormIOVerifyHelper>();
+                    containerRegistry.RegisterSingleton<FormItemService>();
                 });
             })
             .ConfigureFonts(fonts =>
