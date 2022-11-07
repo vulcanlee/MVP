@@ -15,7 +15,7 @@
             ItemsSource="{Binding FormRecordItems}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:FormRecordItem">
-                    <Grid ColumnDefinitions="150,*"
+                    <Grid ColumnDefinitions="*,150"
                         HorizontalOptions="Fill"
                         HeightRequest="45">
 

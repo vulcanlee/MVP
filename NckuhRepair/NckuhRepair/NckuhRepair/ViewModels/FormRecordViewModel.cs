@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using NckuhRepair.Models;
+using NckuhRepair.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,13 +13,16 @@ namespace NckuhRepair.ViewModels
     public partial class FormRecordViewModel : ObservableObject, INavigatedAware, IActiveAware
     {
         private readonly INavigationService navigationService;
+        private readonly FormItemService formItemService;
         [ObservableProperty]
         ObservableCollection<FormRecordItem> formRecordItems =
             new ObservableCollection<FormRecordItem>();
 
-        public FormRecordViewModel(INavigationService navigationService)
+        public FormRecordViewModel(INavigationService navigationService,
+            FormItemService formItemService)
         {
             this.navigationService = navigationService;
+            this.formItemService = formItemService;
         }
 
         [ObservableProperty]
@@ -39,39 +43,17 @@ namespace NckuhRepair.ViewModels
         private async Task RefreshAsync()
         {
             await Task.Yield();
+            await formItemService.ReadFromFileAsync();
             FormRecordItems.Clear();
-            FormRecordItems.Add(new FormRecordItem()
+            foreach (var item in formItemService.Items)
             {
-                Title = "軟體叫修",
-                CreateAt = DateTime.Now.AddDays(-1),
-                Form = new FormIOModel()
+                FormRecordItems.Add(new FormRecordItem()
                 {
-                }
-            });
-            FormRecordItems.Add(new FormRecordItem()
-            {
-                Title = "軟體叫修",
-                CreateAt = DateTime.Now.AddDays(-2),
-                Form = new FormIOModel()
-                {
-                }
-            });
-            FormRecordItems.Add(new FormRecordItem()
-            {
-                Title = "硬體叫修",
-                CreateAt = DateTime.Now.AddDays(-5),
-                Form = new FormIOModel()
-                {
-                }
-            });
-            FormRecordItems.Add(new FormRecordItem()
-            {
-                Title = "PACS叫修",
-                CreateAt = DateTime.Now.AddDays(-10),
-                Form = new FormIOModel()
-                {
-                }
-            });
+                    Title = item.title,
+                    CreateAt = item.CreateAt,
+                    Form = item,
+                });
+            }
         }
 
         #region CommunityToolkit 的 ObservableProperty Running code upon changes

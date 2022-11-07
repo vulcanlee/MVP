@@ -45,9 +45,15 @@ public partial class FormIOPageViewModel : ObservableObject, INavigatedAware
             return;
         }
 
-        if (formItemService.Items.Count == 0) await formItemService.ReadFromFileAsync();
+        if (formItemService.Items == null || formItemService.Items.Count == 0) 
+            await formItemService.ReadFromFileAsync();
+        FormIOModel.CreateAt = DateTime.Now;
         formItemService.Items.Add(FormIOModel);
+        await formItemService.WriteToFileAsync();
+        
         await dialogService.DisplayAlertAsync("通知", $"已經儲存", "OK");
+
+        await navigationService.GoBackAsync();
     }
 
     [RelayCommand]
