@@ -1,6 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using NckuhRepair.Helpers;
 using NckuhRepair.Models;
 using NckuhRepair.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,15 +17,17 @@ namespace NckuhRepair.ViewModels
     {
         private readonly INavigationService navigationService;
         private readonly FormItemService formItemService;
+        private readonly MagicHelper magicHelper;
         [ObservableProperty]
         ObservableCollection<FormRecordItem> formRecordItems =
             new ObservableCollection<FormRecordItem>();
 
         public FormRecordViewModel(INavigationService navigationService,
-            FormItemService formItemService)
+            FormItemService formItemService, MagicHelper magicHelper)
         {
             this.navigationService = navigationService;
             this.formItemService = formItemService;
+            this.magicHelper = magicHelper;
         }
 
         [ObservableProperty]
@@ -64,11 +69,34 @@ namespace NckuhRepair.ViewModels
                 await RefreshAsync();
             }   
         }
-        #endregion
         
         protected virtual void RaiseIsActiveChanged()
         {
             IsActiveChanged?.Invoke(this, EventArgs.Empty);
         }
+        #endregion
+
+        #region 綁定頁面上的命令
+        [RelayCommand]
+        public async Task TapFormRecordItem(FormRecordItem formRecordItem)
+        {
+            await Task.Yield();
+
+            #region 開啟頁面來顯示這張表單
+            string formJSON = JsonConvert.SerializeObject(formRecordItem.Form);
+
+            NavigationParameters parameters = new NavigationParameters();
+            parameters.Add(magicHelper.FormIOModelNavigationParameterName, formRecordItem.Form);
+            parameters.Add(magicHelper.JSONNavigationParameterName, formJSON);
+            parameters.Add(magicHelper.FormEditModeNavigationParameterName, false);
+
+            await navigationService.CreateBuilder()
+                .WithParameters(parameters)
+                .AddSegment<FormIOPageViewModel>()
+                .NavigateAsync();
+
+            #endregion
+        }
+        #endregion
     }
 }

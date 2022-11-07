@@ -49,5 +49,11 @@ namespace NckuhRepair.Helpers
             = Color.FromArgb("d1d1d1");
         public Thickness LayoutPadding { get; set; } = new Thickness(20, 10, 20, 10);
         #endregion
+
+        #region 頁面導航用的 Key 鍵值名字
+        public readonly string FormIOModelNavigationParameterName = "FormIOModel";
+        public readonly string JSONNavigationParameterName = "JSON";
+        public readonly string FormEditModeNavigationParameterName = "FormEditMode";
+        #endregion
     }
 }

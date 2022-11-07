@@ -1,4 +1,5 @@
 using NckuhRepair.Helpers;
+using NckuhRepair.Models;
 using NckuhRepair.ViewModels;
 
 namespace NckuhRepair.Views;
@@ -38,7 +39,7 @@ public partial class FormIOPage : ContentPage
                 {
                     await MainThread.InvokeOnMainThreadAsync(() =>
                     {
-                        OnBuildForms();
+                        OnBuildDynamicForm();
                     });
                     break;
                 }
@@ -47,8 +48,12 @@ public partial class FormIOPage : ContentPage
         }
     }
 
-    public void OnBuildForms()
+    public void OnBuildDynamicForm()
     {
+        FormActionModel formAction = new FormActionModel()
+        {
+            EditMode = FormIOPageViewModel.FormEditMode,
+        };
         var form = FormIOPageViewModel.FormIOModel;
 
         if(!string.IsNullOrEmpty(form.title))
@@ -58,7 +63,7 @@ public partial class FormIOPage : ContentPage
 
         foreach (Models.Component componentParent in form.components)
         {
-            IView view = formIOBuilderHelper.GenerateView(componentParent, dialogService);
+            IView view = formIOBuilderHelper.GenerateView(componentParent, formAction, dialogService);
             hostContainer.Children.Add(view);
 
             if (componentParent.type == magicHelper.FormIOPanel)
@@ -67,7 +72,7 @@ public partial class FormIOPage : ContentPage
 
                 foreach (Models.Component componentChild in componentParent.components)
                 {
-                    IView viewChild = formIOBuilderHelper.GenerateView(componentChild, dialogService);
+                    IView viewChild = formIOBuilderHelper.GenerateView(componentChild, formAction, dialogService);
                     if (viewChild != null)
                     {
                         verticalStackLayout.Children.Add(viewChild);

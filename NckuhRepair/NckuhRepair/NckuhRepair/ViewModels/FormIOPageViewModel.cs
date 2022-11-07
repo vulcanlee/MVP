@@ -18,19 +18,22 @@ public partial class FormIOPageViewModel : ObservableObject, INavigatedAware
     private readonly IPageDialogService dialogService;
     private readonly FormIOVerifyHelper formIOVerifyHelper;
     private readonly FormItemService formItemService;
+    private readonly MagicHelper magicHelper;
 
     public FormIOPageViewModel(INavigationService navigationService,
         IPageDialogService dialogService, FormIOVerifyHelper formIOVerifyHelper,
-        FormItemService formItemService)
+        FormItemService formItemService, MagicHelper magicHelper)
     {
         this.navigationService = navigationService;
         this.dialogService = dialogService;
         this.formIOVerifyHelper = formIOVerifyHelper;
         this.formItemService = formItemService;
+        this.magicHelper = magicHelper;
     }
 
     public FormIOModel FormIOModel { get; set; } = null;
     public string Json { get; set; }
+    public bool FormEditMode { get; set; } = true;
     public Action BuildFormObject { get; set; }
     public bool ReadSuccessful { get; set; } = false;
 
@@ -69,8 +72,9 @@ public partial class FormIOPageViewModel : ObservableObject, INavigatedAware
     public void OnNavigatedTo(INavigationParameters parameters)
     {
         ReadSuccessful = false;
-        FormIOModel = parameters.GetValue<FormIOModel>("FormIOModel");
-        Json = parameters.GetValue<string>("JSON");
+        FormIOModel = parameters.GetValue<FormIOModel>(magicHelper.FormIOModelNavigationParameterName);
+        Json = parameters.GetValue<string>(magicHelper.JSONNavigationParameterName);
+        FormEditMode = parameters.GetValue<bool>(magicHelper.FormEditModeNavigationParameterName);
         ReadSuccessful = true;
     }
 }

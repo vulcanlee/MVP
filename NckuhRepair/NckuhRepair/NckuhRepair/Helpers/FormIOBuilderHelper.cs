@@ -19,7 +19,8 @@ public class FormIOBuilderHelper
         this.magicHelper = magicHelper;
     }
 
-    public IView GenerateView(Models.Component component, IPageDialogService dialogService)
+    public IView GenerateView(Models.Component component,
+        FormActionModel formAction, IPageDialogService dialogService)
     {
         IView generateView = null;
 
@@ -88,7 +89,7 @@ public class FormIOBuilderHelper
             {
                 BackgroundColor = magicHelper.FormViewBackgroundColor,
                 StrokeThickness = 2,
-                Stroke= Color.FromArgb("7C9B73"),
+                Stroke = Color.FromArgb("7C9B73"),
                 StrokeShape = new RoundRectangle()
                 {
                     CornerRadius = new CornerRadius(5, 5, 5, 5)
@@ -109,6 +110,13 @@ public class FormIOBuilderHelper
             {
                 component.Value = e.NewTextValue;
             };
+            #endregion
+
+            #region 查看表單的唯獨模式
+            if (formAction.EditMode == false)
+            {
+                entry.IsEnabled = false;
+            }
             #endregion
 
             border.Content = entry;
@@ -162,6 +170,13 @@ public class FormIOBuilderHelper
             {
                 component.Value = e.NewTextValue;
             };
+            #endregion
+
+            #region 查看表單的唯獨模式
+            if (formAction.EditMode == false)
+            {
+                entry.IsEnabled = false;
+            }
             #endregion
 
             border.Content = entry;
@@ -234,6 +249,13 @@ public class FormIOBuilderHelper
             };
             #endregion
 
+            #region 查看表單的唯獨模式
+            if (formAction.EditMode == false)
+            {
+                entry.IsEnabled = false;
+            }
+            #endregion
+
             border.Content = entry;
             verticalStackLayout.Children.Add(border);
             generateView = verticalStackLayout;
@@ -292,6 +314,13 @@ public class FormIOBuilderHelper
                 component.Value = e.NewTextValue;
             };
 
+            #region 查看表單的唯獨模式
+            if (formAction.EditMode == false)
+            {
+                entry.IsEnabled = false;
+            }
+            #endregion
+
             border.Content = entry;
             verticalStackLayout.Children.Add(border);
             generateView = verticalStackLayout;
@@ -345,6 +374,13 @@ public class FormIOBuilderHelper
             }
             picker.ItemsSource = allOptions;
 
+            #region 查看表單的唯獨模式
+            if (formAction.EditMode == false)
+            {
+                picker.IsEnabled = false;
+            }
+            #endregion
+
             verticalStackLayout.Children.Add(picker);
             generateView = verticalStackLayout;
         }
@@ -378,6 +414,13 @@ public class FormIOBuilderHelper
                 component.Value = e.Value.ToString();
             };
             grid.Add(checkBox, 0, 0);
+
+            #region 查看表單的唯獨模式
+            if (formAction.EditMode == false)
+            {
+                checkBox.IsEnabled = false;
+            }
+            #endregion
 
             if (string.IsNullOrEmpty(component.tooltip) == false)
             {
@@ -474,6 +517,13 @@ public class FormIOBuilderHelper
                 };
                 grid.Add(checkBox, 0, 0);
 
+                #region 查看表單的唯獨模式
+                if (formAction.EditMode == false)
+                {
+                    checkBox.IsEnabled = false;
+                }
+                #endregion
+
                 if (string.IsNullOrEmpty(component.tooltip) == false)
                 {
                     #region 文字輸入盒 的 前置說明文字
@@ -547,6 +597,13 @@ public class FormIOBuilderHelper
                 radioButton.GestureRecognizers.Add(tapGestureRecognizer);
                 radioButton.GestureRecognizers.Add(tapGestureRecognizer2);
 
+                #region 查看表單的唯獨模式
+                if (formAction.EditMode == false)
+                {
+                    radioButton.IsEnabled = false;
+                }
+                #endregion
+
                 stackLayout.Children.Add(radioButton);
             }
 
@@ -597,6 +654,13 @@ public class FormIOBuilderHelper
                 component.Value = datepicker.Date.ToString();
             };
 
+            #region 查看表單的唯獨模式
+            if (formAction.EditMode == false)
+            {
+                datepicker.IsEnabled = false;
+            }
+            #endregion
+
             verticalStackLayout.Children.Add(datepicker);
             generateView = verticalStackLayout;
         }
@@ -628,7 +692,7 @@ public class FormIOBuilderHelper
             };
 
             #region 帶入之前輸入的內容
-            TimeSpan result ;
+            TimeSpan result;
             bool convertResult = TimeSpan.TryParse(component.Value, out result);
             if (convertResult)
                 timePicker.Time = result;
@@ -638,6 +702,13 @@ public class FormIOBuilderHelper
             {
                 component.Value = timePicker.Time.ToString();
             };
+
+            #region 查看表單的唯獨模式
+            if (formAction.EditMode == false)
+            {
+                timePicker.IsEnabled = false;
+            }
+            #endregion
 
             Grid grid = new Grid()
             {
@@ -747,46 +818,53 @@ public class FormIOBuilderHelper
             TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
             tapGestureRecognizer.Tapped += async (s, e) =>
             {
-                if (MediaPicker.Default.IsCaptureSupported)
+
+                #region 查看表單的唯獨模式
+                if (formAction.EditMode == true)
                 {
-                    #region 這台裝置有支援拍照功能
-                    FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
-                    if (photo != null)
+
+                    if (MediaPicker.Default.IsCaptureSupported)
                     {
-                        #region 將取得的媒體檔案，儲存到快取目錄下
-                        string targetFilePath = System.IO.Path.Combine(FileSystem.CacheDirectory,
-                            photo.FileName);
-                        entry.Text = photo.FileName;
-                        using Stream sourceStream = await photo.OpenReadAsync();
-                        using FileStream targetStream = File.OpenWrite(targetFilePath);
+                        #region 這台裝置有支援拍照功能
+                        FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
+                        if (photo != null)
+                        {
+                            #region 將取得的媒體檔案，儲存到快取目錄下
+                            string targetFilePath = System.IO.Path.Combine(FileSystem.CacheDirectory,
+                                photo.FileName);
+                            entry.Text = photo.FileName;
+                            using Stream sourceStream = await photo.OpenReadAsync();
+                            using FileStream targetStream = File.OpenWrite(targetFilePath);
 
-                        await sourceStream.CopyToAsync(targetStream);
-                        sourceStream.Close(); targetStream.Close();
+                            await sourceStream.CopyToAsync(targetStream);
+                            sourceStream.Close(); targetStream.Close();
 
-                        component.Value = targetFilePath;
-                        #endregion
+                            component.Value = targetFilePath;
+                            #endregion
 
-                        #region 顯示該圖片
-                        imageTake.Source = ImageSource.FromFile(targetFilePath);
-                        imageTake.IsVisible = true;
-                        #endregion
+                            #region 顯示該圖片
+                            imageTake.Source = ImageSource.FromFile(targetFilePath);
+                            imageTake.IsVisible = true;
+                            #endregion
 
-                        #region 轉換成為 base64
-                        //component.imageContent = "";
-                        //using Stream sourceStream2 = await photo.OpenReadAsync();
-                        //using (MemoryStream memory = new MemoryStream())
-                        //{
-                        //    sourceStream2.CopyTo(memory);
-                        //    byte[] bytes = memory.ToArray();
-                        //    //如何將 Image Stream 轉換成為 ImageSource
-                        //    //image.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
-                        //    string base64 = System.Convert.ToBase64String(bytes);
-                        //    component.imageContent = base64;
-                        //}
+                            #region 轉換成為 base64
+                            //component.imageContent = "";
+                            //using Stream sourceStream2 = await photo.OpenReadAsync();
+                            //using (MemoryStream memory = new MemoryStream())
+                            //{
+                            //    sourceStream2.CopyTo(memory);
+                            //    byte[] bytes = memory.ToArray();
+                            //    //如何將 Image Stream 轉換成為 ImageSource
+                            //    //image.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
+                            //    string base64 = System.Convert.ToBase64String(bytes);
+                            //    component.imageContent = base64;
+                            //}
+                            #endregion
+                        }
                         #endregion
                     }
-                    #endregion
                 }
+                #endregion
             };
             imageCamera.GestureRecognizers.Add(tapGestureRecognizer);
 
@@ -845,14 +923,6 @@ public class FormIOBuilderHelper
                 .FirstOrDefault(x => System.IO.Path.GetFileName(x.value) ==
                 System.IO.Path.GetFileName(result.FullPath));
 
-                //foreach (var item in component.fileTypes)
-                //{
-                //    var foo = (item.value == result.FullPath);
-                //    if(foo==true)
-                //    {
-                //        var bar = 0;
-                //    }
-                //}
                 if (isExistFile != null)
                 {
                     await dialogService
@@ -912,6 +982,13 @@ public class FormIOBuilderHelper
                 stackLayout.Children.Add(grid);
                 #endregion
             };
+            #endregion
+
+            #region 查看表單的唯獨模式
+            if (formAction.EditMode == false)
+            {
+                button.IsEnabled = false;
+            }
             #endregion
 
             verticalStackLayout.Children.Add(button);

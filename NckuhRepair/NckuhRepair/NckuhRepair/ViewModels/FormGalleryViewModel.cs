@@ -56,8 +56,9 @@ namespace NckuhRepair.ViewModels
                 var mobileForm = JsonConvert.DeserializeObject<FormIOModel>(result);
 
                 NavigationParameters parameters = new NavigationParameters();
-                parameters.Add("FormIOModel", mobileForm);
-                parameters.Add("JSON", result);
+                parameters.Add(magicHelper.FormIOModelNavigationParameterName, mobileForm);
+                parameters.Add(magicHelper.JSONNavigationParameterName, result);
+                parameters.Add(magicHelper.FormIOModelNavigationParameterName, true);
 
                 await navigationService.CreateBuilder()
                     .WithParameters(parameters)
