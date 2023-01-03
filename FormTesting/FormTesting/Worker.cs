@@ -1,10 +1,15 @@
+using Microsoft.Extensions.Options;
+using TestingModel.Models;
+
 namespace FormTesting
 {
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
 
-        public Worker(ILogger<Worker> logger)
+        public Worker(ILogger<Worker> logger,
+            IOptions<TestingTargetConfiguration> TargetOption,
+            IOptions<List<TestingNodeConfiguration>> TestingNodeOption)
         {
             _logger = logger;
         }

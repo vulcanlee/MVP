@@ -1,3 +1,5 @@
+using TestingModel.Models;
+
 namespace FormTesting
 {
     public class Program
@@ -5,9 +7,13 @@ namespace FormTesting
         public static void Main(string[] args)
         {
             IHost host = Host.CreateDefaultBuilder(args)
-                .ConfigureServices(services =>
+                .ConfigureServices((hostContext,services) =>
                 {
                     services.AddHostedService<Worker>();
+                    services.Configure<TestingTargetConfiguration>(
+                        hostContext.Configuration.GetSection("Target"));
+                    services.Configure<List<TestingNodeConfiguration>>(
+                        hostContext.Configuration.GetSection("TestingNodes"));
                 })
                 .Build();
 
