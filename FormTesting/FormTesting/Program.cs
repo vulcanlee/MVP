@@ -19,6 +19,7 @@ namespace FormTesting
                     services.AddTransient<PerformanceMeasure>();
                     services.AddTransient<FormsStressTesting>();
                     services.AddTransient<FormHelper>();
+                    services.AddTransient<RemotePerformanceHelper>();
                 })
                 .Build();
 

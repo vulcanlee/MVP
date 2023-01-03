@@ -46,6 +46,7 @@ namespace TestingBusiness
             #region 設定這個方法會用到的相關欄位值
             numberOfRequests = testingNode.NumberOfRequests;
             maxHttpClients = testingNode.MaxHttpClients;
+            totalForms = testingNode.FormIds.Count;
             #endregion
 
             #region 建立需要測試的表單清單 URL
@@ -63,96 +64,10 @@ namespace TestingBusiness
 
             if (testingNode.Mode == MagicObject.TestingNodeActionWarmingUp)
             {
-                Stopwatch allWeakup = new Stopwatch();
-                allWeakup.Start();
-
-                Console.WriteLine($"強制休息 {testingNode.ForceSleepMilliSecond / 1000} 秒");
-                await Task.Delay(testingNode.ForceSleepMilliSecond);
-
-                Console.WriteLine($"Opening {allForms.Count} Forms");
-                stopwatch.Restart();
-                stopwatch.Start();
-                index = 0;
-                int start = 0;
-                object locker = new object();
-
-                allFormsTitle.Clear();
-                for (int i = 0; i < allForms.Count; i++) allFormsTitle.Add("");
-                for (int i = start; i < allForms.Count; i++)
-                {
-                    if (i % maxHttpClients == 0)
-                        tasks.Clear();
-
-                    int idx = i;
-
-                    if (allForms[i].Contains("e0f53420-f6fa-40b9-a557-743987f38cec") ||
-                        allForms[i].Contains("e611e336-c7f3-48a9-b0f4-349ebe51d2da") ||
-                        allForms[i].Contains("e0f53420-f6fa-40b9-a557-743987f38cec") ||
-                        allForms[i].Contains("e0f53420-f6fa-40b9-a557-743987f38cec"))
-                        continue;
-
-                    var client = clients[i % maxHttpClients];
-                    var task = Task.Run(async () =>
-                    {
-                        Stopwatch stopwatch = new Stopwatch();
-                        stopwatch.Restart();
-                        stopwatch.Start();
-
-                        var resultTitle = await NetGetFormAsync(performanceMeasureHeader,
-                                  client, allForms[idx % totalForms], idx, distributionTesting,
-                                  testingNode.HttpClientPerformanceMeasure, testingNode);
-
-                        if (resultTitle.Contains("並未將物件參考設定為物件的執行個體") ||
-                        resultTitle.Contains("編譯錯誤"))
-                        {
-                            allFailureForm.Add(testingNode.FormIds[idx]);
-                        }
-
-                        stopwatch.Stop();
-                        lock (locker)
-                        {
-                            Console.WriteLine($"Form {allForms.Count}/{idx}  {resultTitle}");
-                            Console.Write($"Elapsed time of Opening Forms:  {allForms[idx]}  ");
-                            if (stopwatch.ElapsedMilliseconds > 2000)
-                            {
-                                Output($"{stopwatch.ElapsedMilliseconds}", ConsoleColor.White, ConsoleColor.Red);
-                            }
-                            else
-                            {
-                                Output($"{stopwatch.ElapsedMilliseconds}", ConsoleColor.White, ConsoleColor.Green);
-                            }
-                            Console.WriteLine($" ms");
-                        }
-                        allFormsTitle[idx] = resultTitle;
-                        return resultTitle;
-                    });
-                    tasks.Add(task);
-
-                    if (i % maxHttpClients == (maxHttpClients - 1))
-                    {
-                        await Task.WhenAll(tasks);
-                    }
-
-                }
-
-                await Task.WhenAll(tasks);
-
-                allWeakup.Stop();
-                Console.WriteLine($"第一次初始化耗時 {allWeakup.Elapsed}");
-
-
-                if (allFailureForm.Count > 0)
-                {
-                    var foo = testingNode.FormIds;
-                    foreach (var item in allFailureForm)
-                    {
-                        Console.WriteLine(item);
-                        foo.Remove(item);
-                    }
-
-                    var bar = JsonConvert.SerializeObject(foo);
-                    Console.WriteLine(bar);
-                }
+                await formHelper.WarmingUpForms(testingNode, allForms,
+                    allFormsTitle, allFailureForm, distributionTesting,
+                    performanceMeasureHeader, maxHttpClients, totalForms,
+                    clients);
             }
             else if (testingNode.Mode == MagicObject.TestingNodeActionPerformance)
             {
@@ -233,53 +148,6 @@ namespace TestingBusiness
             var content = await client.GetStringAsync(endPoint);
             var result = JsonConvert.DeserializeObject<List<PerformanceMeasureHeader>>(content);
             return result;
-        }
-
-        async Task<HttpClient> NetLoginAsync(PerformanceMeasureHeader measure, int idx)
-        {
-            string account = testingNode.Host.Account;
-            string password = testingNode.Host.Password;
-            //account = "exentric";
-            //password = "kmuh!100";
-            string loginEndPoint = $"{testingNode.Host.ConnectHost}/Account/Login";
-            string keywordStart = "<form action=\"/Account/Login\" class=\"form-horizontal\" method=\"post\" role=\"form\"><input name=\"__RequestVerificationToken\" type=\"hidden\" value=\"";
-            string keywordEnd = "\" />";
-
-            Console.Write(".");
-
-            var handler = new HttpClientHandler()
-            {
-                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-            };
-            var client = new HttpClient(handler);
-            client.Timeout = new TimeSpan(0, 5, 0);
-            var beforeResponse = await client.GetAsync(loginEndPoint);
-            var html = await beforeResponse.Content.ReadAsStringAsync();
-            Console.Write("*");
-
-            var index = html.IndexOf(keywordStart);
-            var indexEnd = html.IndexOf(keywordEnd, index);
-            var tokenValue = html.Substring(index + keywordStart.Length, indexEnd - index - keywordStart.Length);
-
-            // 方法一： 使用字串名稱用法
-            var formData = new FormUrlEncodedContent(new[] {
-                new KeyValuePair<string, string>("__RequestVerificationToken", tokenValue),
-                new KeyValuePair<string, string>("UserName", account),
-                new KeyValuePair<string, string>("Password", password)
-            });
-
-            var response = await client.PostAsync(loginEndPoint, formData);
-            if (response != null)
-            {
-                if (response.IsSuccessStatusCode == true)
-                {
-                    // 取得呼叫完成 API 後的回報內容
-                    String strResult = await response.Content.ReadAsStringAsync();
-                    Console.Write("-");
-                    return client;
-                }
-            }
-            return null;
         }
 
         async Task<string> NetGetFormAsync(PerformanceMeasureHeader measure,
