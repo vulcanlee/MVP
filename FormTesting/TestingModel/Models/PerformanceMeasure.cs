@@ -32,7 +32,7 @@ namespace TestingModel.Models
             Header = new List<PerformanceMeasureHeader>();
         }
 
-        public void Output(SortEnum sortEnum , string[] allFormsTitle)
+        public void Output(SortEnum sortEnum, string[] allFormsTitle)
         {
             int index = 0;
             foreach (var header in Header)
@@ -54,7 +54,8 @@ namespace TestingModel.Models
                 foreach (var node in temp)
                 {
                     var delay = (int)(node.Begin - first).TotalMilliseconds;
-                    Console.Write($"{node.Title} execute cost : ");
+                    Console.WriteLine($"{node.Title}");
+                    Console.Write($"Execute cost : ");
                     Output($"{node.EstimatedTime}", ConsoleColor.White, ConsoleColor.Green);
                     Console.Write($"   Delay ");
                     Output($"{delay}", ConsoleColor.White, ConsoleColor.Blue);
@@ -76,6 +77,7 @@ namespace TestingModel.Models
             Console.Write(msg);
             Console.ForegroundColor = foregroundColor;
             Console.BackgroundColor = backgroundColor;
+            Console.ResetColor();
         }
 
         public void OutputDetail(List<PerformanceMeasureHeader> headers)
@@ -86,8 +88,20 @@ namespace TestingModel.Models
                 foreach (var item in header.Nodes)
                 {
                     if (item.Title.Contains("CustomFormsLib.GetFormAsync")) continue;
-                    Console.WriteLine($"【{item.Title} ({item.EstimatedTime}) > [{item.Latency}] {item.LatencyDetail}】 ");
-                    Console.Write($"");
+                    if(item.Latency == 0)
+                    {
+                        Console.Write($"【{item.Title} ({item.EstimatedTime}) > [");
+                        Output($"{item.Latency}", ConsoleColor.Gray, ConsoleColor.Black);
+                        Console.WriteLine($"] {item.LatencyDetail}】 ");
+                        Console.Write($"");
+                    }
+                    else
+                    {
+                        Console.Write($"【{item.Title} ({item.EstimatedTime}) > [");
+                        Output($"{item.Latency}", ConsoleColor.Yellow, ConsoleColor.Black);
+                        Console.WriteLine($"] {item.LatencyDetail}】 ");
+                        Console.Write($"");
+                    }
                 }
                 Console.WriteLine();
             }
@@ -103,12 +117,19 @@ namespace TestingModel.Models
                 {
                     if (item.Title.Contains("CustomFormsLib.GetFormAsync")) continue;
                     var title = item.Title.Trim().Split(" ")[0];
-                    Console.WriteLine($"{title,30} B:{item.Begin:mm:ss.ffff} F:{item.End:mm:ss.ffff} E:{item.EstimatedTime} ");
+                    if (title == "CustomForm")
+                    {
+                        Console.Write($"{title,30} B:");
+                        Output($"{item.Begin:mm:ss.ffff}", ConsoleColor.Cyan, ConsoleColor.Black);
+                        Console.WriteLine($" F:{item.End:mm:ss.ffff} E:{item.EstimatedTime} ");
+                    }
+                    else
+                        Console.WriteLine($"{title,30} B:{item.Begin:mm:ss.ffff} F:{item.End:mm:ss.ffff} E:{item.EstimatedTime} ");
                 }
                 Console.WriteLine();
             }
         }
-        public void OutputAnalysis(List<PerformanceMeasureHeader> headers)
+        public void OutputMaxLatencyAnalysis(List<PerformanceMeasureHeader> headers)
         {
             Console.WriteLine();
             foreach (var header in headers)

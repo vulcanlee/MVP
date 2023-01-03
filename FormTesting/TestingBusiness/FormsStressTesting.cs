@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using TestingModel.Enums;
@@ -10,8 +11,10 @@ namespace TestingBusiness
     public class FormsStressTesting
     {
         private readonly PerformanceMeasure performanceMeasure;
+        private readonly ILogger<FormsStressTesting> logger;
         private TestingNodeConfiguration testingNode;
         List<string> allForms = new List<string>();
+        List<string> allFormsTitle = new();
         List<HttpClient> clients = new List<HttpClient>();
         List<Task<HttpClient>> clientsTask = new List<Task<HttpClient>>();
         List<Task<string>> tasks = new List<Task<string>>();
@@ -19,12 +22,13 @@ namespace TestingBusiness
         int numberOfRequests = 0;
         int maxHttpClients = 0;
         bool distributionTesting = false;
-        bool performanceMeasureAction = false;
         Stopwatch stopwatch = new Stopwatch();
 
-        public FormsStressTesting(PerformanceMeasure performanceMeasure)
+        public FormsStressTesting(PerformanceMeasure performanceMeasure,
+            ILogger<FormsStressTesting> logger)
         {
             this.performanceMeasure = performanceMeasure;
+            this.logger = logger;
         }
         public async Task NETFormsAsync(TestingNodeConfiguration testingNodeConfiguration)
         {
@@ -33,13 +37,13 @@ namespace TestingBusiness
             #region 設定這個方法會用到的相關欄位值
             numberOfRequests = testingNode.NumberOfRequests;
             maxHttpClients = testingNode.MaxHttpClients;
-            performanceMeasureAction = testingNode.PerformanceMeasure;
             #endregion
 
             #region 建立需要測試的表單清單 URL
             foreach (var item in testingNode.FormEndPoints)
             {
-                string formUrl = $"{testingNode.Host.ConnectHost}{item}";
+                string formUrl = $"{testingNode.Host.ConnectHost}" +
+                    $"{testingNode.FormEndpointPrefix}{item}{testingNode.FormEndpointPost}";
                 allForms.Add(formUrl);
             }
             totalForms = allForms.Count;
@@ -47,7 +51,7 @@ namespace TestingBusiness
             #endregion
 
             #region 將伺服器上的效能統計資訊清除
-            if (testingNodeConfiguration.PerformanceMeasure == true)
+            if (testingNode.RemotePerformanceMeasure == true)
             {
                 await ResetRemotePerformanceMeasureAsync();
             }
@@ -81,45 +85,128 @@ namespace TestingBusiness
             }
             #endregion
 
-            #region 進行表單壓力測試
-            Console.WriteLine($"強制休息 10 秒");
-            await Task.Delay(6000);
-
-            Console.WriteLine($"Opening {numberOfRequests} Forms");
-            stopwatch.Restart();
-            stopwatch.Start();
-            index = 0;
-            for (int i = 0; i < numberOfRequests; i++)
+            if (testingNode.Mode == MagicObject.TestingNodeActionWarmingUp)
             {
-                int idx = i;
-                var client = clients[i % maxHttpClients];
-                var task = Task.Run(async () =>
+                Stopwatch allWeakup = new Stopwatch();
+                allWeakup.Start();
+
+                Console.WriteLine($"強制休息 {testingNode.ForceSleepMilliSecond / 1000} 秒");
+                await Task.Delay(testingNode.ForceSleepMilliSecond);
+
+                Console.WriteLine($"Opening {allForms.Count} Forms");
+                stopwatch.Restart();
+                stopwatch.Start();
+                index = 0;
+                int start = 0;
+                object locker = new object();
+
+                allFormsTitle.Clear();
+                for (int i = 0; i < allForms.Count; i++) allFormsTitle.Add("");
+                for (int i = start; i < allForms.Count; i++)
                 {
-                    var resultTitle = await NetGetFormAsync(performanceMeasureHeader,
-                         client, allForms[idx % totalForms], idx, distributionTesting,
-                         performanceMeasureAction);
-                    return resultTitle;
-                });
-                tasks.Add(task);
+                    //if (i % maxHttpClients == 0)
+                    //    tasks.Clear();
+
+                    int idx = i;
+
+                    if (allForms[i].Contains("e0f53420-f6fa-40b9-a557-743987f38cec") ||
+                        allForms[i].Contains("e611e336-c7f3-48a9-b0f4-349ebe51d2da") ||
+                        allForms[i].Contains("e0f53420-f6fa-40b9-a557-743987f38cec") ||
+                        allForms[i].Contains("e0f53420-f6fa-40b9-a557-743987f38cec"))
+                        continue;
+
+                    var client = clients[i % maxHttpClients];
+                    var task = Task.Run(async () =>
+                    {
+                        Stopwatch stopwatch = new Stopwatch();
+                        stopwatch.Restart();
+                        stopwatch.Start();
+
+                        var resultTitle = await NetGetFormAsync(performanceMeasureHeader,
+                                  client, allForms[idx % totalForms], idx, distributionTesting,
+                                  testingNode.HttpClientPerformanceMeasure, testingNode);
+
+                        stopwatch.Stop();
+                        lock (locker)
+                        {
+                            Console.WriteLine($"Form {allForms.Count}/{idx}  {resultTitle}");
+                            Console.Write($"Elapsed time of Opening Forms:  {allForms[idx]}  ");
+                            if (stopwatch.ElapsedMilliseconds > 2000)
+                            {
+                                Output($"{stopwatch.ElapsedMilliseconds}", ConsoleColor.White, ConsoleColor.Red);
+                            }
+                            else
+                            {
+                                Output($"{stopwatch.ElapsedMilliseconds}", ConsoleColor.White, ConsoleColor.Green);
+                            }
+                            Console.WriteLine($" ms");
+                        }
+                        allFormsTitle[idx] = resultTitle;
+                        return resultTitle;
+                    });
+                    tasks.Add(task);
+
+                    if (i % maxHttpClients == (maxHttpClients - 1))
+                    {
+                        await Task.WhenAll(tasks);
+                    }
+
+                }
+
+                await Task.WhenAll(tasks);
+
+                allWeakup.Stop();
+                Console.WriteLine($"第一次初始化耗時 {allWeakup.Elapsed}");
+            }
+            else if (testingNode.Mode == MagicObject.TestingNodeActionPerformance)
+            {
+                #region 進行表單壓力測試
+                Console.WriteLine($"強制休息 {testingNode.ForceSleepMilliSecond / 1000} 秒");
+                await Task.Delay(testingNode.ForceSleepMilliSecond);
+
+                Console.WriteLine($"Opening {numberOfRequests} Forms");
+                stopwatch.Restart();
+                stopwatch.Start();
+                index = 0;
+                for (int i = 0; i < numberOfRequests; i++)
+                {
+                    int idx = i;
+                    var client = clients[i % maxHttpClients];
+                    var task = Task.Run(async () =>
+                    {
+                        var resultTitle = await NetGetFormAsync(performanceMeasureHeader,
+                             client, allForms[idx % totalForms], idx, distributionTesting,
+                             testingNode.HttpClientPerformanceMeasure, testingNode);
+                        return resultTitle;
+                    });
+                    tasks.Add(task);
+                }
+
+                var allTitle = await Task.WhenAll(tasks);
+                allFormsTitle = allFormsTitle.ToList();
+                stopwatch.Stop();
+                Console.WriteLine();
+                Console.WriteLine($"Elapsed time of Opening Forms: {stopwatch.ElapsedMilliseconds} ms");
+                #endregion
             }
 
-            var allFormsTitle = await Task.WhenAll(tasks);
-            stopwatch.Stop();
-            Console.WriteLine();
-            Console.WriteLine($"Elapsed time of Opening Forms: {stopwatch.ElapsedMilliseconds} ms");
-            #endregion
-
             #region 列印出效能量測結果
-            performanceMeasure.Output(SortEnum.TotalCost, allFormsTitle);
+            if (testingNode.HttpClientPerformanceMeasure == true)
+                performanceMeasure.Output(SortEnum.TotalCost, allFormsTitle.ToArray());
             #endregion
-
 
             #region 列印效能統計分析
-            var performanceMeasureResult = await GetPerformanceMeasureAsync();
-            performanceMeasure.ParsePerformance(performanceMeasureResult);
-            performanceMeasure.OutputAnalysis(performanceMeasureResult);
-            performanceMeasure.OutputDetail(performanceMeasureResult);
-            performanceMeasure.OutputNodeDetail(performanceMeasureResult);
+            if (testingNode.RemotePerformanceMeasure == true)
+            {
+                var performanceMeasureResult = await GetPerformanceMeasureAsync();
+                performanceMeasure.ParsePerformance(performanceMeasureResult);
+                if (testingNode.RemotePerformanceMaxLatencyAnalysis)
+                    performanceMeasure.OutputMaxLatencyAnalysis(performanceMeasureResult);
+                if (testingNode.RemotePerformanceOutputDetail)
+                    performanceMeasure.OutputDetail(performanceMeasureResult);
+                if (testingNode.RemotePerformanceOutputNodeDetail)
+                    performanceMeasure.OutputNodeDetail(performanceMeasureResult);
+            }
             #endregion
 
             Console.WriteLine("Press any key for continuing...");
@@ -201,46 +288,70 @@ namespace TestingBusiness
             return null;
         }
 
-        static async Task<string> NetGetFormAsync(PerformanceMeasureHeader measure,
-        HttpClient client, string formEndPoint, int index, bool distributionTesting = true,
-       bool performanceMeasureAction = false)
+        async Task<string> NetGetFormAsync(PerformanceMeasureHeader measure,
+        HttpClient client, string formEndPoint, int index, bool distributionTesting,
+       bool performanceMeasureAction, TestingNodeConfiguration testingNode)
         {
             Random random = new Random();
             int timeRange = 30 * 1000;
+            PerformanceMeasureNode measureItem = null;
+            string title = "";
 
-            if (distributionTesting)
+            try
             {
-                int waitMS = random.Next(timeRange);
-                await Task.Delay(waitMS);
+                if (distributionTesting)
+                {
+                    int waitMS = random.Next(timeRange);
+                    await Task.Delay(waitMS);
+                }
+
+                if (performanceMeasureAction == true)
+                    measureItem = measure
+                        .BeginMeasure($"Get Form Content Page {index}", performanceMeasureAction);
+                var beforeResponse = await client.GetAsync(formEndPoint);
+                var html = await beforeResponse.Content.ReadAsStringAsync();
+
+                #region 取得 Title
+                var beginIndex = html.IndexOf("<title>");
+                var endIndex = html.IndexOf("</title>");
+                title = html.Substring(beginIndex, endIndex - beginIndex).Replace("<title>", "");
+                //Console.Write(title+"  ");
+                if (performanceMeasureAction == true)
+                    measureItem.Title = $"{measureItem.Title} > {title} ";
+                #endregion
+
+                if (performanceMeasureAction == true)
+                    measure.EndMeasure(measureItem!, performanceMeasureAction);
+
+                #region 將此次讀取到的網頁儲存到本機 Data 目錄下
+                if (testingNode.LogFormRawHtml)
+                {
+                    var foo = Directory.GetCurrentDirectory();
+                    var dataFolder = Path.Combine(Directory.GetCurrentDirectory(),
+                        MagicObject.OutputFormHtmlFolderName);
+                    if (Directory.Exists(dataFolder) == false) Directory.CreateDirectory(dataFolder);
+                    var filename = Path.Combine(dataFolder, $"forms_{index}.html");
+                    await File.WriteAllTextAsync(filename, html);
+                }
+                #endregion
             }
-
-            var measureItem = measure
-                .BeginMeasure($"Get Form Content Page {index}", performanceMeasureAction);
-            var beforeResponse = await client.GetAsync(formEndPoint);
-            var html = await beforeResponse.Content.ReadAsStringAsync();
-
-            #region 取得 Title
-            var beginIndex = html.IndexOf("<title>");
-            var endIndex = html.IndexOf("</title>");
-            var title = html.Substring(beginIndex, endIndex - beginIndex).Replace("<title>", "");
-            //Console.Write(title+"  ");
-            #endregion
-
-            measure.EndMeasure(measureItem, performanceMeasureAction);
-
-            //if (!html.Contains("20.75麻醉同意書")) throw new Exception("表單不正確");
-
-            #region 將此次讀取到的網頁儲存到本機 Data 目錄下
-            var foo = Directory.GetCurrentDirectory();
-            var dataFolder = Path.Combine(Directory.GetCurrentDirectory(),
-                MagicObject.OutputFormHtmlFolderName);
-            if (Directory.Exists(dataFolder) == false) Directory.CreateDirectory(dataFolder);
-            var filename = Path.Combine(dataFolder, $"forms_{index}.html");
-            await File.WriteAllTextAsync(filename, html);
-            #endregion
-
+            catch (Exception ex)
+            {
+                logger!.LogError(ex, $"Access URL : {formEndPoint}");
+                Console.WriteLine(ex.Message);
+            }
             return title;
         }
 
+        void Output(string msg, ConsoleColor needForegroundColor, ConsoleColor needBackgroundColor)
+        {
+            var foregroundColor = Console.ForegroundColor;
+            var backgroundColor = Console.BackgroundColor;
+            Console.ForegroundColor = needForegroundColor;
+            Console.BackgroundColor = needBackgroundColor;
+            Console.Write(msg);
+            Console.ForegroundColor = foregroundColor;
+            Console.BackgroundColor = backgroundColor;
+        }
     }
 }
