@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormTesting", "FormTesting\FormTesting.csproj", "{A72D9C58-5C04-4DDC-B489-7AF5F27F7594}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingModel", "TestingModel\TestingModel.csproj", "{33AE123F-81D0-41D8-8B03-CFAEF060A3D1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A72D9C58-5C04-4DDC-B489-7AF5F27F7594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A72D9C58-5C04-4DDC-B489-7AF5F27F7594}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A72D9C58-5C04-4DDC-B489-7AF5F27F7594}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A72D9C58-5C04-4DDC-B489-7AF5F27F7594}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33AE123F-81D0-41D8-8B03-CFAEF060A3D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33AE123F-81D0-41D8-8B03-CFAEF060A3D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33AE123F-81D0-41D8-8B03-CFAEF060A3D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33AE123F-81D0-41D8-8B03-CFAEF060A3D1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {44C394AB-0CD5-45EA-931F-1243BA57BAC7}
+	EndGlobalSection
+EndGlobal
