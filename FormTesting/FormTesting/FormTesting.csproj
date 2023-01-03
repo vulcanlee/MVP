@@ -10,4 +10,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TestingBusiness\TestingBusiness.csproj" />
+    <ProjectReference Include="..\TestingModel\TestingModel.csproj" />
+  </ItemGroup>
 </Project>
