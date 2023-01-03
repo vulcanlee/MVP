@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
+using TestingBusiness.Helpers;
 using TestingModel.Enums;
 using TestingModel.Magics;
 using TestingModel.Models;
@@ -12,6 +13,8 @@ namespace TestingBusiness
     {
         private readonly PerformanceMeasure performanceMeasure;
         private readonly ILogger<FormsStressTesting> logger;
+        private readonly FormHelper formHelper;
+        private readonly RemotePerformanceHelper remotePerformanceHelper;
         private TestingNodeConfiguration testingNode;
         List<string> allForms = new List<string>();
         List<string> allFormsTitle = new();
@@ -26,13 +29,18 @@ namespace TestingBusiness
         Stopwatch stopwatch = new Stopwatch();
 
         public FormsStressTesting(PerformanceMeasure performanceMeasure,
-            ILogger<FormsStressTesting> logger)
+            ILogger<FormsStressTesting> logger,
+            FormHelper formHelper, RemotePerformanceHelper remotePerformanceHelper)
         {
             this.performanceMeasure = performanceMeasure;
             this.logger = logger;
+            this.formHelper = formHelper;
+            this.remotePerformanceHelper = remotePerformanceHelper;
         }
         public async Task NETFormsAsync(TestingNodeConfiguration testingNodeConfiguration)
         {
+            int index = 0;
+
             this.testingNode = testingNodeConfiguration;
 
             #region 設定這個方法會用到的相關欄位值
@@ -41,50 +49,17 @@ namespace TestingBusiness
             #endregion
 
             #region 建立需要測試的表單清單 URL
-            foreach (var item in testingNode.FormIds)
-            {
-                string formUrl = $"{testingNode.Host.ConnectHost}" +
-                    $"{testingNode.FormEndpointPrefix}{item}{testingNode.FormEndpointPost}";
-                allForms.Add(formUrl);
-            }
-            totalForms = allForms.Count;
-            ThreadPool.SetMinThreads(numberOfRequests + 250, numberOfRequests + 250);
+            var allForms = formHelper.MakeFormUrl(testingNode, numberOfRequests);
             #endregion
 
-            #region 將伺服器上的效能統計資訊清除
-            if (testingNode.RemotePerformanceMeasure == true)
-            {
-                await ResetRemotePerformanceMeasureAsync();
-            }
-            #endregion
-
-            #region 登入到系統且建立需要用到的 HttpClient 物件集合
-            await Task.Delay(1000);
-            Console.WriteLine($"Building {maxHttpClients} HttpClients");
-            stopwatch.Restart();
-            stopwatch.Start();
-            int index = 0;
+            await remotePerformanceHelper.CleanRemotePerformanceMeasureDataAsync(testingNode);
 
             PerformanceMeasureHeader performanceMeasureHeader =
                 performanceMeasure.NewHeader();
 
-            for (int i = 0; i < maxHttpClients; i++)
-            {
-                var form = allForms[index % totalForms];
-                int cc = i;
-                var task = NetLoginAsync(performanceMeasureHeader, cc);
-                clientsTask.Add(task);
-            }
-            await Task.WhenAll(clientsTask);
-            stopwatch.Stop();
-            Console.WriteLine();
-            Console.WriteLine($"Elapsed time of Building HttpClients : {stopwatch.ElapsedMilliseconds} ms");
-
-            foreach (var item in clientsTask)
-            {
-                clients.Add(item.Result);
-            }
-            #endregion
+            clients = await formHelper.MakeHasLoginHttpClient(testingNode,
+                maxHttpClients, totalForms,
+                performanceMeasureHeader, allForms);
 
             if (testingNode.Mode == MagicObject.TestingNodeActionWarmingUp)
             {
@@ -245,17 +220,6 @@ namespace TestingBusiness
             return;
         }
 
-        async Task ResetRemotePerformanceMeasureAsync()
-        {
-            var endPoint = $"{testingNode.Host.ConnectHost}" +
-                $"{testingNode.ResetRemotePerformanceMeasureEndpoint}";
-            var handler = new HttpClientHandler()
-            {
-                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-            };
-            HttpClient client = new HttpClient(handler);
-            await client.GetAsync(endPoint);
-        }
 
         async Task<List<PerformanceMeasureHeader>> GetPerformanceMeasureAsync()
         {

@@ -1,4 +1,5 @@
 using TestingBusiness;
+using TestingBusiness.Helpers;
 using TestingModel.Models;
 
 namespace FormTesting
@@ -17,6 +18,7 @@ namespace FormTesting
                         hostContext.Configuration.GetSection("TestingNodes"));
                     services.AddTransient<PerformanceMeasure>();
                     services.AddTransient<FormsStressTesting>();
+                    services.AddTransient<FormHelper>();
                 })
                 .Build();
 
