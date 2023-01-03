@@ -1,3 +1,4 @@
+using TestingBusiness;
 using TestingModel.Models;
 
 namespace FormTesting
@@ -14,6 +15,8 @@ namespace FormTesting
                         hostContext.Configuration.GetSection("Target"));
                     services.Configure<List<TestingNodeConfiguration>>(
                         hostContext.Configuration.GetSection("TestingNodes"));
+                    services.AddTransient<PerformanceMeasure>();
+                    services.AddTransient<FormsStressTesting>();
                 })
                 .Build();
 

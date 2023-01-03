@@ -32,10 +32,12 @@ namespace TestingModel.Models
             Header = new List<PerformanceMeasureHeader>();
         }
 
-        public void Output(SortEnum sortEnum = SortEnum.TotalCost)
+        public void Output(SortEnum sortEnum , string[] allFormsTitle)
         {
+            int index = 0;
             foreach (var header in Header)
             {
+                string formTitle = allFormsTitle[index++];
                 if (header.Nodes.Count == 0) continue;
                 List<PerformanceMeasureNode> temp = new List<PerformanceMeasureNode>();
                 var tempList = header.Nodes;
@@ -124,7 +126,7 @@ namespace TestingModel.Models
                 Console.WriteLine();
             }
         }
-        public static void ParsePerformance(List<PerformanceMeasureHeader> headers)
+        public void ParsePerformance(List<PerformanceMeasureHeader> headers)
         {
             foreach (var headerItem in headers)
             {
