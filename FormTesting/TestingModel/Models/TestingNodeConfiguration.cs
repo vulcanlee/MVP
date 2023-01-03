@@ -13,7 +13,7 @@ namespace TestingModel.Models
         public string Description { get; set; } = "";
         public string Mode { get; set; } = MagicObject.TestingNodeActionPerformance;
         public HostConnectionInformation Host { get; set; } = new();
-        public List<string> FormEndPoints { get; set; } = new();
+        public List<string> FormIds { get; set; } = new();
         public int NumberOfRequests { get; set; } = 1;
         public int MaxHttpClients { get; set; } = 10;
         public bool LogFormRawHtml { get; set; } = true;

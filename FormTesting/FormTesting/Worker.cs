@@ -27,7 +27,7 @@ namespace FormTesting
             TestingNodeConfiguration node = null;
             foreach (var item in testingNodeOption.Value)
             {
-                if(targetOption.Value.TestingNode.ToLower() ==
+                if (targetOption.Value.TestingNode.ToLower() ==
                     item.Title.ToLower())
                 {
                     node = item;
@@ -35,12 +35,14 @@ namespace FormTesting
                 }
             }
 
-            if(node == null)
+            if (node == null)
             {
                 Console.WriteLine($"在設定檔案內，無法發現到要測試的目標 {targetOption.Value.TestingNode}");
+                Environment.Exit(1);
                 return;
             }
             await formsStressTesting.NETFormsAsync(node);
+            Environment.Exit(0);
         }
     }
 }

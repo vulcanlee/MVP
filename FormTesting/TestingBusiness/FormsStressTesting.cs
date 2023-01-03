@@ -15,6 +15,7 @@ namespace TestingBusiness
         private TestingNodeConfiguration testingNode;
         List<string> allForms = new List<string>();
         List<string> allFormsTitle = new();
+        List<string> allFailureForm = new();
         List<HttpClient> clients = new List<HttpClient>();
         List<Task<HttpClient>> clientsTask = new List<Task<HttpClient>>();
         List<Task<string>> tasks = new List<Task<string>>();
@@ -40,7 +41,7 @@ namespace TestingBusiness
             #endregion
 
             #region 建立需要測試的表單清單 URL
-            foreach (var item in testingNode.FormEndPoints)
+            foreach (var item in testingNode.FormIds)
             {
                 string formUrl = $"{testingNode.Host.ConnectHost}" +
                     $"{testingNode.FormEndpointPrefix}{item}{testingNode.FormEndpointPost}";
@@ -104,8 +105,8 @@ namespace TestingBusiness
                 for (int i = 0; i < allForms.Count; i++) allFormsTitle.Add("");
                 for (int i = start; i < allForms.Count; i++)
                 {
-                    //if (i % maxHttpClients == 0)
-                    //    tasks.Clear();
+                    if (i % maxHttpClients == 0)
+                        tasks.Clear();
 
                     int idx = i;
 
@@ -125,6 +126,12 @@ namespace TestingBusiness
                         var resultTitle = await NetGetFormAsync(performanceMeasureHeader,
                                   client, allForms[idx % totalForms], idx, distributionTesting,
                                   testingNode.HttpClientPerformanceMeasure, testingNode);
+
+                        if (resultTitle.Contains("並未將物件參考設定為物件的執行個體") ||
+                        resultTitle.Contains("編譯錯誤"))
+                        {
+                            allFailureForm.Add(testingNode.FormIds[idx]);
+                        }
 
                         stopwatch.Stop();
                         lock (locker)
@@ -157,6 +164,20 @@ namespace TestingBusiness
 
                 allWeakup.Stop();
                 Console.WriteLine($"第一次初始化耗時 {allWeakup.Elapsed}");
+
+
+                if (allFailureForm.Count > 0)
+                {
+                    var foo = testingNode.FormIds;
+                    foreach (var item in allFailureForm)
+                    {
+                        Console.WriteLine(item);
+                        foo.Remove(item);
+                    }
+
+                    var bar = JsonConvert.SerializeObject(foo);
+                    Console.WriteLine(bar);
+                }
             }
             else if (testingNode.Mode == MagicObject.TestingNodeActionPerformance)
             {
@@ -168,6 +189,8 @@ namespace TestingBusiness
                 stopwatch.Restart();
                 stopwatch.Start();
                 index = 0;
+                allFormsTitle.Clear();
+                for (int i = 0; i < numberOfRequests; i++) allFormsTitle.Add("");
                 for (int i = 0; i < numberOfRequests; i++)
                 {
                     int idx = i;
@@ -177,13 +200,20 @@ namespace TestingBusiness
                         var resultTitle = await NetGetFormAsync(performanceMeasureHeader,
                              client, allForms[idx % totalForms], idx, distributionTesting,
                              testingNode.HttpClientPerformanceMeasure, testingNode);
+
+                        resultTitle = $"{resultTitle}    {testingNode.FormIds[idx]}";
+                        Console.Write(">");
+                        if (resultTitle.Contains("編譯"))
+                        {
+                            int fbar = 1;
+                        }
                         return resultTitle;
                     });
                     tasks.Add(task);
                 }
 
                 var allTitle = await Task.WhenAll(tasks);
-                allFormsTitle = allFormsTitle.ToList();
+                allFormsTitle = allTitle.ToList();
                 stopwatch.Stop();
                 Console.WriteLine();
                 Console.WriteLine($"Elapsed time of Opening Forms: {stopwatch.ElapsedMilliseconds} ms");

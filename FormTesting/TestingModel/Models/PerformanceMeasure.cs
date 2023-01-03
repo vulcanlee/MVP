@@ -34,11 +34,15 @@ namespace TestingModel.Models
 
         public void Output(SortEnum sortEnum, string[] allFormsTitle)
         {
-            int index = 0;
             foreach (var header in Header)
             {
-                string formTitle = allFormsTitle[index++];
                 if (header.Nodes.Count == 0) continue;
+                int index = 0;
+                foreach (var item in header.Nodes)
+                {
+                    string formTitle = allFormsTitle[index++];
+                    item.Title = formTitle;
+                }
                 List<PerformanceMeasureNode> temp = new List<PerformanceMeasureNode>();
                 var tempList = header.Nodes;
                 if (sortEnum == SortEnum.TotalCost)
