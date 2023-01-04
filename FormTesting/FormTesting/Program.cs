@@ -9,6 +9,12 @@ namespace FormTesting
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine($"Exentric E-Form Support Tool");
+            var version = new Program().GetType().Assembly.GetName().Version.ToString();
+            Console.WriteLine($"Version : {version}");
+            Console.WriteLine(String.Concat(Enumerable.Repeat("-", 40)));
+            Console.WriteLine(Environment.NewLine);
+
             IHost host = Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext,services) =>
                 {
