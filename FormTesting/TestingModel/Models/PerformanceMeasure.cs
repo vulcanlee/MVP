@@ -84,6 +84,10 @@ namespace TestingModel.Models
             Console.ResetColor();
         }
 
+        /// <summary>
+        /// 顯示出在後端伺服器程式碼，在執行哪個區塊段落的時候，將會耗費最多的時間與要執行該區段程式碼前延遲了多久？
+        /// </summary>
+        /// <param name="headers"></param>
         public void OutputDetail(List<PerformanceMeasureHeader> headers)
         {
             foreach (var header in headers)
@@ -111,6 +115,10 @@ namespace TestingModel.Models
             }
         }
 
+        /// <summary>
+        /// 另外一種模式來顯示每個後端程式碼區段的總共執行耗時多久與延誤多久明細
+        /// </summary>
+        /// <param name="headers"></param>
         public void OutputNodeDetail(List<PerformanceMeasureHeader> headers)
         {
             Console.WriteLine();
@@ -133,6 +141,11 @@ namespace TestingModel.Models
                 Console.WriteLine();
             }
         }
+
+        /// <summary>
+        /// 顯示出在後端伺服器程式碼，在執行哪個區塊段落的時候，將會耗費最多的時間與要執行該區段程式碼前延遲了多久？
+        /// </summary>
+        /// <param name="headers"></param>
         public void OutputMaxLatencyAnalysis(List<PerformanceMeasureHeader> headers)
         {
             Console.WriteLine();

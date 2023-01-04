@@ -18,9 +18,6 @@ namespace TestingBusiness
         private readonly RemotePerformanceService remotePerformanceHelper;
         private TestingNodeConfiguration testingNode;
         List<HttpClient> clients = new List<HttpClient>();
-        List<Task<HttpClient>> clientsTask = new List<Task<HttpClient>>();
-        List<Task<string>> tasks = new List<Task<string>>();
-        Stopwatch stopwatch = new Stopwatch();
 
         public FormsStressTesting(PerformanceMeasure performanceMeasure,
             ILogger<FormsStressTesting> logger,
