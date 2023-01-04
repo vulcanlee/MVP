@@ -11,7 +11,7 @@ namespace TestingModel.Magics
         /// <summary>
         /// 瞬間可以承受的表單動作請求壓力測試
         /// </summary>
-        public const string TestingNodeActionPerformance = "PerformanceTest";
+        public const string TestingNodeActionPerformance = "PerformanceTesting";
         /// <summary>
         /// 將系統上的所有表單都讀取一遍
         /// </summary>

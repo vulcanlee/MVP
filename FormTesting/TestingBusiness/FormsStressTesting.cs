@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
+using TestingBusiness.Helpers;
 using TestingBusiness.Services;
 using TestingModel.Enums;
 using TestingModel.Magics;
@@ -16,13 +17,9 @@ namespace TestingBusiness
         private readonly FormService formHelper;
         private readonly RemotePerformanceService remotePerformanceHelper;
         private TestingNodeConfiguration testingNode;
-        List<string> allForms = new List<string>();
-        List<string> allFormsTitle = new();
-        List<string> allFailureForm = new();
         List<HttpClient> clients = new List<HttpClient>();
         List<Task<HttpClient>> clientsTask = new List<Task<HttpClient>>();
         List<Task<string>> tasks = new List<Task<string>>();
-        bool distributionTesting = false;
         Stopwatch stopwatch = new Stopwatch();
 
         public FormsStressTesting(PerformanceMeasure performanceMeasure,
@@ -41,16 +38,12 @@ namespace TestingBusiness
             this.testingNode = testingNodeConfiguration;
 
             #region 設定這個方法會用到的相關欄位值
-            FormInformation formInformation = new FormInformation()
-            {
-                NumberOfRequests = testingNode.NumberOfRequests,
-                MaxHttpClients = testingNode.MaxHttpClients,
-                FormIdsCount = testingNode.FormIds.Count,
-            };
+            FormInformation formInformation = new FormInformation();
+            formInformation.ConvertConfigurationToFormInformation(testingNode);
             #endregion
 
             #region 建立需要測試的表單清單 URL
-            var allForms = formHelper.MakeFormUrl(testingNode, formInformation);
+            formHelper.MakeFormUrl(testingNode, formInformation);
             #endregion
 
             await remotePerformanceHelper.CleanRemotePerformanceMeasureDataAsync(testingNode);
@@ -59,27 +52,24 @@ namespace TestingBusiness
                 performanceMeasure.NewHeader();
 
             clients = await formHelper.MakeHasLoginHttpClient(testingNode,
-                formInformation,
-                performanceMeasureHeader, allForms);
+                formInformation, performanceMeasureHeader);
 
-            if (testingNode.Mode == MagicObject.TestingNodeActionWarmingUp)
+            if (formInformation.Mode == TestingModeEnum.表單暖機預先載入)
             {
-                await formHelper.WarmingUpForms(testingNode, allForms,
-                    allFormsTitle, allFailureForm, distributionTesting,
+                await formHelper.WarmingUpForms(testingNode,
                     performanceMeasureHeader, formInformation,
                     clients);
             }
-            else if (testingNode.Mode == MagicObject.TestingNodeActionPerformance)
+            else if (formInformation.Mode == TestingModeEnum.壓力測試 ||
+                formInformation.Mode == TestingModeEnum.時間內吞吐量測試)
             {
-                await formHelper.StressPerformanceForms(testingNode, allForms,
-                    allFormsTitle, allFailureForm, distributionTesting,
-                    performanceMeasureHeader, formInformation,
-          clients);
+                await formHelper.StressPerformanceForms(testingNode,
+                    performanceMeasureHeader, formInformation, clients);
             }
 
             #region 列印出效能量測結果
             if (testingNode.HttpClientPerformanceMeasure == true)
-                performanceMeasure.Output(SortEnum.TotalCost, allFormsTitle.ToArray());
+                performanceMeasure.Output(SortEnum.TotalCost, formInformation.AllFormsTitle.ToArray());
             #endregion
 
             #region 列印效能統計分析

@@ -53,23 +53,22 @@ namespace TestingBusiness.Services
         public List<string> MakeFormUrl(TestingNodeConfiguration testingNode,
             FormInformation formInformation)
         {
-            List<string> allForms = new List<string>();
-
-            foreach (var item in testingNode.FormIds)
+            formInformation.AllForms.Clear();
+            foreach (var item in formInformation.FormIds)
             {
                 string formUrl = $"{testingNode.Host.ConnectHost}" +
                     $"{testingNode.FormEndpointPrefix}{item}{testingNode.FormEndpointPost}";
-                allForms.Add(formUrl);
+                formInformation.AllForms.Add(formUrl);
             }
             ThreadPool.SetMinThreads(formInformation.NumberOfRequests + 250, formInformation.NumberOfRequests + 250);
 
-            return allForms;
+            return formInformation.AllForms;
         }
 
         public async Task<List<HttpClient>> MakeHasLoginHttpClient(
             TestingNodeConfiguration testingNode,
             FormInformation formInformation,
-            PerformanceMeasureHeader performanceMeasureHeader, List<string> allForms)
+            PerformanceMeasureHeader performanceMeasureHeader)
         {
             #region 登入到系統且建立需要用到的 HttpClient 物件集合
             List<Task<HttpClient>> clientsTask = new List<Task<HttpClient>>();
@@ -83,7 +82,7 @@ namespace TestingBusiness.Services
 
             for (int i = 0; i < formInformation.MaxHttpClients; i++)
             {
-                var form = allForms[index % formInformation.FormIdsCount];
+                var form = formInformation.AllForms[index % formInformation.FormIdsCount];
                 int cc = i;
                 var task = NetLoginAsync(testingNode, performanceMeasureHeader, cc);
                 clientsTask.Add(task);
@@ -148,13 +147,11 @@ namespace TestingBusiness.Services
         }
 
         public async Task WarmingUpForms(TestingNodeConfiguration testingNode,
-            List<string> allForms, List<string> allFormsTitle,
-            List<string> allFailureForm, bool distributionTesting,
             PerformanceMeasureHeader performanceMeasureHeader,
             FormInformation formInformation, List<HttpClient> clients)
         {
             List<Task<string>> tasks = new List<Task<string>>();
-            allFailureForm.Clear();
+            formInformation.AllFailureForm.Clear(); 
 
             Stopwatch allWeakup = new Stopwatch();
             Stopwatch stopwatch = new Stopwatch();
@@ -163,26 +160,26 @@ namespace TestingBusiness.Services
             Console.WriteLine($"強制休息 {testingNode.ForceSleepMilliSecond / 1000} 秒");
             await Task.Delay(testingNode.ForceSleepMilliSecond);
 
-            Console.WriteLine($"Opening {allForms.Count} Forms");
+            Console.WriteLine($"Opening {formInformation.AllForms.Count} Forms");
             stopwatch.Restart();
             stopwatch.Start();
             int index = 0;
             int start = 0;
             object locker = new object();
 
-            allFormsTitle.Clear();
-            for (int i = 0; i < allForms.Count; i++) allFormsTitle.Add("");
-            for (int i = start; i < allForms.Count; i++)
+            formInformation.AllFormsTitle.Clear();
+            for (int i = 0; i < formInformation.AllForms.Count; i++) formInformation.AllFormsTitle.Add("");
+            for (int i = start; i < formInformation.AllForms.Count; i++)
             {
                 if (i % formInformation.MaxHttpClients == 0)
                     tasks.Clear();
 
                 int idx = i;
 
-                if (allForms[i].Contains("e0f53420-f6fa-40b9-a557-743987f38cec") ||
-                    allForms[i].Contains("e611e336-c7f3-48a9-b0f4-349ebe51d2da") ||
-                    allForms[i].Contains("e0f53420-f6fa-40b9-a557-743987f38cec") ||
-                    allForms[i].Contains("e0f53420-f6fa-40b9-a557-743987f38cec"))
+                if (formInformation.AllForms[i].Contains("e0f53420-f6fa-40b9-a557-743987f38cec") ||
+                    formInformation.AllForms[i].Contains("e611e336-c7f3-48a9-b0f4-349ebe51d2da") ||
+                    formInformation.AllForms[i].Contains("e0f53420-f6fa-40b9-a557-743987f38cec") ||
+                    formInformation.AllForms[i].Contains("e0f53420-f6fa-40b9-a557-743987f38cec"))
                     continue;
 
                 var client = clients[i % formInformation.MaxHttpClients];
@@ -193,20 +190,21 @@ namespace TestingBusiness.Services
                     stopwatch.Start();
 
                     var resultTitle = await NetGetFormAsync(performanceMeasureHeader,
-                              client, allForms[idx % formInformation.FormIdsCount], idx, distributionTesting,
+                              client, formInformation.AllForms[idx % formInformation.FormIdsCount],
+                              idx, formInformation.DistributionTesting,
                               testingNode.HttpClientPerformanceMeasure, testingNode);
 
                     if (resultTitle.Contains("並未將物件參考設定為物件的執行個體") ||
                     resultTitle.Contains("編譯錯誤"))
                     {
-                        allFailureForm.Add(testingNode.FormIds[idx]);
+                        formInformation.AllFailureForm.Add(testingNode.FormIds[idx]);
                     }
 
                     stopwatch.Stop();
                     lock (locker)
                     {
-                        Console.WriteLine($"Form {allForms.Count}/{idx}  {resultTitle}");
-                        Console.Write($"Elapsed time of Opening Forms:  {allForms[idx]}  ");
+                        Console.WriteLine($"Form {formInformation.AllForms.Count}/{idx}  {resultTitle}");
+                        Console.Write($"Elapsed time of Opening Forms:  {formInformation.AllForms[idx]}  ");
                         if (stopwatch.ElapsedMilliseconds > 2000)
                         {
                             consoleHelper.Output($"{stopwatch.ElapsedMilliseconds}", ConsoleColor.White, ConsoleColor.Red);
@@ -217,7 +215,7 @@ namespace TestingBusiness.Services
                         }
                         Console.WriteLine($" ms");
                     }
-                    allFormsTitle[idx] = resultTitle;
+                    formInformation.AllFormsTitle[idx] = resultTitle;
                     return resultTitle;
                 });
                 tasks.Add(task);
@@ -235,10 +233,10 @@ namespace TestingBusiness.Services
             Console.WriteLine($"第一次初始化耗時 {allWeakup.Elapsed}");
 
 
-            if (allFailureForm.Count > 0)
+            if (formInformation.AllFailureForm.Count > 0)
             {
                 var foo = testingNode.FormIds;
-                foreach (var item in allFailureForm)
+                foreach (var item in formInformation.AllFailureForm)
                 {
                     Console.WriteLine(item);
                     foo.Remove(item);
@@ -250,8 +248,6 @@ namespace TestingBusiness.Services
         }
 
         public async Task StressPerformanceForms(TestingNodeConfiguration testingNode,
-            List<string> allForms, List<string> allFormsTitle,
-            List<string> allFailureForm, bool distributionTesting,
             PerformanceMeasureHeader performanceMeasureHeader,
             FormInformation formInformation, List<HttpClient> clients)
         {
@@ -266,8 +262,8 @@ namespace TestingBusiness.Services
             stopwatch.Restart();
             stopwatch.Start();
             int index = 0;
-            allFormsTitle.Clear();
-            for (int i = 0; i < formInformation.NumberOfRequests; i++) allFormsTitle.Add("");
+            formInformation.AllFormsTitle.Clear();
+            for (int i = 0; i < formInformation.NumberOfRequests; i++) formInformation.AllFormsTitle.Add("");
             for (int i = 0; i < formInformation.NumberOfRequests; i++)
             {
                 int idx = i;
@@ -275,7 +271,8 @@ namespace TestingBusiness.Services
                 var task = Task.Run(async () =>
                 {
                     var resultTitle = await NetGetFormAsync(performanceMeasureHeader,
-                         client, allForms[idx % formInformation.FormIdsCount], idx, distributionTesting,
+                         client, formInformation.AllForms[idx % formInformation.FormIdsCount],
+                         idx, formInformation.DistributionTesting,
                          testingNode.HttpClientPerformanceMeasure, testingNode);
 
                     resultTitle = $"{resultTitle}    {testingNode.FormIds[idx]}";
@@ -290,7 +287,7 @@ namespace TestingBusiness.Services
             }
 
             var allTitle = await Task.WhenAll(tasks);
-            allFormsTitle = allTitle.ToList();
+            formInformation.AllFormsTitle = allTitle.ToList();
             stopwatch.Stop();
             Console.WriteLine();
             Console.WriteLine($"Elapsed time of Opening Forms: {stopwatch.ElapsedMilliseconds} ms");
