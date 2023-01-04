@@ -9,13 +9,17 @@ namespace TestingModel.Models
 {
     public class PerformanceMeasure
     {
-        static AutoResetEvent resetEvent = new AutoResetEvent(true);
+        static AutoResetEvent resetEvent = new(true);
         public List<PerformanceMeasureHeader> Header { get; set; } =
            new List<PerformanceMeasureHeader>();
 
+        /// <summary>
+        /// 建立一個 PerformanceMeasureHeader 物件
+        /// </summary>
+        /// <returns></returns>
         public PerformanceMeasureHeader NewHeader()
         {
-            PerformanceMeasureHeader header = new PerformanceMeasureHeader();
+            PerformanceMeasureHeader header = new();
             resetEvent.WaitOne();
             Header.Add(header);
             resetEvent.Set();
