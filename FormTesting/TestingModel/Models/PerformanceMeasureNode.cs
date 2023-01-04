@@ -2,7 +2,7 @@
 {
     public class PerformanceMeasureNode
     {
-        public string Title { get; set; }
+        public string Title { get; set; } = "";
         public DateTime Begin { get; set; } = default(DateTime);
         public DateTime End { get; set; } = default(DateTime);
         public TimeSpan EstimatedTime

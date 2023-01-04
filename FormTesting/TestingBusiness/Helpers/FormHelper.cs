@@ -15,7 +15,7 @@ namespace TestingBusiness.Helpers
         /// </summary>
         /// <param name="formInformation"></param>
         /// <param name="testingNode"></param>
-        public static void ConvertConfigurationToFormInformation(this FormInformation formInformation,
+        public static FormInformation ConvertConfigurationToFormInformation(this FormInformation formInformation,
             TestingNodeConfiguration testingNode)
         {
             formInformation.NumberOfRequests = testingNode.NumberOfRequests;
@@ -29,6 +29,8 @@ namespace TestingBusiness.Helpers
                 formInformation.Mode = TestingModel.Enums.TestingModeEnum.表單暖機預先載入;
             else if (testingNode.Mode == MagicObject.TestingNodeActionDistributionTesting)
                 formInformation.Mode = TestingModel.Enums.TestingModeEnum.時間內吞吐量測試;
+
+            return formInformation;
         }
     }
 }

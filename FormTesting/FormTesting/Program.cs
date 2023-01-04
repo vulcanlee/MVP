@@ -11,7 +11,7 @@ namespace FormTesting
         {
             Console.Clear();
             Console.WriteLine($"Exentric E-Form Support Tool");
-            var version = new Program().GetType().Assembly.GetName().Version.ToString();
+            var version = new Program().GetType().Assembly.GetName().Version!.ToString();
             Console.WriteLine($"Version : {version}");
             Console.WriteLine(String.Concat(Enumerable.Repeat("-", 40)));
             Console.WriteLine(Environment.NewLine);

@@ -196,7 +196,7 @@ namespace TestingModel.Models
                             .ToInt32((nodeItem.Begin - previousTime).TotalMilliseconds);
                         if (nodeItem.Latency < 0)
                         {
-                            int foo1 = 1;
+                            //int foo1 = 1;
                         }
                         if (headerItem.MaxLatency < nodeItem.Latency)
                         {

@@ -18,7 +18,7 @@ namespace TestingBusiness.Services
         /// <param name="performanceMeasure"></param>
         /// <param name="formInformation"></param>
         /// <returns></returns>
-        public async Task PrintHttpClientPerformanceResult(
+        public void PrintHttpClientPerformanceResult(
             TestingNodeConfiguration testingNode,
             PerformanceMeasure performanceMeasure,
             FormInformation formInformation)
@@ -66,7 +66,7 @@ namespace TestingBusiness.Services
             HttpClient client = new HttpClient(handler);
             var content = await client.GetStringAsync(endPoint);
             var result = JsonConvert.DeserializeObject<List<PerformanceMeasureHeader>>(content);
-            return result;
+            return result!;
         }
 
         /// <summary>

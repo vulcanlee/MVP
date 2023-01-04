@@ -13,7 +13,7 @@
         public string LatencyDetail { get; set; } = "";
         public string NodeEstimatedDetail { get; set; } = "";
 
-        public PerformanceMeasureNode BeginMeasure(string title,
+        public PerformanceMeasureNode? BeginMeasure(string title,
             bool performanceMeasureAction = false)
         {
             if (performanceMeasureAction == false) return null;
