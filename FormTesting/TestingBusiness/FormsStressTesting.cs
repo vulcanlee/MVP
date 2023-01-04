@@ -76,7 +76,7 @@ public class FormsStressTesting
 
         await remotePerformanceHelper.PrintRemotePerformanceMeasureResult(testingNode, performanceMeasure);
 
-        logger.LogInformation("正常執行完畢 ----------------------------------")
+        logger.LogInformation("正常執行完畢 ----------------------------------");
         return;
     }
 }
