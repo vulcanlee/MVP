@@ -9,6 +9,7 @@ namespace FormTesting
     {
         public static void Main(string[] args)
         {
+            Console.Clear();
             Console.WriteLine($"Exentric E-Form Support Tool");
             var version = new Program().GetType().Assembly.GetName().Version.ToString();
             Console.WriteLine($"Version : {version}");

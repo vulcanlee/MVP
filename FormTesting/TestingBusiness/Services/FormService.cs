@@ -50,9 +50,16 @@ namespace TestingBusiness.Services
             return node;
         }
 
+        /// <summary>
+        /// 建立需要測試的表單清單 URL
+        /// </summary>
+        /// <param name="testingNode"></param>
+        /// <param name="formInformation"></param>
+        /// <returns></returns>
         public List<string> MakeFormUrl(TestingNodeConfiguration testingNode,
             FormInformation formInformation)
         {
+            #region 建立需要測試的表單清單 URL
             formInformation.AllForms.Clear();
             foreach (var item in formInformation.FormIds)
             {
@@ -63,8 +70,16 @@ namespace TestingBusiness.Services
             ThreadPool.SetMinThreads(formInformation.NumberOfRequests + 250, formInformation.NumberOfRequests + 250);
 
             return formInformation.AllForms;
+            #endregion
         }
 
+        /// <summary>
+        /// 登入到系統且建立需要用到的 HttpClient 物件集合
+        /// </summary>
+        /// <param name="testingNode"></param>
+        /// <param name="formInformation"></param>
+        /// <param name="performanceMeasureHeader"></param>
+        /// <returns></returns>
         public async Task<List<HttpClient>> MakeHasLoginHttpClient(
             TestingNodeConfiguration testingNode,
             FormInformation formInformation,
@@ -73,7 +88,7 @@ namespace TestingBusiness.Services
             #region 登入到系統且建立需要用到的 HttpClient 物件集合
             List<Task<HttpClient>> clientsTask = new List<Task<HttpClient>>();
             List<HttpClient> clients = new List<HttpClient>();
-            await Task.Delay(1000);
+
             Console.WriteLine($"Building {formInformation.MaxHttpClients} HttpClients");
             Stopwatch stopwatch = Stopwatch.StartNew();
             stopwatch.Restart();
@@ -151,7 +166,7 @@ namespace TestingBusiness.Services
             FormInformation formInformation, List<HttpClient> clients)
         {
             List<Task<string>> tasks = new List<Task<string>>();
-            formInformation.AllFailureForm.Clear(); 
+            formInformation.AllFailureForm.Clear();
 
             Stopwatch allWeakup = new Stopwatch();
             Stopwatch stopwatch = new Stopwatch();
@@ -252,7 +267,7 @@ namespace TestingBusiness.Services
             FormInformation formInformation, List<HttpClient> clients)
         {
             #region 進行表單壓力測試
-            Stopwatch stopwatch= Stopwatch.StartNew();
+            Stopwatch stopwatch = Stopwatch.StartNew();
             List<Task<string>> tasks = new List<Task<string>>();
 
             Console.WriteLine($"強制休息 {testingNode.ForceSleepMilliSecond / 1000} 秒");
@@ -270,13 +285,20 @@ namespace TestingBusiness.Services
                 var client = clients[i % formInformation.MaxHttpClients];
                 var task = Task.Run(async () =>
                 {
+                    var fooi = idx;
                     var resultTitle = await NetGetFormAsync(performanceMeasureHeader,
                          client, formInformation.AllForms[idx % formInformation.FormIdsCount],
                          idx, formInformation.DistributionTesting,
                          testingNode.HttpClientPerformanceMeasure, testingNode);
 
                     resultTitle = $"{resultTitle}    {testingNode.FormIds[idx]}";
-                    Console.Write(">");
+                    //if (fooi % 3 == 0)
+                    //    consoleHelper.GobackShow($">-<  {fooi}");
+                    //else if (fooi % 3 == 1)
+                    //    consoleHelper.GobackShow($"O.O  {fooi}");
+                    //else
+                    //    consoleHelper.GobackShow($"~o~  {fooi}");
+
                     if (resultTitle.Contains("編譯"))
                     {
                         int fbar = 1;

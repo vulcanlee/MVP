@@ -10,6 +10,11 @@ namespace TestingBusiness.Helpers
 {
     public static class FormHelper
     {
+        /// <summary>
+        /// 設定這個方法會用到的相關欄位值
+        /// </summary>
+        /// <param name="formInformation"></param>
+        /// <param name="testingNode"></param>
         public static void ConvertConfigurationToFormInformation(this FormInformation formInformation,
             TestingNodeConfiguration testingNode)
         {

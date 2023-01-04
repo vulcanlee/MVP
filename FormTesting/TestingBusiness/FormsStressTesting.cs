@@ -33,6 +33,9 @@ namespace TestingBusiness
         }
         public async Task NETFormsAsync(TestingNodeConfiguration testingNodeConfiguration)
         {
+            await Task.Delay(1500);
+            Console.WriteLine();
+            Console.WriteLine();
             int index = 0;
 
             this.testingNode = testingNodeConfiguration;
@@ -42,9 +45,7 @@ namespace TestingBusiness
             formInformation.ConvertConfigurationToFormInformation(testingNode);
             #endregion
 
-            #region 建立需要測試的表單清單 URL
             formHelper.MakeFormUrl(testingNode, formInformation);
-            #endregion
 
             await remotePerformanceHelper.CleanRemotePerformanceMeasureDataAsync(testingNode);
 
@@ -54,6 +55,7 @@ namespace TestingBusiness
             clients = await formHelper.MakeHasLoginHttpClient(testingNode,
                 formInformation, performanceMeasureHeader);
 
+            #region 決定此程式的運作模式
             if (formInformation.Mode == TestingModeEnum.表單暖機預先載入)
             {
                 await formHelper.WarmingUpForms(testingNode,
@@ -66,97 +68,14 @@ namespace TestingBusiness
                 await formHelper.StressPerformanceForms(testingNode,
                     performanceMeasureHeader, formInformation, clients);
             }
-
-            #region 列印出效能量測結果
-            if (testingNode.HttpClientPerformanceMeasure == true)
-                performanceMeasure.Output(SortEnum.TotalCost, formInformation.AllFormsTitle.ToArray());
             #endregion
 
-            #region 列印效能統計分析
-            if (testingNode.RemotePerformanceMeasure == true)
-            {
-                var performanceMeasureResult = await GetPerformanceMeasureAsync();
-                performanceMeasure.ParsePerformance(performanceMeasureResult);
-                if (testingNode.RemotePerformanceMaxLatencyAnalysis)
-                    performanceMeasure.OutputMaxLatencyAnalysis(performanceMeasureResult);
-                if (testingNode.RemotePerformanceOutputDetail)
-                    performanceMeasure.OutputDetail(performanceMeasureResult);
-                if (testingNode.RemotePerformanceOutputNodeDetail)
-                    performanceMeasure.OutputNodeDetail(performanceMeasureResult);
-            }
-            #endregion
+            await remotePerformanceHelper.PrintHttpClientPerformanceResult(testingNode, 
+                performanceMeasure, formInformation);
+
+            await remotePerformanceHelper.PrintRemotePerformanceMeasureResult(testingNode,performanceMeasure);
 
             return;
-        }
-
-
-        async Task<List<PerformanceMeasureHeader>> GetPerformanceMeasureAsync()
-        {
-            var endPoint = $"{testingNode.Host.ConnectHost}" +
-                $"{testingNode.GetRemotePerformanceMeasureEndpoint}";
-            var handler = new HttpClientHandler()
-            {
-                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-            };
-            HttpClient client = new HttpClient(handler);
-            var content = await client.GetStringAsync(endPoint);
-            var result = JsonConvert.DeserializeObject<List<PerformanceMeasureHeader>>(content);
-            return result;
-        }
-
-        async Task<string> NetGetFormAsync(PerformanceMeasureHeader measure,
-        HttpClient client, string formEndPoint, int index, bool distributionTesting,
-       bool performanceMeasureAction, TestingNodeConfiguration testingNode)
-        {
-            Random random = new Random();
-            int timeRange = 30 * 1000;
-            PerformanceMeasureNode measureItem = null;
-            string title = "";
-
-            try
-            {
-                if (distributionTesting)
-                {
-                    int waitMS = random.Next(timeRange);
-                    await Task.Delay(waitMS);
-                }
-
-                if (performanceMeasureAction == true)
-                    measureItem = measure
-                        .BeginMeasure($"Get Form Content Page {index}", performanceMeasureAction);
-                var beforeResponse = await client.GetAsync(formEndPoint);
-                var html = await beforeResponse.Content.ReadAsStringAsync();
-
-                #region 取得 Title
-                var beginIndex = html.IndexOf("<title>");
-                var endIndex = html.IndexOf("</title>");
-                title = html.Substring(beginIndex, endIndex - beginIndex).Replace("<title>", "");
-                //Console.Write(title+"  ");
-                if (performanceMeasureAction == true)
-                    measureItem.Title = $"{measureItem.Title} > {title} ";
-                #endregion
-
-                if (performanceMeasureAction == true)
-                    measure.EndMeasure(measureItem!, performanceMeasureAction);
-
-                #region 將此次讀取到的網頁儲存到本機 Data 目錄下
-                if (testingNode.LogFormRawHtml)
-                {
-                    var foo = Directory.GetCurrentDirectory();
-                    var dataFolder = Path.Combine(Directory.GetCurrentDirectory(),
-                        MagicObject.OutputFormHtmlFolderName);
-                    if (Directory.Exists(dataFolder) == false) Directory.CreateDirectory(dataFolder);
-                    var filename = Path.Combine(dataFolder, $"forms_{index}.html");
-                    await File.WriteAllTextAsync(filename, html);
-                }
-                #endregion
-            }
-            catch (Exception ex)
-            {
-                logger!.LogError(ex, $"Access URL : {formEndPoint}");
-                Console.WriteLine(ex.Message);
-            }
-            return title;
         }
     }
 }
