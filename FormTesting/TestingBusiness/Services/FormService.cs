@@ -8,30 +8,34 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using TestingBusiness.Helpers;
 using TestingModel.Magics;
 using TestingModel.Models;
 
-namespace TestingBusiness.Helpers
+namespace TestingBusiness.Services
 {
-    public class FormHelper
+    public class FormService
     {
         private readonly PerformanceMeasure performanceMeasure;
         private readonly ILogger<FormsStressTesting> logger;
+        private readonly ConsoleHelper consoleHelper;
         private readonly IOptions<TestingTargetConfiguration> targetOption;
         private readonly IOptions<List<TestingNodeConfiguration>> testingNodeOption;
 
-        public FormHelper(PerformanceMeasure performanceMeasure,
+        public FormService(PerformanceMeasure performanceMeasure,
             ILogger<FormsStressTesting> logger,
+            ConsoleHelper consoleHelper,
             IOptions<TestingTargetConfiguration> TargetOption,
             IOptions<List<TestingNodeConfiguration>> TestingNodeOption)
         {
             this.performanceMeasure = performanceMeasure;
             this.logger = logger;
+            this.consoleHelper = consoleHelper;
             targetOption = TargetOption;
             testingNodeOption = TestingNodeOption;
         }
 
-        public TestingNodeConfiguration GetFormConfigurationNode()
+        public TestingNodeConfiguration GetCurrentFormConfigurationNode()
         {
             TestingNodeConfiguration node = null;
             foreach (var item in testingNodeOption.Value)
@@ -47,7 +51,7 @@ namespace TestingBusiness.Helpers
         }
 
         public List<string> MakeFormUrl(TestingNodeConfiguration testingNode,
-            int numberOfRequests)
+            FormInformation formInformation)
         {
             List<string> allForms = new List<string>();
 
@@ -57,29 +61,29 @@ namespace TestingBusiness.Helpers
                     $"{testingNode.FormEndpointPrefix}{item}{testingNode.FormEndpointPost}";
                 allForms.Add(formUrl);
             }
-            ThreadPool.SetMinThreads(numberOfRequests + 250, numberOfRequests + 250);
+            ThreadPool.SetMinThreads(formInformation.NumberOfRequests + 250, formInformation.NumberOfRequests + 250);
 
             return allForms;
         }
 
         public async Task<List<HttpClient>> MakeHasLoginHttpClient(
             TestingNodeConfiguration testingNode,
-            int maxHttpClients, int totalForms,
+            FormInformation formInformation,
             PerformanceMeasureHeader performanceMeasureHeader, List<string> allForms)
         {
             #region 登入到系統且建立需要用到的 HttpClient 物件集合
             List<Task<HttpClient>> clientsTask = new List<Task<HttpClient>>();
             List<HttpClient> clients = new List<HttpClient>();
             await Task.Delay(1000);
-            Console.WriteLine($"Building {maxHttpClients} HttpClients");
+            Console.WriteLine($"Building {formInformation.MaxHttpClients} HttpClients");
             Stopwatch stopwatch = Stopwatch.StartNew();
             stopwatch.Restart();
             stopwatch.Start();
             int index = 0;
 
-            for (int i = 0; i < maxHttpClients; i++)
+            for (int i = 0; i < formInformation.MaxHttpClients; i++)
             {
-                var form = allForms[index % totalForms];
+                var form = allForms[index % formInformation.FormIdsCount];
                 int cc = i;
                 var task = NetLoginAsync(testingNode, performanceMeasureHeader, cc);
                 clientsTask.Add(task);
@@ -135,7 +139,7 @@ namespace TestingBusiness.Helpers
                 if (response.IsSuccessStatusCode == true)
                 {
                     // 取得呼叫完成 API 後的回報內容
-                    String strResult = await response.Content.ReadAsStringAsync();
+                    string strResult = await response.Content.ReadAsStringAsync();
                     Console.Write("-");
                     return client;
                 }
@@ -147,7 +151,7 @@ namespace TestingBusiness.Helpers
             List<string> allForms, List<string> allFormsTitle,
             List<string> allFailureForm, bool distributionTesting,
             PerformanceMeasureHeader performanceMeasureHeader,
-            int maxHttpClients, int totalForms, List<HttpClient> clients)
+            FormInformation formInformation, List<HttpClient> clients)
         {
             List<Task<string>> tasks = new List<Task<string>>();
             allFailureForm.Clear();
@@ -170,7 +174,7 @@ namespace TestingBusiness.Helpers
             for (int i = 0; i < allForms.Count; i++) allFormsTitle.Add("");
             for (int i = start; i < allForms.Count; i++)
             {
-                if (i % maxHttpClients == 0)
+                if (i % formInformation.MaxHttpClients == 0)
                     tasks.Clear();
 
                 int idx = i;
@@ -181,7 +185,7 @@ namespace TestingBusiness.Helpers
                     allForms[i].Contains("e0f53420-f6fa-40b9-a557-743987f38cec"))
                     continue;
 
-                var client = clients[i % maxHttpClients];
+                var client = clients[i % formInformation.MaxHttpClients];
                 var task = Task.Run(async () =>
                 {
                     Stopwatch stopwatch = new Stopwatch();
@@ -189,7 +193,7 @@ namespace TestingBusiness.Helpers
                     stopwatch.Start();
 
                     var resultTitle = await NetGetFormAsync(performanceMeasureHeader,
-                              client, allForms[idx % totalForms], idx, distributionTesting,
+                              client, allForms[idx % formInformation.FormIdsCount], idx, distributionTesting,
                               testingNode.HttpClientPerformanceMeasure, testingNode);
 
                     if (resultTitle.Contains("並未將物件參考設定為物件的執行個體") ||
@@ -205,11 +209,11 @@ namespace TestingBusiness.Helpers
                         Console.Write($"Elapsed time of Opening Forms:  {allForms[idx]}  ");
                         if (stopwatch.ElapsedMilliseconds > 2000)
                         {
-                            Output($"{stopwatch.ElapsedMilliseconds}", ConsoleColor.White, ConsoleColor.Red);
+                            consoleHelper.Output($"{stopwatch.ElapsedMilliseconds}", ConsoleColor.White, ConsoleColor.Red);
                         }
                         else
                         {
-                            Output($"{stopwatch.ElapsedMilliseconds}", ConsoleColor.White, ConsoleColor.Green);
+                            consoleHelper.Output($"{stopwatch.ElapsedMilliseconds}", ConsoleColor.White, ConsoleColor.Green);
                         }
                         Console.WriteLine($" ms");
                     }
@@ -218,7 +222,7 @@ namespace TestingBusiness.Helpers
                 });
                 tasks.Add(task);
 
-                if (i % maxHttpClients == (maxHttpClients - 1))
+                if (i % formInformation.MaxHttpClients == formInformation.MaxHttpClients - 1)
                 {
                     await Task.WhenAll(tasks);
                 }
@@ -243,6 +247,54 @@ namespace TestingBusiness.Helpers
                 var bar = JsonConvert.SerializeObject(foo);
                 Console.WriteLine(bar);
             }
+        }
+
+        public async Task StressPerformanceForms(TestingNodeConfiguration testingNode,
+            List<string> allForms, List<string> allFormsTitle,
+            List<string> allFailureForm, bool distributionTesting,
+            PerformanceMeasureHeader performanceMeasureHeader,
+            FormInformation formInformation, List<HttpClient> clients)
+        {
+            #region 進行表單壓力測試
+            Stopwatch stopwatch= Stopwatch.StartNew();
+            List<Task<string>> tasks = new List<Task<string>>();
+
+            Console.WriteLine($"強制休息 {testingNode.ForceSleepMilliSecond / 1000} 秒");
+            await Task.Delay(testingNode.ForceSleepMilliSecond);
+
+            Console.WriteLine($"Opening {formInformation.NumberOfRequests} Forms");
+            stopwatch.Restart();
+            stopwatch.Start();
+            int index = 0;
+            allFormsTitle.Clear();
+            for (int i = 0; i < formInformation.NumberOfRequests; i++) allFormsTitle.Add("");
+            for (int i = 0; i < formInformation.NumberOfRequests; i++)
+            {
+                int idx = i;
+                var client = clients[i % formInformation.MaxHttpClients];
+                var task = Task.Run(async () =>
+                {
+                    var resultTitle = await NetGetFormAsync(performanceMeasureHeader,
+                         client, allForms[idx % formInformation.FormIdsCount], idx, distributionTesting,
+                         testingNode.HttpClientPerformanceMeasure, testingNode);
+
+                    resultTitle = $"{resultTitle}    {testingNode.FormIds[idx]}";
+                    Console.Write(">");
+                    if (resultTitle.Contains("編譯"))
+                    {
+                        int fbar = 1;
+                    }
+                    return resultTitle;
+                });
+                tasks.Add(task);
+            }
+
+            var allTitle = await Task.WhenAll(tasks);
+            allFormsTitle = allTitle.ToList();
+            stopwatch.Stop();
+            Console.WriteLine();
+            Console.WriteLine($"Elapsed time of Opening Forms: {stopwatch.ElapsedMilliseconds} ms");
+            #endregion
         }
 
         async Task<string> NetGetFormAsync(PerformanceMeasureHeader measure,
@@ -299,16 +351,6 @@ namespace TestingBusiness.Helpers
             }
             return title;
         }
-        
-        void Output(string msg, ConsoleColor needForegroundColor, ConsoleColor needBackgroundColor)
-        {
-            var foregroundColor = Console.ForegroundColor;
-            var backgroundColor = Console.BackgroundColor;
-            Console.ForegroundColor = needForegroundColor;
-            Console.BackgroundColor = needBackgroundColor;
-            Console.Write(msg);
-            Console.ForegroundColor = foregroundColor;
-            Console.BackgroundColor = backgroundColor;
-        }
+
     }
 }

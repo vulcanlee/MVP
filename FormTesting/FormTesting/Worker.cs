@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Options;
 using TestingBusiness;
-using TestingBusiness.Helpers;
+using TestingBusiness.Services;
 using TestingModel.Models;
 
 namespace FormTesting
@@ -11,13 +11,13 @@ namespace FormTesting
         private readonly IOptions<TestingTargetConfiguration> targetOption;
         private readonly IOptions<List<TestingNodeConfiguration>> testingNodeOption;
         private readonly FormsStressTesting formsStressTesting;
-        private readonly FormHelper formHelper;
+        private readonly FormService formHelper;
 
         public Worker(ILogger<Worker> logger,
             IOptions<TestingTargetConfiguration> TargetOption,
             IOptions<List<TestingNodeConfiguration>> TestingNodeOption,
             FormsStressTesting formsStressTesting,
-            FormHelper formHelper)
+            FormService formHelper)
         {
             _logger = logger;
             targetOption = TargetOption;
@@ -29,7 +29,7 @@ namespace FormTesting
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
 
-            TestingNodeConfiguration node = formHelper.GetFormConfigurationNode();
+            TestingNodeConfiguration node = formHelper.GetCurrentFormConfigurationNode();
 
             if (node == null)
             {

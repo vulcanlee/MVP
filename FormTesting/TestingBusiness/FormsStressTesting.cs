@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
-using TestingBusiness.Helpers;
+using TestingBusiness.Services;
 using TestingModel.Enums;
 using TestingModel.Magics;
 using TestingModel.Models;
@@ -13,8 +13,8 @@ namespace TestingBusiness
     {
         private readonly PerformanceMeasure performanceMeasure;
         private readonly ILogger<FormsStressTesting> logger;
-        private readonly FormHelper formHelper;
-        private readonly RemotePerformanceHelper remotePerformanceHelper;
+        private readonly FormService formHelper;
+        private readonly RemotePerformanceService remotePerformanceHelper;
         private TestingNodeConfiguration testingNode;
         List<string> allForms = new List<string>();
         List<string> allFormsTitle = new();
@@ -22,15 +22,12 @@ namespace TestingBusiness
         List<HttpClient> clients = new List<HttpClient>();
         List<Task<HttpClient>> clientsTask = new List<Task<HttpClient>>();
         List<Task<string>> tasks = new List<Task<string>>();
-        int totalForms = 0;
-        int numberOfRequests = 0;
-        int maxHttpClients = 0;
         bool distributionTesting = false;
         Stopwatch stopwatch = new Stopwatch();
 
         public FormsStressTesting(PerformanceMeasure performanceMeasure,
             ILogger<FormsStressTesting> logger,
-            FormHelper formHelper, RemotePerformanceHelper remotePerformanceHelper)
+            FormService formHelper, RemotePerformanceService remotePerformanceHelper)
         {
             this.performanceMeasure = performanceMeasure;
             this.logger = logger;
@@ -44,13 +41,16 @@ namespace TestingBusiness
             this.testingNode = testingNodeConfiguration;
 
             #region 設定這個方法會用到的相關欄位值
-            numberOfRequests = testingNode.NumberOfRequests;
-            maxHttpClients = testingNode.MaxHttpClients;
-            totalForms = testingNode.FormIds.Count;
+            FormInformation formInformation = new FormInformation()
+            {
+                NumberOfRequests = testingNode.NumberOfRequests,
+                MaxHttpClients = testingNode.MaxHttpClients,
+                FormIdsCount = testingNode.FormIds.Count,
+            };
             #endregion
 
             #region 建立需要測試的表單清單 URL
-            var allForms = formHelper.MakeFormUrl(testingNode, numberOfRequests);
+            var allForms = formHelper.MakeFormUrl(testingNode, formInformation);
             #endregion
 
             await remotePerformanceHelper.CleanRemotePerformanceMeasureDataAsync(testingNode);
@@ -59,55 +59,22 @@ namespace TestingBusiness
                 performanceMeasure.NewHeader();
 
             clients = await formHelper.MakeHasLoginHttpClient(testingNode,
-                maxHttpClients, totalForms,
+                formInformation,
                 performanceMeasureHeader, allForms);
 
             if (testingNode.Mode == MagicObject.TestingNodeActionWarmingUp)
             {
                 await formHelper.WarmingUpForms(testingNode, allForms,
                     allFormsTitle, allFailureForm, distributionTesting,
-                    performanceMeasureHeader, maxHttpClients, totalForms,
+                    performanceMeasureHeader, formInformation,
                     clients);
             }
             else if (testingNode.Mode == MagicObject.TestingNodeActionPerformance)
             {
-                #region 進行表單壓力測試
-                Console.WriteLine($"強制休息 {testingNode.ForceSleepMilliSecond / 1000} 秒");
-                await Task.Delay(testingNode.ForceSleepMilliSecond);
-
-                Console.WriteLine($"Opening {numberOfRequests} Forms");
-                stopwatch.Restart();
-                stopwatch.Start();
-                index = 0;
-                allFormsTitle.Clear();
-                for (int i = 0; i < numberOfRequests; i++) allFormsTitle.Add("");
-                for (int i = 0; i < numberOfRequests; i++)
-                {
-                    int idx = i;
-                    var client = clients[i % maxHttpClients];
-                    var task = Task.Run(async () =>
-                    {
-                        var resultTitle = await NetGetFormAsync(performanceMeasureHeader,
-                             client, allForms[idx % totalForms], idx, distributionTesting,
-                             testingNode.HttpClientPerformanceMeasure, testingNode);
-
-                        resultTitle = $"{resultTitle}    {testingNode.FormIds[idx]}";
-                        Console.Write(">");
-                        if (resultTitle.Contains("編譯"))
-                        {
-                            int fbar = 1;
-                        }
-                        return resultTitle;
-                    });
-                    tasks.Add(task);
-                }
-
-                var allTitle = await Task.WhenAll(tasks);
-                allFormsTitle = allTitle.ToList();
-                stopwatch.Stop();
-                Console.WriteLine();
-                Console.WriteLine($"Elapsed time of Opening Forms: {stopwatch.ElapsedMilliseconds} ms");
-                #endregion
+                await formHelper.StressPerformanceForms(testingNode, allForms,
+                    allFormsTitle, allFailureForm, distributionTesting,
+                    performanceMeasureHeader, formInformation,
+          clients);
             }
 
             #region 列印出效能量測結果
@@ -128,9 +95,6 @@ namespace TestingBusiness
                     performanceMeasure.OutputNodeDetail(performanceMeasureResult);
             }
             #endregion
-
-            Console.WriteLine("Press any key for continuing...");
-            Console.ReadKey();
 
             return;
         }
@@ -203,17 +167,6 @@ namespace TestingBusiness
                 Console.WriteLine(ex.Message);
             }
             return title;
-        }
-
-        void Output(string msg, ConsoleColor needForegroundColor, ConsoleColor needBackgroundColor)
-        {
-            var foregroundColor = Console.ForegroundColor;
-            var backgroundColor = Console.BackgroundColor;
-            Console.ForegroundColor = needForegroundColor;
-            Console.BackgroundColor = needBackgroundColor;
-            Console.Write(msg);
-            Console.ForegroundColor = foregroundColor;
-            Console.BackgroundColor = backgroundColor;
         }
     }
 }

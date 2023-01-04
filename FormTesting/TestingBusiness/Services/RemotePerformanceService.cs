@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TestingModel.Models;
 
-namespace TestingBusiness.Helpers
+namespace TestingBusiness.Services
 {
-    public class RemotePerformanceHelper
+    public class RemotePerformanceService
     {
         public async Task CleanRemotePerformanceMeasureDataAsync(TestingNodeConfiguration testingNode)
         {
