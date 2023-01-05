@@ -10,7 +10,7 @@ namespace TestingModel.Models
     public class PerformanceMeasure
     {
         static AutoResetEvent resetEvent = new(true);
-        public List<PerformanceMeasureHeader> Header { get; set; } =
+        List<PerformanceMeasureHeader> Header { get; set; } =
            new List<PerformanceMeasureHeader>();
 
         /// <summary>
@@ -20,10 +20,33 @@ namespace TestingModel.Models
         public PerformanceMeasureHeader NewHeader()
         {
             PerformanceMeasureHeader header = new();
+            AddHeader(header);
+            return header;
+        }
+
+        public void AddHeader(PerformanceMeasureHeader header)
+        {
             resetEvent.WaitOne();
             Header.Add(header);
             resetEvent.Set();
-            return header;
+        }
+        public void RemoveHeader(PerformanceMeasureHeader header)
+        {
+            resetEvent.WaitOne();
+            Header.Remove(header);
+            resetEvent.Set();
+        }
+        public List<PerformanceMeasureHeader> RetriveHeader(TimeSpan time)
+        {
+            var retriveTime = DateTime.Now - time;
+            resetEvent.WaitOne();
+            var headers = Header.Where(x=>x.CreateAt<retriveTime).ToList();
+            foreach (var item in headers)
+            {
+                Header.Remove(item);
+            }
+            resetEvent.Set();
+            return headers;
         }
 
         public List<PerformanceMeasureHeader> GetHeads()
@@ -33,7 +56,9 @@ namespace TestingModel.Models
 
         public void Reset()
         {
+            resetEvent.WaitOne();
             Header = new List<PerformanceMeasureHeader>();
+            resetEvent.Set();
         }
 
         public void Output(SortEnum sortEnum, string[] allFormsTitle)

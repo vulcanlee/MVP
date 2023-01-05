@@ -11,6 +11,6 @@
         }
         public int Latency { get; set; } = 0;
         public string LatencyDetail { get; set; } = "";
-        public List<PerformanceMeasureHeader> SubHeader { get; set; } = new List<PerformanceMeasureHeader>();
+        public PerformanceMeasureHeader SubHeader { get; set; } = new();
     }
 }

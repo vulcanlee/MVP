@@ -6,6 +6,7 @@
         public List<PerformanceMeasureNode> Nodes { get; set; } =
             new List<PerformanceMeasureNode>();
         public Guid Guid { get; set; } = Guid.NewGuid();
+        public DateTime CreateAt { get; set; }= DateTime.Now;
         public string HeaderTitle { get; set; } = "";
         public int RequestEstimated { get; set; } = 0;
         public int MaxLatency { get; set; } = 0;
