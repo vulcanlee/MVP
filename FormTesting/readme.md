@@ -1,4 +1,4 @@
-# 曜瑄電子表單輔助支援工具
+# 曜瑄電子表單輔助支援工具 Ver 1.0.4
 
 本工具開發目的共有兩個：
 * 提供壓力測試，用來評估在有安裝電子表單的主機上，可以承受與提供多少表單操作數量，與觀察每次表單操作下的反應時間是多少。
@@ -73,6 +73,15 @@
 * ForceSleepMilliSecond
 
   整數，模擬使用者登入完成系統之後，需要暫時休息的時間，單位為 1/1000 秒
+* RecordRawHtmlContent
+  
+  布林值，是否要將抓取到的 HTML 表單原始標記內容，寫入到 Log 目錄下
+* RecordToFileHttpClientPerformanceMeasure
+
+  布林值，是否要將 HttpClient 量測到的效能數據，同時也要寫入到 Report 目錄下
+* RecordToFileRemotePerformanceMeasure
+
+  布林值，是否要將遠端伺服器上量測到的效能數據，同時也要寫入到 Report 目錄下
 * HttpClientPerformanceMeasure
 
   布林值，是否要顯示 HttpClient 的運作效能統計報表

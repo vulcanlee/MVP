@@ -345,7 +345,7 @@ public class FormService
                 measure.EndMeasure(measureItem!, performanceMeasureAction);
 
             #region 將此次讀取到的網頁儲存到本機 Data 目錄下
-            if (testingNode.LogFormRawHtml)
+            if (testingNode.RecordRawHtmlContent)
             {
                 var foo = Directory.GetCurrentDirectory();
                 var dataFolder = Path.Combine(Directory.GetCurrentDirectory(),
