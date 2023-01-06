@@ -424,8 +424,11 @@ public class FormService
         }
         catch (Exception ex)
         {
-            logger!.LogError(ex, $"Access URL : {formEndPoint}");
-            Console.WriteLine(ex.Message);
+            if (cancellationToken.IsCancellationRequested == false)
+            {
+                logger!.LogError(ex, $"Access URL : {formEndPoint}");
+                Console.WriteLine(ex.Message);
+            }
         }
         return title;
     }
