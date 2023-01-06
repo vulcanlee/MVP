@@ -117,6 +117,7 @@ namespace TestingBusiness.Services
             };
             HttpClient client = new HttpClient(handler);
             var content = await client.GetStringAsync(endPoint);
+
             var result = JsonConvert.DeserializeObject<List<PerformanceMeasureHeader>>(content);
             return result!;
         }

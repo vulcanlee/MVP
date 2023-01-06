@@ -41,7 +41,7 @@ namespace TestingModel.Models
         {
             var retriveTime = DateTime.Now - time;
             resetEvent.WaitOne();
-            var headers = Header.Where(x=>x.CreateAt<retriveTime).ToList();
+            var headers = Header.Where(x => x.CreateAt < retriveTime).ToList();
             foreach (var item in headers)
             {
                 Header.Remove(item);
@@ -126,7 +126,7 @@ namespace TestingModel.Models
                 foreach (var item in header.Nodes)
                 {
                     if (item.Title.Contains("CustomFormsLib.GetFormAsync")) continue;
-                    if(item.Latency == 0)
+                    if (item.Latency == 0)
                     {
                         Console.Write($"【{item.Title} ({item.EstimatedTime}) > [");
                         Output($"{item.Latency}", ConsoleColor.Gray, ConsoleColor.Black);
@@ -194,7 +194,7 @@ namespace TestingModel.Models
                 Console.WriteLine();
             }
         }
-     
+
         public void ParsePerformance(List<PerformanceMeasureHeader> headers)
         {
             foreach (var headerItem in headers)
