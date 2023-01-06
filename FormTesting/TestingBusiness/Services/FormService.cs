@@ -100,7 +100,7 @@ public class FormService
         for (int i = 0; i < formInformation.MaxHttpClients; i++)
         {
             int cc = i;
-            var task = NetLoginAsync(cancellationToken,testingNode, performanceMeasureHeader, cc);
+            var task = NetLoginAsync(cancellationToken, testingNode, performanceMeasureHeader, cc);
             clientsTask.Add(task);
         }
         await Task.WhenAll(clientsTask);
@@ -137,7 +137,7 @@ public class FormService
             Timeout = new TimeSpan(0, 5, 0)
         };
 
-        var beforeResponse = await client.GetAsync(loginEndPoint);
+        var beforeResponse = await client.GetAsync(loginEndPoint, cancellationToken);
         var html = await beforeResponse.Content.ReadAsStringAsync();
         Console.Write("*");
 
@@ -209,7 +209,8 @@ public class FormService
                 stopwatch.Restart();
                 stopwatch.Start();
 
-                var resultTitle = await NetGetFormAsync(performanceMeasureHeader,
+                var resultTitle = await NetGetFormAsync(
+                    cancellationToken, performanceMeasureHeader,
                           client, formInformation.AllForms[idx % formInformation.FormIdsCount],
                           idx, formInformation.DistributionTesting,
                           testingNode.HttpClientPerformanceMeasure, testingNode);
@@ -348,7 +349,8 @@ public class FormService
             var task = Task.Run(async () =>
             {
                 var fooi = idx;
-                var resultTitle = await NetGetFormAsync(performanceMeasureHeader,
+                var resultTitle = await NetGetFormAsync(
+                    cancellationToken, performanceMeasureHeader,
                      client, formInformation.AllForms[idx % formInformation.FormIdsCount],
                      idx, formInformation.DistributionTesting,
                      testingNode.HttpClientPerformanceMeasure, testingNode);
@@ -372,7 +374,8 @@ public class FormService
         #endregion
     }
 
-    async Task<string> NetGetFormAsync(PerformanceMeasureHeader measure,
+    async Task<string> NetGetFormAsync(CancellationToken cancellationToken,
+        PerformanceMeasureHeader measure,
         HttpClient client, string formEndPoint, int index, bool distributionTesting,
         bool performanceMeasureAction, TestingNodeConfiguration testingNode)
     {
@@ -392,7 +395,7 @@ public class FormService
             if (performanceMeasureAction == true)
                 measureItem = measure
                     .BeginMeasure($"Get Form Content Page {index}", performanceMeasureAction);
-            var beforeResponse = await client.GetAsync(formEndPoint);
+            var beforeResponse = await client.GetAsync(formEndPoint, cancellationToken);
             var html = await beforeResponse.Content.ReadAsStringAsync();
 
             #region 取得 Title

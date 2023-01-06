@@ -35,7 +35,22 @@ public class Worker : BackgroundService
             return;
         }
 
-        await formsStressTesting.NETFormRunningAsync(stoppingToken, node);
+        try
+        {
+            await formsStressTesting.NETFormRunningAsync(stoppingToken, node);
+
+        }
+        catch (Exception)
+        {
+            if (stoppingToken.IsCancellationRequested)
+            {
+                Console.WriteLine($"使用者發出取消執行請求");
+            }
+            else
+            {
+                throw;
+            }
+        }
 
         Environment.Exit(0);
     }
