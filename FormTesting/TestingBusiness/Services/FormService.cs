@@ -83,6 +83,7 @@ public class FormService
     /// <param name="performanceMeasureHeader"></param>
     /// <returns></returns>
     public async Task<List<HttpClient>> MakeHasLoginHttpClient(
+        CancellationToken cancellationToken,
         TestingNodeConfiguration testingNode,
         FormInformation formInformation,
         PerformanceMeasureHeader performanceMeasureHeader)
@@ -99,7 +100,7 @@ public class FormService
         for (int i = 0; i < formInformation.MaxHttpClients; i++)
         {
             int cc = i;
-            var task = NetLoginAsync(testingNode, performanceMeasureHeader, cc);
+            var task = NetLoginAsync(cancellationToken,testingNode, performanceMeasureHeader, cc);
             clientsTask.Add(task);
         }
         await Task.WhenAll(clientsTask);
@@ -115,7 +116,8 @@ public class FormService
         return clients;
     }
 
-    async Task<HttpClient> NetLoginAsync(TestingNodeConfiguration testingNode,
+    async Task<HttpClient> NetLoginAsync(CancellationToken cancellationToken,
+        TestingNodeConfiguration testingNode,
         PerformanceMeasureHeader measure, int idx)
     {
         string account = testingNode.Host.Account;
@@ -134,6 +136,7 @@ public class FormService
         {
             Timeout = new TimeSpan(0, 5, 0)
         };
+
         var beforeResponse = await client.GetAsync(loginEndPoint);
         var html = await beforeResponse.Content.ReadAsStringAsync();
         Console.Write("*");
@@ -163,7 +166,8 @@ public class FormService
         return null;
     }
 
-    public async Task WarmingUpForms(TestingNodeConfiguration testingNode,
+    public async Task WarmingUpForms(CancellationToken cancellationToken,
+        TestingNodeConfiguration testingNode,
         PerformanceMeasureHeader performanceMeasureHeader,
         FormInformation formInformation, List<HttpClient> clients)
     {
@@ -320,7 +324,8 @@ public class FormService
         }
     }
 
-    public async Task StressPerformanceForms(TestingNodeConfiguration testingNode,
+    public async Task StressPerformanceForms(CancellationToken cancellationToken,
+        TestingNodeConfiguration testingNode,
         PerformanceMeasureHeader performanceMeasureHeader,
         FormInformation formInformation, List<HttpClient> clients)
     {

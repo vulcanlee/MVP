@@ -35,7 +35,7 @@ public class Worker : BackgroundService
             return;
         }
 
-        await formsStressTesting.NETFormRunningAsync(node);
+        await formsStressTesting.NETFormRunningAsync(stoppingToken, node);
 
         Environment.Exit(0);
     }

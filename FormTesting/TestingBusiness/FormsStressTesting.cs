@@ -34,7 +34,8 @@ public class FormsStressTesting
     /// </summary>
     /// <param name="testingNodeConfiguration"></param>
     /// <returns></returns>
-    public async Task NETFormRunningAsync(TestingNodeConfiguration testingNodeConfiguration)
+    public async Task NETFormRunningAsync(CancellationToken cancellationToken,
+        TestingNodeConfiguration testingNodeConfiguration)
     {
         // 讓等下要顯示文字可以正常顯示出來
         await Task.Delay(1500);
@@ -48,32 +49,38 @@ public class FormsStressTesting
 
         formHelper.MakeFormUrl(testingNode, formInformation);
 
+        if (cancellationToken.IsCancellationRequested) return;
         await remotePerformanceHelper.CleanRemotePerformanceMeasureDataAsync(testingNode);
 
         PerformanceMeasureHeader performanceMeasureHeader =
             performanceMeasure.NewHeader();
 
-        clients = await formHelper.MakeHasLoginHttpClient(testingNode,
+        if (cancellationToken.IsCancellationRequested) return;
+        clients = await formHelper.MakeHasLoginHttpClient(cancellationToken, testingNode,
             formInformation, performanceMeasureHeader);
 
         #region 決定此程式的運作模式
         if (formInformation.Mode == TestingModeEnum.表單暖機預先載入)
         {
-            await formHelper.WarmingUpForms(testingNode,
+            if (cancellationToken.IsCancellationRequested) return;
+            await formHelper.WarmingUpForms(cancellationToken, testingNode,
                 performanceMeasureHeader, formInformation,
                 clients);
         }
         else if (formInformation.Mode == TestingModeEnum.壓力測試 ||
             formInformation.Mode == TestingModeEnum.時間內吞吐量測試)
         {
-            await formHelper.StressPerformanceForms(testingNode,
+            if (cancellationToken.IsCancellationRequested) return;
+            await formHelper.StressPerformanceForms(cancellationToken, testingNode,
                 performanceMeasureHeader, formInformation, clients);
         }
         #endregion
 
+        if (cancellationToken.IsCancellationRequested) return;
         remotePerformanceHelper.PrintHttpClientPerformanceResult(testingNode,
             performanceMeasure, formInformation);
 
+        if (cancellationToken.IsCancellationRequested) return;
         await remotePerformanceHelper.PrintRemotePerformanceMeasureResultAsync(testingNode, performanceMeasure);
 
         logger.LogInformation("正常執行完畢 ----------------------------------");
