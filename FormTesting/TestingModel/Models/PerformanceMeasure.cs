@@ -14,7 +14,7 @@ namespace TestingModel.Models
            new List<PerformanceMeasureHeader>();
 
         /// <summary>
-        /// 建立一個 PerformanceMeasureHeader 物件
+        /// 建立一個 PerformanceMeasureHeader 物件，透過這個物件，便可以進行程式碼效能量測
         /// </summary>
         /// <returns></returns>
         public PerformanceMeasureHeader NewHeader()
@@ -30,6 +30,7 @@ namespace TestingModel.Models
             Header.Add(header);
             resetEvent.Set();
         }
+
         public void RemoveHeader(PerformanceMeasureHeader header)
         {
             resetEvent.WaitOne();
@@ -193,6 +194,7 @@ namespace TestingModel.Models
                 Console.WriteLine();
             }
         }
+     
         public void ParsePerformance(List<PerformanceMeasureHeader> headers)
         {
             foreach (var headerItem in headers)

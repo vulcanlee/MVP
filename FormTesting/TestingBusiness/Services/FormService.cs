@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using TestingBusiness.Helpers;
@@ -212,7 +213,11 @@ public class FormService
                 if (resultTitle.Contains("並未將物件參考設定為物件的執行個體") ||
                 resultTitle.Contains("編譯錯誤"))
                 {
-                    formInformation.AllFailureForm.Add(testingNode.FormIds[idx]);
+                    formInformation.AllFailureForm.Add(new FailureFormItem()
+                    {
+                        FormId = testingNode.FormIds[idx],
+                        Title = resultTitle,
+                    });
                 }
 
                 stopwatch.Stop();
@@ -247,18 +252,71 @@ public class FormService
         allWeakup.Stop();
         Console.WriteLine($"第一次初始化耗時 {allWeakup.Elapsed}");
 
+        PrintFailureFormResult(testingNode, formInformation);
 
-        if (formInformation.AllFailureForm.Count > 0)
+        PrintNormalFormId(testingNode, formInformation);
+    }
+
+    public void PrintNormalFormId(TestingNodeConfiguration testingNode,
+    FormInformation formInformation)
+    {
+        if (testingNode.RecordToFileWarmingUpFailureForm)
         {
-            var foo = testingNode.FormIds;
-            foreach (var item in formInformation.AllFailureForm)
-            {
-                Console.WriteLine(item);
-                foo.Remove(item);
-            }
+            var dataFolder = Path.Combine(Directory.GetCurrentDirectory(),
+                MagicObject.LogReportFolderName);
+            if (Directory.Exists(dataFolder) == false) Directory.CreateDirectory(dataFolder);
+            var now = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            var filename = Path.Combine(dataFolder, $"{now}_Normal.log");
 
-            var bar = JsonConvert.SerializeObject(foo);
-            Console.WriteLine(bar);
+            var stream = consoleHelper.SetConsoleOutputToFile(filename);
+
+            #region 印出正常的表單 ID
+            if (formInformation.AllFailureForm.Count > 0)
+            {
+                var foo = testingNode.FormIds;
+                foreach (var item in formInformation.AllFailureForm)
+                    foo.Remove(item.FormId);
+
+                foreach (var item in foo)
+                    Console.WriteLine($"\"{item}\",");
+            }
+            #endregion
+
+            consoleHelper.ResetConsoleOutput(stream);
+        }
+    }
+
+    public void PrintFailureFormResult(TestingNodeConfiguration testingNode,
+    FormInformation formInformation)
+    {
+        if (testingNode.RecordToFileWarmingUpFailureForm)
+        {
+            var foo = Directory.GetCurrentDirectory();
+            var dataFolder = Path.Combine(Directory.GetCurrentDirectory(),
+                MagicObject.LogReportFolderName);
+            if (Directory.Exists(dataFolder) == false) Directory.CreateDirectory(dataFolder);
+            var now = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            var filename = Path.Combine(dataFolder, $"{now}_FailureForm.log");
+
+            var stream = consoleHelper.SetConsoleOutputToFile(filename);
+            PrintFailureFormResultToConsole(testingNode, formInformation);
+            consoleHelper.ResetConsoleOutput(stream);
+        }
+
+        if (testingNode.WarmingUpFailureForm)
+        {
+            PrintFailureFormResultToConsole(testingNode, formInformation);
+        }
+    }
+
+    public void PrintFailureFormResultToConsole(TestingNodeConfiguration testingNode,
+   FormInformation formInformation)
+    {
+        Console.WriteLine();
+        Console.WriteLine($"Open fail form id list");
+        foreach (var header in formInformation.AllFailureForm)
+        {
+            Console.WriteLine($"{header.FormId}  {header.Title}");
         }
     }
 
@@ -290,7 +348,7 @@ public class FormService
                      idx, formInformation.DistributionTesting,
                      testingNode.HttpClientPerformanceMeasure, testingNode);
 
-                resultTitle = $"{resultTitle}    {testingNode.FormIds[idx]}";
+                resultTitle = $"{resultTitle}    {testingNode.FormIds[fooi]}";
 
                 if (resultTitle.Contains("編譯"))
                 {

@@ -33,11 +33,8 @@ namespace TestingBusiness.Services
             PerformanceMeasure performanceMeasure,
             FormInformation formInformation)
         {
-            Console.OutputEncoding= System.Text.Encoding.UTF8;
-
             if (testingNode.RecordToFileHttpClientPerformanceMeasure)
             {
-                var foo = Directory.GetCurrentDirectory();
                 var dataFolder = Path.Combine(Directory.GetCurrentDirectory(),
                     MagicObject.OutputReportFolderName);
                 if (Directory.Exists(dataFolder) == false) Directory.CreateDirectory(dataFolder);

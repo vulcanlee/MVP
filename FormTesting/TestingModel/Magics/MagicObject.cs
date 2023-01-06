@@ -22,6 +22,7 @@ namespace TestingModel.Magics
         public const string TestingNodeActionDistributionTesting = "DistributionTesting";
         public const string OutputFormHtmlFolderName = "Output";
         public const string OutputReportFolderName = "Report";
+        public const string LogReportFolderName = "Log";
         public const string FormEndpointPrefix = "/Forms/CustomForm?FormId=";
         public const string FormEndpointPost = "/Forms/CustomForm?FormId=";
     }

@@ -14,6 +14,12 @@
         public string LatencyDetail { get; set; } = "";
         public string NodeEstimatedDetail { get; set; } = "";
 
+        /// <summary>
+        /// 給予一個名稱，便可以開始進行程式碼效能耗用時間量測
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="performanceMeasureAction"></param>
+        /// <returns></returns>
         public PerformanceMeasureNode? BeginMeasure(string title,
             bool performanceMeasureAction = false)
         {
@@ -24,12 +30,19 @@
                 Begin = DateTime.Now,
                 End = default(DateTime)
             };
+           
             resetEvent.WaitOne();
             Nodes.Add(node);
             resetEvent.Set();
+
             return node;
         }
 
+        /// <summary>
+        /// 結束此階段 程式碼效能耗用時間量測
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="performanceMeasureAction"></param>
         public void EndMeasure(PerformanceMeasureNode node,
             bool performanceMeasureAction = false)
         {

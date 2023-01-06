@@ -167,6 +167,15 @@ http://www.posly.cc/Forms/CustomForm?FormId=0244d858-c493-4529-9aa6-1c4b07d7e08c
       _CustomFormLayout.cshtml B:03:39.9953 F:03:40.0266 E:00:00:00.0313410
                _Layout2.cshtml B:03:40.0266 F:03:40.1359 E:00:00:00.1092815
 ```
+
+* WarmingUpFailureForm
+
+  布林值，當進行表單物件暖機狀態下，是否需要將有錯誤的 Form Id 顯示在螢幕上
+
+* RecordToFileWarmingUpFailureForm
+
+  布林值，當進行表單物件暖機狀態下，是否需要將有錯誤的 Form Id 與正常可以開啟的 Form Id 分別寫入到不同的檔案內
+
 * ResetRemotePerformanceMeasureEndpoint
 
   字串，宣告要清除伺服器端效能量測數據的服務端點

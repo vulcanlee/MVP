@@ -27,6 +27,8 @@ namespace TestingModel.Models
         public bool RemotePerformanceMaxLatencyAnalysis { get; set; } = false;
         public bool RemotePerformanceOutputDetail { get; set; } = false;
         public bool RemotePerformanceOutputNodeDetail { get; set; } = false;
+        public bool WarmingUpFailureForm { get; set; } = false;
+        public bool RecordToFileWarmingUpFailureForm { get; set; } = false;
         public string ResetRemotePerformanceMeasureEndpoint { get; set; } = "";
         public string GetRemotePerformanceMeasureEndpoint { get; set; } = "";
     }

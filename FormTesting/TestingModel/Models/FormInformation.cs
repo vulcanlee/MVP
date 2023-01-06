@@ -34,6 +34,6 @@ namespace TestingModel.Models
         public List<string> AllForms { get; set; } = new List<string>();
         public List<string> FormIds { get; set; } = new List<string>();
         public List<string> AllFormsTitle { get; set; } = new List<string>();
-        public List<string> AllFailureForm { get; set; } = new List<string>();
+        public List<FailureFormItem> AllFailureForm { get; set; } = new();
     }
 }
