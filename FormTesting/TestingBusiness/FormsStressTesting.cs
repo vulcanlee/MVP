@@ -44,7 +44,7 @@ public class FormsStressTesting
 
         this.testingNode = testingNodeConfiguration;
 
-        FormInformation formInformation = new FormInformation()
+        FormInformation formInformation = await new FormInformation()
             .ConvertConfigurationToFormInformation(testingNode);
 
         formHelper.MakeFormUrl(testingNode, formInformation);

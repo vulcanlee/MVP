@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace TestingBusiness.Helpers
         /// </summary>
         /// <param name="formInformation"></param>
         /// <param name="testingNode"></param>
-        public static FormInformation ConvertConfigurationToFormInformation(this FormInformation formInformation,
+        public static async Task<FormInformation> ConvertConfigurationToFormInformation(this FormInformation formInformation,
             TestingNodeConfiguration testingNode)
         {
             formInformation.NumberOfRequests = testingNode.NumberOfRequests;
@@ -30,6 +31,25 @@ namespace TestingBusiness.Helpers
             else if (testingNode.Mode == MagicObject.TestingNodeActionDistributionTesting)
                 formInformation.Mode = TestingModel.Enums.TestingModeEnum.時間內吞吐量測試;
 
+
+            if(string.IsNullOrEmpty(testingNode.GetFormsEndPoint) == false &&
+                testingNode.UsingGetForms == true)
+            {
+                #region 將伺服器上的效能統計資訊清除
+                if (testingNode.RemotePerformanceMeasure == true)
+                {
+                    var endPoint = $"{testingNode.Host.ConnectHost}" +
+                        $"{testingNode.GetFormsEndPoint}";
+                    var handler = new HttpClientHandler()
+                    {
+                        ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                    };
+                    HttpClient client = new HttpClient(handler);
+                   var allRawFors =  await client.GetStringAsync(endPoint);
+                    testingNode.FormIds = JsonConvert.DeserializeObject<List<string>>(allRawFors);
+                }
+                #endregion
+            }
             return formInformation;
         }
     }

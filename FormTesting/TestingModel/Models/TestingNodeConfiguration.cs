@@ -31,5 +31,7 @@ namespace TestingModel.Models
         public bool RecordToFileWarmingUpFailureForm { get; set; } = false;
         public string ResetRemotePerformanceMeasureEndpoint { get; set; } = "";
         public string GetRemotePerformanceMeasureEndpoint { get; set; } = "";
+         public string GetFormsEndPoint { get; set; } = "";
+        public bool UsingGetForms { get; set; }
     }
 }
