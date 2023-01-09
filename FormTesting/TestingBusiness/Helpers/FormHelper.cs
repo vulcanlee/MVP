@@ -35,7 +35,7 @@ namespace TestingBusiness.Helpers
             if(string.IsNullOrEmpty(testingNode.GetFormsEndPoint) == false &&
                 testingNode.UsingGetForms == true)
             {
-                #region 將伺服器上的效能統計資訊清除
+                #region 取得伺服器上的所有 FormId
                 if (testingNode.RemotePerformanceMeasure == true)
                 {
                     var endPoint = $"{testingNode.Host.ConnectHost}" +
@@ -47,6 +47,7 @@ namespace TestingBusiness.Helpers
                     HttpClient client = new HttpClient(handler);
                    var allRawFors =  await client.GetStringAsync(endPoint);
                     testingNode.FormIds = JsonConvert.DeserializeObject<List<string>>(allRawFors);
+                    formInformation.FormIds = testingNode.FormIds;
                 }
                 #endregion
             }

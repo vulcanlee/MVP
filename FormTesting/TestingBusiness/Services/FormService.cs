@@ -46,6 +46,9 @@ public class FormService
                 item.Title.ToLower())
             {
                 node = item;
+                Console.WriteLine($"測試目標 : {targetOption.Value.TestingNode}");
+                Console.WriteLine($"測試動作 : {item.Mode}");
+                Console.WriteLine();
                 return node;
             }
         }
