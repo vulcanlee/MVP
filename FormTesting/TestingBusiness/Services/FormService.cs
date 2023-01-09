@@ -244,13 +244,16 @@ public class FormService
                     Console.WriteLine($" ms");
                 }
                 formInformation.AllFormsTitle[idx] = resultTitle;
+                if (cancellationToken.IsCancellationRequested) return "";
                 return resultTitle;
             });
             tasks.Add(task);
 
             if (i % formInformation.MaxHttpClients == formInformation.MaxHttpClients - 1)
             {
+                if (cancellationToken.IsCancellationRequested) return ;
                 await Task.WhenAll(tasks);
+                if (cancellationToken.IsCancellationRequested) return;
             }
 
         }
