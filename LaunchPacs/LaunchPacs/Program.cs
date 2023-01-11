@@ -16,20 +16,33 @@ namespace LaunchPacs
 
             try
             {
-                HostFactory.Run(x =>
+                var builder = WebApplication.CreateBuilder(args);
+
+                // Add services to the container.
+
+                builder.Services.AddControllers();
+                // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+                builder.Services.AddEndpointsApiExplorer();
+                builder.Services.AddSwaggerGen();
+                builder.Host.UseNLog();
+
+                var App = builder.Build();
+
+                // Configure the HTTP request pipeline.
+                if (App.Environment.IsDevelopment())
                 {
-                    x.Service<MyService>(s =>
-                    {
-                        s.ConstructUsing(name => new MyService());
-                        s.WhenStarted(tc => tc.Start());
-                        s.WhenStopped(tc => tc.Stop());
-                    });
-                    x.RunAsLocalSystem();
-                    var assemblyName = Assembly.GetEntryAssembly().GetName().Name;
-                    x.SetDescription("Exentric PACS Support Tool");
-                    x.SetDisplayName(assemblyName);
-                    x.SetServiceName(assemblyName);
-                });
+                    App.UseSwagger();
+                    App.UseSwaggerUI();
+                }
+
+                // app.UseHttpsRedirection();
+
+                App.UseAuthorization();
+
+
+                App.MapControllers();
+
+                App.Run();
             }
             catch (Exception exception)
             {
