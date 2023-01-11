@@ -1,5 +1,15 @@
 # G3Launch Gateway 說明
 
+# 安裝與設定說明
+
+sc create "PACS_Viewer" binPath="C:\Vulcan\Github\MVP\LaunchPacs\LaunchPacs\bin\Release\net7.0\publish\LaunchPacs.exe"
+
+sc start "PACS_Viewer"
+
+sc stop "PACS_Viewer"
+
+sc.exe delete "PACS_Viewer"
+
 # 呼叫端點參數說明
 
 若想要使用底下方式來開啟 PACS Viewer 
@@ -43,3 +53,7 @@ http://localhost:14928/Launch?ViewerPath=C%3A%5CINFINITT%5Cviewer%5CG3Launcher.e
 # 測試方式
 
 參考 test.html 網站，並請使用任一瀏覽器打開該網址，實際操作與驗證
+
+# 安裝與設定說明
+
+
