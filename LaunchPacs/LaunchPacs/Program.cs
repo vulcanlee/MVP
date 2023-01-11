@@ -1,8 +1,8 @@
 
-using Microsoft.Extensions.Hosting.WindowsServices;
 using NLog;
 using NLog.Web;
 using System.Reflection;
+using Topshelf;
 
 namespace LaunchPacs
 {
@@ -16,41 +16,20 @@ namespace LaunchPacs
 
             try
             {
-                var webApOpts = new WebApplicationOptions
+                HostFactory.Run(x =>
                 {
-                    ContentRootPath = WindowsServiceHelpers.IsWindowsService() ?
-                AppContext.BaseDirectory : default,
-                    Args = args
-                };
-
-                var builder = WebApplication.CreateBuilder(webApOpts);
-
-                // Add services to the container.
-
-                builder.Services.AddControllers();
-                // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-                builder.Services.AddEndpointsApiExplorer();
-                builder.Services.AddSwaggerGen();
-                builder.Host.UseWindowsService();
-                builder.Host.UseNLog();
-
-                var App = builder.Build();
-
-                // Configure the HTTP request pipeline.
-                if (App.Environment.IsDevelopment())
-                {
-                    App.UseSwagger();
-                    App.UseSwaggerUI();
-                }
-
-                // app.UseHttpsRedirection();
-
-                App.UseAuthorization();
-
-
-                App.MapControllers();
-
-                App.Run();
+                    x.Service<MyService>(s =>
+                    {
+                        s.ConstructUsing(name => new MyService());
+                        s.WhenStarted(tc => tc.Start());
+                        s.WhenStopped(tc => tc.Stop());
+                    });
+                    x.RunAsLocalSystem();
+                    var assemblyName = Assembly.GetEntryAssembly().GetName().Name;
+                    x.SetDescription("Exentric PACS Support Tool");
+                    x.SetDisplayName(assemblyName);
+                    x.SetServiceName(assemblyName);
+                });
             }
             catch (Exception exception)
             {

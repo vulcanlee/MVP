@@ -42,6 +42,12 @@ namespace LaunchPacs.Controllers
             // Do you want to show a console window?
             //start.WindowStyle = ProcessWindowStyle.Hidden;
             //start.CreateNoWindow = true;
+            var filename = Path.GetFileName(g3LauncherModel.ViewerPath);
+            var path = g3LauncherModel.ViewerPath.Replace(filename,"");
+            start.WorkingDirectory = path;
+            start.CreateNoWindow = false;
+            start.UseShellExecute = true;
+            start.Verb = "runas";
             using (Process proc = Process.Start(start))
             {
             }
