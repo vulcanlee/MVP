@@ -5,6 +5,7 @@
 </head>
 <body>
 
+    <div><input/></div>
     <div>
     <button id="loadTextFile1">Open PACS Viewer - Sample 1</button></div>
     <div>
@@ -16,7 +17,7 @@
         $(document).ready(function () {
             $("#loadTextFile1").click(function (e) {
                 $.ajax({
-                    url: "http://localhost:14928/Launch?ViewerPath=C%3A%5CINFINITT%5Cviewer%5CG3Launcher.exe&IIS=http%3A%2F%2F10.1.1.142&UserId=admin&UserPassword=nimda&AccessionNo=RU799OR39MJ3BCF1&PatientId=BET0001",
+                    url: "http://localhost:14928/Launch?LID=admin&LPW=nimda&AN=RU799OR39MJ3BCF1&PID=BET0001",
                     success: function (result,status,xhr) {
                     }
                 });
@@ -25,7 +26,7 @@
         $(document).ready(function () {
             $("#loadTextFile2").click(function (e) {
                 $.ajax({
-                    url: "http://localhost:14928/Launch?ViewerPath=C%3A%5CINFINITT%5Cviewer%5CG3Launcher.exe&IIS=http%3A%2F%2F10.1.1.142&UserId=admin&UserPassword=nimda&AccessionNo=S21B2R1908569&PatientId=01658998",
+                    url: "http://localhost:14928/Launch?LID=admin&LPW=nimda&AN=S21B2R1908569&PID=01658998",
                     success: function (result,status,xhr) {
                     }
                 });

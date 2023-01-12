@@ -1,7 +1,12 @@
 
+using LaunchPacs.Models;
+using Microsoft.Extensions.Options;
 using NLog;
 using NLog.Web;
+using System.Diagnostics;
 using System.Reflection;
+using System.Reflection.Metadata;
+using System.Runtime.InteropServices;
 using Topshelf;
 
 namespace LaunchPacs
@@ -10,6 +15,17 @@ namespace LaunchPacs
     {
         public static void Main(string[] args)
         {
+            #region 隱藏視窗會用到的 Windows API 宣告
+            [DllImport("kernel32.dll")]
+            static extern IntPtr GetConsoleWindow();
+
+            [DllImport("user32.dll")]
+            static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+            const int SW_HIDE = 0;
+            const int SW_SHOW = 5;
+            #endregion
+
             var logger = NLog.LogManager.Setup()
                 .LoadConfigurationFromAppSettings().GetCurrentClassLogger();
             logger.Debug("init main");
@@ -26,7 +42,24 @@ namespace LaunchPacs
                 builder.Services.AddSwaggerGen();
                 builder.Host.UseNLog();
 
+                builder.Services.Configure<PacsConfiguration>(
+                    builder.Configuration.GetSection("PACS"));
+
                 var App = builder.Build();
+
+                #region 是否需要隱藏此命令字元視窗
+                PacsConfiguration pacsConfiguration = App
+                    .Services.GetService<IOptions<PacsConfiguration>>().Value;
+                if(pacsConfiguration.HiddenWindown)
+                {
+                    //var handle = GetConsoleWindow();
+                    //// Hide
+                    //ShowWindow(handle, SW_HIDE);
+
+                    IntPtr h = Process.GetCurrentProcess().MainWindowHandle;
+                    ShowWindow(h, 0);
+                }
+                #endregion
 
                 // Configure the HTTP request pipeline.
                 if (App.Environment.IsDevelopment())

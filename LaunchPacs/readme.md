@@ -22,38 +22,62 @@ C:\INFINITT\viewer\G3Launcher.exe http://10.1.1.142+admin+nimda++S+RU799OR39MJ3B
 
 其中，每個引數的字串值必須使用 URL Encoder 來進行編碼
 
-http://localhost:14928/Launch?ViewerPath=C%3A%5CINFINITT%5Cviewer%5CG3Launcher.exe&IIS=http%3A%2F%2F10.1.1.142&UserId=admin&UserPassword=nimda&AccessionNo=RU799OR39MJ3BCF1&PatientId=BET0001
+http://localhost:14928/Launch?LID=admin&LPW=nimda&AN=RU799OR39MJ3BCF1&PID=BET0001
 
-http://localhost:14928/Launch?ViewerPath=C%3A%5CINFINITT%5Cviewer%5CG3Launcher.exe&IIS=http%3A%2F%2F10.1.1.142&UserId=admin&UserPassword=nimda&AccessionNo=S21B2R1908569&PatientId=01658998
+http://localhost:14928/Launch?LID=admin&LPW=nimda&AN=S21B2R1908569&PID=01658998
 
 ## 參數說明
 
-* ViewerPath
-
-  PACS Viewer 的完整路徑
-
-* IIS
-
-  指向 PACS Web 主機的網址
-
-* UserId
+* LID
 
   帳號
 
-* UserPassword
+* LPW
 
   密碼
 
-* AccessionNo
+* AN
 
-  AccessionNo
+  Accession No
 
-* PatientId
+* PID
 
-  PatientId
+  Patient Id
   
-# 測試方式
+# PACS Viewer 程式位置 與 主機 URL 參數設定
 
-參考 test.html 網站，並請使用任一瀏覽器打開該網址，實際操作與驗證
+在壓縮檔案內，將會找到 appsettings.json 檔案，打該這個檔案，將會看到如下內容
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "Kestrel": {
+    "Endpoints": {
+      "Http": {
+        "Url": "http://localhost:14928"
+      }
+    }
+  },
+  "PACS": {
+    "HiddenWindown": true,
+    "PacsProgramPath": "C:\\INFINITT\\viewer\\G3Launcher.exe",
+    "IisUrl": "http://10.1.1.142"
+  }
+}
+```
+
+* PacsProgramPath
+
+  這個屬性將會宣告為本機 PACS Viewer 所在的位置
+
+* IisUrl
+
+  這個屬性將會宣告為指向 PACS 主機的 URL
 
 
