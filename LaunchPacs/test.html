@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>PACS Viewer Gateway Example</title>
+</head>
+<body>
+
+    <div><input/></div>
+    <div>
+    <button id="loadTextFile1">Open PACS Viewer - Sample 1</button></div>
+    <div>
+    <button id="loadTextFile2">Open PACS Viewer - Sample 2</button></div>
+    <div id="textData"></div>
+     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#loadTextFile1").click(function (e) {
+                $.ajax({
+                    url: "http://localhost:14928/Launch?LID=admin&LPW=nimda&AN=RU799OR39MJ3BCF1&PID=BET0001",
+                    success: function (result,status,xhr) {
+                    }
+                });
+            });
+        });
+        $(document).ready(function () {
+            $("#loadTextFile2").click(function (e) {
+                $.ajax({
+                    url: "http://localhost:14928/Launch?LID=admin&LPW=nimda&AN=S21B2R1908569&PID=01658998",
+                    success: function (result,status,xhr) {
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
