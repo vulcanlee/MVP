@@ -72,6 +72,10 @@ http://localhost:14928/Launch?LID=admin&LPW=nimda&AN=S21B2R1908569&PID=01658998
 }
 ```
 
+* HiddenWindown
+
+  這個屬性將會宣告這個命令提示字元視窗啟動之後，是否需要隱藏
+
 * PacsProgramPath
 
   這個屬性將會宣告為本機 PACS Viewer 所在的位置
