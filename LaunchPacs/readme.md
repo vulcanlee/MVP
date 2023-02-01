@@ -84,4 +84,13 @@ http://localhost:14928/Launch?LID=admin&LPW=nimda&AN=S21B2R1908569&PID=01658998
 
   這個屬性將會宣告為指向 PACS 主機的 URL
 
+# 啟動引數
+
+## quit
+
+若在啟動此程式的時候，有加入 `quit` 引數，則表示該程式會於啟動之後，會將已經啟動過的同樣程式先予以終止執行，接著，會退出此次程式的執行。
+
+底下為使用範例
+
+LaunchPacs.exe quit
 

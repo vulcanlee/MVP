@@ -15,6 +15,33 @@ namespace LaunchPacs
     {
         public static void Main(string[] args)
         {
+            #region 刪除掉還在執行的同樣程式碼
+            var processes = Process.GetProcesses().ToList();
+            var LaunchPacsProcesses = processes.Where(x => x.ProcessName.ToLower().Contains("LaunchPacs".ToLower())).ToList();
+            var currentProcess = Process.GetCurrentProcess();
+            foreach (var item in LaunchPacsProcesses)
+            {
+                if (item.Id != currentProcess.Id)
+                {
+                    Console.WriteLine($"Process {item.Id} will be killed!");
+                    item.Kill();
+                }
+            }
+            #endregion
+
+            #region 是否需要立即結束
+            if (args.Length > 0)
+            {
+                foreach (var item in args)
+                {
+                    if(item.ToLower() == "quit")
+                    {
+                        return;
+                    }
+                }
+            }
+            #endregion
+
             #region 隱藏視窗會用到的 Windows API 宣告
             [DllImport("kernel32.dll")]
             static extern IntPtr GetConsoleWindow();
@@ -24,21 +51,6 @@ namespace LaunchPacs
 
             const int SW_HIDE = 0;
             const int SW_SHOW = 5;
-            #endregion
-
-            #region 刪除掉還在執行的同樣程式碼
-            var processes = Process.GetProcesses().ToList();
-            var LaunchPacsProcesses = processes.Where(x => x.ProcessName.ToLower().Contains("LaunchPacs".ToLower())).ToList();
-            var currentProcess = Process.GetCurrentProcess();
-            foreach (var item in LaunchPacsProcesses)
-            {
-                if(item.Id!= currentProcess.Id)
-                {
-                    Console.WriteLine($"Process {item.Id} will be killed!");
-                    item.Kill();
-                }
-            }
-                //.Where(x => x.ProcessName == "");
             #endregion
 
             var logger = NLog.LogManager.Setup()
