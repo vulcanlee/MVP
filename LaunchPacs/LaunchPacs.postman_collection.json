@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "0309b533-2736-4a2e-b8d7-9156a4e45c0c",
+		"name": "LaunchPacs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "362711"
+	},
+	"item": [
+		{
+			"name": "開啟範例1 PACS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:14928/Launch?LID=admin&LPW=nimda&AN=RU799OR39MJ3BCF1&PID=BET0001\n",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "14928",
+					"path": [
+						"Launch"
+					],
+					"query": [
+						{
+							"key": "LID",
+							"value": "admin"
+						},
+						{
+							"key": "LPW",
+							"value": "nimda"
+						},
+						{
+							"key": "AN",
+							"value": "RU799OR39MJ3BCF1"
+						},
+						{
+							"key": "PID",
+							"value": "BET0001\n"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "開啟範例2 PACS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:14928/Launch?LID=admin&LPW=nimda&AN=S21B2R1908569&PID=01658998",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "14928",
+					"path": [
+						"Launch"
+					],
+					"query": [
+						{
+							"key": "LID",
+							"value": "admin"
+						},
+						{
+							"key": "LPW",
+							"value": "nimda"
+						},
+						{
+							"key": "AN",
+							"value": "S21B2R1908569"
+						},
+						{
+							"key": "PID",
+							"value": "01658998"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "開啟範例1 PACS",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"LID\":\"admin\",\r\n    \"LPW\":\"nimda\",\r\n    \"AN\":\"RU799OR39MJ3BCF1\",\r\n    \"PID\":\"BET0001\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:14928/Launch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "14928",
+					"path": [
+						"Launch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "開啟範例2 PACS",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"LID\":\"admin\",\r\n    \"LPW\":\"nimda\",\r\n    \"AN\":\"S21B2R1908569\",\r\n    \"PID\":\"01658998\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:14928/Launch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "14928",
+					"path": [
+						"Launch"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
