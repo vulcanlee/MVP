@@ -23,8 +23,7 @@ namespace LaunchPacs.Controllers
             this.pacsConfiguration = pacsOptions.Value;
         }
 
-        [HttpGet]
-        public string Get([FromQuery] G3LauncherModel g3LauncherModel)
+        private string RunLaunchG3(G3LauncherModel g3LauncherModel)
         {
             #region 若沒有傳入，填入預設參數值
             if (string.IsNullOrEmpty(g3LauncherModel.Iis))
@@ -33,7 +32,7 @@ namespace LaunchPacs.Controllers
                 g3LauncherModel.ViewerPath = pacsConfiguration.PacsProgramPath;
             #endregion
 
-                // C:\INFINITT\viewer\G3Launcher.exe http://10.1.1.142+admin+nimda++S+RU799OR39MJ3BCF1+BET0001
+            // C:\INFINITT\viewer\G3Launcher.exe http://10.1.1.142+admin+nimda++S+RU799OR39MJ3BCF1+BET0001
             StringBuilder builderArgument = new StringBuilder();
             builderArgument.Append($"{g3LauncherModel.Iis}+");
             builderArgument.Append($"{g3LauncherModel.LID}+");
@@ -63,6 +62,20 @@ namespace LaunchPacs.Controllers
             using (Process proc = Process.Start(start))
             {
             }
+            return command;
+        }
+
+        [HttpGet]
+        public string Get([FromQuery] G3LauncherModel g3LauncherModel)
+        {
+            string command = RunLaunchG3(g3LauncherModel);
+            return command;
+        }
+
+        [HttpPost]
+        public string Post([FromBody] G3LauncherModel g3LauncherModel)
+        {
+            string command = RunLaunchG3(g3LauncherModel);
             return command;
         }
 
