@@ -26,6 +26,21 @@ namespace LaunchPacs
             const int SW_SHOW = 5;
             #endregion
 
+            #region 刪除掉還在執行的同樣程式碼
+            var processes = Process.GetProcesses().ToList();
+            var LaunchPacsProcesses = processes.Where(x => x.ProcessName.ToLower().Contains("LaunchPacs".ToLower())).ToList();
+            var currentProcess = Process.GetCurrentProcess();
+            foreach (var item in LaunchPacsProcesses)
+            {
+                if(item.Id!= currentProcess.Id)
+                {
+                    Console.WriteLine($"Process {item.Id} will be killed!");
+                    item.Kill();
+                }
+            }
+                //.Where(x => x.ProcessName == "");
+            #endregion
+
             var logger = NLog.LogManager.Setup()
                 .LoadConfigurationFromAppSettings().GetCurrentClassLogger();
             logger.Debug("init main");
@@ -50,14 +65,10 @@ namespace LaunchPacs
                 #region 是否需要隱藏此命令字元視窗
                 PacsConfiguration pacsConfiguration = App
                     .Services.GetService<IOptions<PacsConfiguration>>().Value;
-                if(pacsConfiguration.HiddenWindown)
+                if (pacsConfiguration.HiddenWindown)
                 {
-                    //var handle = GetConsoleWindow();
-                    //// Hide
-                    //ShowWindow(handle, SW_HIDE);
-
-                    IntPtr h = Process.GetCurrentProcess().MainWindowHandle;
-                    ShowWindow(h, 0);
+                    var handle = GetConsoleWindow();
+                    ShowWindow(handle, SW_HIDE);
                 }
                 #endregion
 
