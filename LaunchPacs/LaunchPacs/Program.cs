@@ -34,7 +34,7 @@ namespace LaunchPacs
             {
                 foreach (var item in args)
                 {
-                    if(item.ToLower() == "quit")
+                    if (item.ToLower() == "quit")
                     {
                         return;
                     }
@@ -72,6 +72,18 @@ namespace LaunchPacs
                 builder.Services.Configure<PacsConfiguration>(
                     builder.Configuration.GetSection("PACS"));
 
+                string MyAllowAllOrigins = "All";
+                builder.Services.AddCors(options =>
+                {
+                    options.AddPolicy(MyAllowAllOrigins,
+                                          policy =>
+                                          {
+                                              policy.AllowAnyOrigin()
+                                                    .AllowAnyHeader()
+                                                    .AllowAnyMethod();
+                                          });
+                });
+
                 var App = builder.Build();
 
                 #region 是否需要隱藏此命令字元視窗
@@ -92,6 +104,8 @@ namespace LaunchPacs
                 }
 
                 // app.UseHttpsRedirection();
+
+                App.UseCors(MyAllowAllOrigins);
 
                 App.UseAuthorization();
 

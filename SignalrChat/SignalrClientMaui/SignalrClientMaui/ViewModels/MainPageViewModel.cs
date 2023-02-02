@@ -14,7 +14,10 @@ public partial class MainPageViewModel : ObservableObject, INavigatedAware
     string title = "Main Page";
 
     [ObservableProperty]
-    string text = "Click me";
+    string receiveMessage = "";
+
+    [ObservableProperty]
+    string sendMessage = "";
     #endregion
 
     #region Property Member
@@ -36,13 +39,9 @@ public partial class MainPageViewModel : ObservableObject, INavigatedAware
     #region Method Member
     #region Command Method
     [RelayCommand]
-    private void Count()
+    private async Task Send()
     {
-        _count++;
-        if (_count == 1)
-            Text = "Clicked 1 time";
-        else if (_count > 1)
-            Text = $"Clicked {_count} times";
+        await SendMessageToServer();
     }
     #endregion
 
@@ -56,19 +55,18 @@ public partial class MainPageViewModel : ObservableObject, INavigatedAware
         BindingEvent();
 
         await StartSignalRConnectionAsync();
-        await SendMessage();
     }
 
     #endregion
 
     #region Other Method
-    private async Task SendMessage()
+    private async Task SendMessageToServer()
     {
         #region 開始對 SignalR 伺服器送出訊息
         try
         {
             await connection.InvokeAsync("SendMessage",
-                "Vulcan", "Hello everyone");
+                "Vulcan", SendMessage);
         }
         catch (Exception ex)
         {
@@ -104,9 +102,17 @@ public partial class MainPageViewModel : ObservableObject, INavigatedAware
         connection.Closed += async (error) =>
         {
             await Task.Delay(new Random().Next(0, 5) * 1000);
+            try
+            {
+                await connection.StartAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
             await MainThread.InvokeOnMainThreadAsync(async () =>
              {
-                 await connection.StartAsync();
              });
         };
         #endregion
@@ -115,6 +121,14 @@ public partial class MainPageViewModel : ObservableObject, INavigatedAware
         connection.On<string, string>("ReceiveMessage", (user, message) =>
         {
             var newMessage = $"{user}: {message}";
+            if (string.IsNullOrEmpty(ReceiveMessage))
+            {
+                ReceiveMessage = newMessage;
+            }
+            else
+            {
+                ReceiveMessage += $"{Environment.NewLine}{newMessage}";
+            }
             Console.WriteLine(newMessage);
         });
         #endregion
