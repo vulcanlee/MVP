@@ -73,7 +73,24 @@ namespace LaunchPacs.Controllers
         }
 
         [HttpPost]
-        public string Post([FromBody] G3LauncherModel g3LauncherModel)
+        [Consumes("application/x-www-form-urlencoded")]
+        public string Post([FromForm] G3LauncherModel g3LauncherModel)
+        {
+            string command = RunLaunchG3(g3LauncherModel);
+            return command;
+        }
+
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        public string PostFormData([FromForm] G3LauncherModel g3LauncherModel)
+        {
+            string command = RunLaunchG3(g3LauncherModel);
+            return command;
+        }
+
+        [HttpPost]
+        [Consumes("application/json")]
+        public string PostJson([FromBody] G3LauncherModel g3LauncherModel)
         {
             string command = RunLaunchG3(g3LauncherModel);
             return command;
