@@ -105,5 +105,5 @@ LaunchPacs.exe quit
 
 底下為使用範例
 
-LaunchPacs.exe quit
+LaunchPacs.exe hide 
 
