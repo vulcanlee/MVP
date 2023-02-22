@@ -12,6 +12,10 @@ https://www.asuswebstorage.com/navigate/a/#/s/CD6A98FE0F6F4EE988153AED5F38E149Y
 * 在壓縮檔案內查看到 test.html 檔案，並請使用任一瀏覽器打開這個檔案
 * 在網頁中將會看到兩個按鈕，點選這兩個按鈕，將會看到不同 PACS 內的圖片
 
+# 查看版本資訊
+
+http://localhost:14928/Launch/Version
+
 # 呼叫端點參數說明
 
 若想要使用底下方式來開啟 PACS Viewer 
@@ -89,6 +93,15 @@ http://localhost:14928/Launch?LID=admin&LPW=nimda&AN=S21B2R1908569&PID=01658998
 ## quit
 
 若在啟動此程式的時候，有加入 `quit` 引數，則表示該程式會於啟動之後，會將已經啟動過的同樣程式先予以終止執行，接著，會退出此次程式的執行。
+
+底下為使用範例
+
+LaunchPacs.exe quit
+
+## hide
+
+若在啟動此程式的時候，有加入 `hide` 引數，則表示該程式會使用隱藏式窗模式來執行。
+>礙於 Windows 11 的問題，當加入 hide 參數之後，程式將會使用 ProcessStartInfo.CreateNoWindow 宣告使用沒有視窗模式來運行，並且使用 Process.Start 重新啟動這隻程式，而當前的程式則會立即結束執行，也就是另外產生一個新的 Process
 
 底下為使用範例
 

@@ -42,6 +42,28 @@ namespace LaunchPacs
             }
             #endregion
 
+            #region 是否要重新啟動為隱藏視窗模式
+            if (args.Length > 0)
+            {
+                foreach (var item in args)
+                {
+                    if (item.ToLower() == "hide")
+                    {
+                        string basePath = Directory.GetCurrentDirectory();
+                        string filename = "LaunchPacs.exe";
+                        string exeFilename = Path.Combine(basePath, filename);
+                        System.Diagnostics.ProcessStartInfo start =
+                            new System.Diagnostics.ProcessStartInfo();
+                        start.FileName = exeFilename;
+                        start.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden; //Hides GUI
+                        start.CreateNoWindow = true; //Hides console
+                        Process.Start(start);
+                        return;
+                    }
+                }
+            }
+            #endregion
+
             #region 隱藏視窗會用到的 Windows API 宣告
             [DllImport("kernel32.dll")]
             static extern IntPtr GetConsoleWindow();
