@@ -1,0 +1,26 @@
+<html>
+<head>
+  <title>使用 mqtt.js 與 WebSocket Secure</title>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+<body>
+<script>
+  // 使用 wss (WebSocket Secure) 連線到 test.mosquitto.org
+  // test.mosquitto.org 主機上的各種連線資訊 https://test.mosquitto.org/
+  var client = mqtt.connect("wss://test.mosquitto.org:8081") // you add a ws:// url here
+  client.on('connect', ()=>{
+    console.log('connected.');
+    // 訂閱的主題
+    client.subscribe("mqttServerTopic")
+    client.on("message", function (topic, payload) {
+      //console.log(payload);
+      console.log([topic, payload].join(": "));
+      // client.end()
+    });
+
+    // 送出訊息到遠端 MQTT Broker
+    client.publish("mqttServerTopic", "從 JavaScript 使用 wss://:8081 埠送出的訊息 (Hello)");    
+  });
+</script>
+</body>
+</html>
