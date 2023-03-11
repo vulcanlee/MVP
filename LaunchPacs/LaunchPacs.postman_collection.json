@@ -109,6 +109,94 @@
 			"response": []
 		},
 		{
+			"name": "開啟範例1 PACS (Form Data)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "LID",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "LPW",
+							"value": "nimda",
+							"type": "text"
+						},
+						{
+							"key": "AN",
+							"value": "RU799OR39MJ3BCF1",
+							"type": "text"
+						},
+						{
+							"key": "PID",
+							"value": "BET0001",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:14928/Launch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "14928",
+					"path": [
+						"Launch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "開啟範例1 PACS (Form urlencoded)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "LID",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "LPW",
+							"value": "nimda",
+							"type": "text"
+						},
+						{
+							"key": "AN",
+							"value": "RU799OR39MJ3BCF1",
+							"type": "text"
+						},
+						{
+							"key": "PID",
+							"value": "BET0001",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:14928/Launch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "14928",
+					"path": [
+						"Launch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "開啟範例2 PACS",
 			"request": {
 				"method": "POST",
