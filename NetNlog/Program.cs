@@ -30,11 +30,51 @@ namespace NetNlog
 
             變更FileRule僅接受指定LogLevel以上Log(rules, LogLevel.Warn);
             await Task.Delay(2000);
-            WriteAllLevelLog("變更 FileRule 僅接受 Warning 以上 Log 輸出");
-
-            await Task.Delay(2000);
+            WriteAllLevelLog("WriteAllLevelLog");
             new SomeClass().WriteAllLevelLog("在 SomeClass 內寫入 Log");
 
+            變更僅接受來自名稱為SomeClass的Log(rules, "NetNlog.Program");
+            await Task.Delay(2000);
+            Console.WriteLine("-----------------------");
+            WriteAllLevelLog("Program: 僅接受來自 NetNlog.Program");
+            new SomeClass().WriteAllLevelLog("SomeClass: 僅接受來自 NetNlog.Program");
+
+            變更僅接受來自名稱為SomeClass的Log(rules, "NetNlog.SomeClass");
+            await Task.Delay(2000);
+            Console.WriteLine("-----------------------");
+            WriteAllLevelLog("Program: 僅接受來自 NetNlog.SomeClass");
+            new SomeClass().WriteAllLevelLog("SomeClass: 僅接受來自 NetNlog.SomeClass");
+
+            變更僅接受來自名稱為SomeClass的Log(rules, "NetNlog.*");
+            await Task.Delay(2000);
+            Console.WriteLine("-----------------------");
+            WriteAllLevelLog("Program: 僅接受來自 NetNlog.*");
+            new SomeClass().WriteAllLevelLog("SomeClass: 僅接受來自 NetNlog.*");
+
+            變更僅接受來自名稱為SomeClass的Log(rules, "*");
+            await Task.Delay(2000);
+            Console.WriteLine("-----------------------");
+            WriteAllLevelLog("Program: 所有名稱");
+            new SomeClass().WriteAllLevelLog("SomeClass: 所有名稱");
+
+        }
+
+        private static void 變更僅接受來自名稱為SomeClass的Log(List<LoggingRule> rules,
+            string namePattern)
+        {
+            #region 變更FileRule僅接受Warning以上Log
+            var config = LogManager.Configuration;
+            foreach (var rule in rules)
+            {
+                var ruleItem = config.LoggingRules
+                    .FirstOrDefault(x => x.RuleName == rule.RuleName);
+                if (ruleItem != null)
+                {
+                    ruleItem.LoggerNamePattern = namePattern;
+                }
+            }
+            LogManager.Configuration = config;
+            #endregion
         }
 
         private static void 變更FileRule僅接受指定LogLevel以上Log(List<LoggingRule> rules,
