@@ -9,6 +9,34 @@ namespace NLogSample
         static void Main(string[] args)
         {
             WriteAllLevelLog("使用預設變數LogLevel");
+            啟用工程模式();
+            WriteAllLevelLog("啟用 工程模式");
+            關閉工程模式();
+            WriteAllLevelLog("關閉 工程模式");
+        }
+
+        private static void 啟用工程模式()
+        {
+            // 取得目前的 NLog 設定
+            var config = LogManager.Configuration;
+
+            // 設定要變更的變數值
+            config.Variables["EngineerLogLevel"] = $"debug";
+
+            // 變更完畢後，重新載入 NLog 設定
+            LogManager.Configuration = config;
+        }
+
+        private static void 關閉工程模式()
+        {
+            // 取得目前的 NLog 設定
+            var config = LogManager.Configuration;
+
+            // 設定要變更的變數值
+            config.Variables["EngineerLogLevel"] = $"off";
+
+            // 變更完畢後，重新載入 NLog 設定
+            LogManager.Configuration = config;
         }
 
         private static void WriteAllLevelLog(string message)
