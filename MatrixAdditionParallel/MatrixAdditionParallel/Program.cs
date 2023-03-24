@@ -9,8 +9,10 @@ namespace MatrixAdditionParallel
         /// </summary>
         static void Main(string[] args)
         {
-            int MAXRow = 30000;
-            int MAXColumn = 30000;
+            // 若這裡數值過大，例如 30000，可能會造成安裝 16GB 的記憶體電腦產生實體記憶體不夠的問題，
+            // 使得需要使用虛擬記憶體，結果是每次執行結果都會有明顯不同的速度現象
+            int MAXRow = 25000;
+            int MAXColumn = 25000;
             int[,] matrixA = new int[MAXRow, MAXColumn];
             int[,] matrixB = new int[MAXRow, MAXColumn];
             int[,] matrixC = new int[MAXRow, MAXColumn];
