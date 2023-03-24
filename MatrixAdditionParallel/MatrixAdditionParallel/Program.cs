@@ -1,19 +1,18 @@
-﻿using System.Data.Common;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
-namespace MatrixAdditionSynchronous
+namespace MatrixAdditionParallel
 {
-    /// <summary>
-    /// 使用同步計算方式，計算 矩陣A + 矩陣B 的結果到 矩陣C
-    /// </summary>
     internal class Program
     {
+        /// <summary>
+        /// 使用平行計算方式 (Parallel.For)，計算 矩陣A + 矩陣B 的結果到 矩陣C
+        /// </summary>
         static void Main(string[] args)
         {
             int MAXRow = 30000;
             int MAXColumn = 30000;
-            int[,] matrixA = new int[MAXRow, MAXColumn] ;
-            int[,] matrixB = new int[MAXRow, MAXColumn] ;
+            int[,] matrixA = new int[MAXRow, MAXColumn];
+            int[,] matrixB = new int[MAXRow, MAXColumn];
             int[,] matrixC = new int[MAXRow, MAXColumn];
 
             #region 進行 A B C 矩陣值初始化
@@ -46,23 +45,23 @@ namespace MatrixAdditionSynchronous
             Console.WriteLine("進行 矩陣A + 矩陣B 相加，將結果儲存到 矩陣C");
             stopwatch.Start();
             #region 進行 矩陣A + 矩陣B 相加，將結果儲存到 矩陣C
-            for (int r = 0; r < MAXRow; r++)
+            Parallel.For(0, MAXRow, r =>
             {
                 for (int c = 0; c < MAXColumn; c++)
                 {
-                    matrixC[r, c] = matrixA[r, c] - matrixB[r, c];
+                    matrixC[r, c] = matrixA[r, c] + matrixB[r, c];
                 }
-            }
+            });
             #endregion
             stopwatch.Stop();
 
             #region 列出 矩陣C 的 10x10 內容
             //Console.WriteLine(); Console.WriteLine();
-            //for (int r = 0;r < 10; r++)
+            //for (int r = 0; r < 10; r++)
             //{
-            //    for(int c = 0;c < 10; c++)
+            //    for (int c = 0; c < 10; c++)
             //    {
-            //        if(c == 0) Console.Write(MatrixValueFormat(matrixC[r, c]));
+            //        if (c == 0) Console.Write(MatrixValueFormat(matrixC[r, c]));
             //        else Console.Write($", {MatrixValueFormat(matrixC[r, c])}");
             //    }
             //    Console.WriteLine();
@@ -74,7 +73,7 @@ namespace MatrixAdditionSynchronous
 
         static string MatrixValueFormat(int value)
         {
-            return $"{value:D5}";
+            return $"{value:D6}";
         }
     }
 }
